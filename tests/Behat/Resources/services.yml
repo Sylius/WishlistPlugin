@@ -80,6 +80,7 @@ services:
       - "@sylius.repository.shop_user"
       - "@sylius.behat.page.shop.account.login"
       - "@sylius.behat.page.shop.home"
+      - "@sylius.behat.shared_storage"
 
   sylius_wishlist_plugin.behat.wishlist_creator:
     class: Tests\Sylius\WishlistPlugin\Behat\Service\WishlistCreator
@@ -94,9 +95,12 @@ services:
       - "@sylius.repository.shop_user"
       - "@sylius_wishlist_plugin.http_client"
       - "@router"
-      - '@doctrine.orm.entity_manager'
+      - "@doctrine.orm.entity_manager"
+      - "@sylius.behat.shared_storage"
 
   sylius_wishlist_plugin.http_client:
     class: GuzzleHttp\Client
     arguments:
-      - http_errors: false
+      -
+        http_errors: false
+        verify: false

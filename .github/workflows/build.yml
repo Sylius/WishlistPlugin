@@ -31,8 +31,7 @@ jobs:
                 include:
                     -   php: "8.3"
                         symfony: "^7.1"
-                        database: "mysql"
-                        sylius: "~2.0.1"
+                        sylius: "^2.0"
                         mysql: "8.4"
                         node: "20.x"
                         state_machine_adapter: "winzou_state_machine"
@@ -190,7 +189,7 @@ jobs:
 
             -
                 name: Run Behat
-                run: vendor/bin/behat --colors --strict -vvv --no-interaction || vendor/bin/behat --colors --strict -vvv --no-interaction --rerun
+                run: vendor/bin/behat --colors --strict -vvv -f progress --no-interaction || vendor/bin/behat --colors --strict -vvv -f progress --no-interaction --rerun
 
             -
                 name: Upload Behat logs

@@ -19,6 +19,8 @@ use Doctrine\ORM\EntityManager;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
+use Sylius\Behat\Context\Ui\Admin\Helper\SecurePasswordTrait;
+use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
@@ -33,6 +35,8 @@ use Webmozart\Assert\Assert;
 
 final class WishlistContext extends RawMinkContext implements Context
 {
+    use SecurePasswordTrait;
+
     protected static string $domain;
 
     private WishlistInterface $wishlist;
@@ -47,6 +51,7 @@ final class WishlistContext extends RawMinkContext implements Context
         private ClientInterface $client,
         private RouterInterface $router,
         private EntityManager $entityManager,
+        private SharedStorageInterface $sharedStorage,
     ) {
     }
 
@@ -61,7 +66,7 @@ final class WishlistContext extends RawMinkContext implements Context
 
         $body = [
             'email' => $email,
-            'password' => $password,
+            'password' => $this->retrieveSecurePassword($password),
         ];
 
         $headers = [

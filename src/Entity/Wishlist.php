@@ -41,7 +41,6 @@ class Wishlist implements WishlistInterface
     {
         $this->wishlistProducts = new ArrayCollection();
         $this->token = new WishlistToken();
-
         $this->createdAt = new \DateTime();
     }
 
