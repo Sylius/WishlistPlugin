@@ -32,11 +32,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 final class RemoveProductFromWishlistHandler
 {
     public function __construct(
-        private ProductRepositoryInterface $productRepository,
-        private WishlistRepositoryInterface $wishlistRepository,
-        private RepositoryInterface $wishlistProductRepository,
-        private ObjectManager $wishlistManager,
-        private AuthorizationCheckerInterface $authorizationChecker,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly RepositoryInterface $wishlistProductRepository,
+        private readonly ObjectManager $wishlistManager,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
     ) {
     }
 

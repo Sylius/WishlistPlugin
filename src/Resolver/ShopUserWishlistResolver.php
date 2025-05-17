@@ -24,9 +24,9 @@ use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 final class ShopUserWishlistResolver implements ShopUserWishlistResolverInterface
 {
     public function __construct(
-        private WishlistRepositoryInterface $wishlistRepository,
-        private WishlistFactoryInterface $wishlistFactory,
-        private ChannelContextInterface $channelContext,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly WishlistFactoryInterface $wishlistFactory,
+        private readonly ChannelContextInterface $channelContext,
     ) {
     }
 

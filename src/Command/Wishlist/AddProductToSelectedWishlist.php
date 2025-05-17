@@ -19,8 +19,8 @@ use Sylius\WishlistPlugin\Entity\WishlistInterface;
 final class AddProductToSelectedWishlist implements AddProductToSelectedWishlistInterface
 {
     public function __construct(
-        private WishlistInterface $wishlist,
-        private ProductInterface $product,
+        private readonly WishlistInterface $wishlist,
+        private readonly ProductInterface $product,
     ) {
     }
 

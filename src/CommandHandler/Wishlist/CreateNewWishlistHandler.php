@@ -30,12 +30,12 @@ use Webmozart\Assert\Assert;
 final class CreateNewWishlistHandler
 {
     public function __construct(
-        private WishlistRepositoryInterface $wishlistRepository,
-        private TokenStorageInterface $tokenStorage,
-        private WishlistFactoryInterface $wishlistFactory,
-        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
-        private ChannelRepositoryInterface $channelRepository,
-        private TokenUserResolverInterface $tokenUserResolver,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly WishlistFactoryInterface $wishlistFactory,
+        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private readonly ChannelRepositoryInterface $channelRepository,
+        private readonly TokenUserResolverInterface $tokenUserResolver,
     ) {
     }
 

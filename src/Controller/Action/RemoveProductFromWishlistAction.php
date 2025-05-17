@@ -30,12 +30,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class RemoveProductFromWishlistAction
 {
     public function __construct(
-        private WishlistContextInterface $wishlistContext,
-        private ProductRepositoryInterface $productRepository,
-        private EntityManagerInterface $wishlistProductManager,
-        private RequestStack $requestStack,
-        private TranslatorInterface $translator,
-        private UrlGeneratorInterface $urlGenerator,
+        private readonly WishlistContextInterface $wishlistContext,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly EntityManagerInterface $wishlistProductManager,
+        private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 

@@ -36,8 +36,8 @@ final class ExportWishlistToCsvHandler
     ];
 
     public function __construct(
-        private CsvWishlistProductFactoryInterface $csvWishlistProductFactory,
-        private CsvSerializerFactoryInterface $csvSerializerFactory,
+        private readonly CsvWishlistProductFactoryInterface $csvWishlistProductFactory,
+        private readonly CsvSerializerFactoryInterface $csvSerializerFactory,
     ) {
     }
 

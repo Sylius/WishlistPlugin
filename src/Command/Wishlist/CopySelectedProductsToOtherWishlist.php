@@ -18,8 +18,8 @@ use Doctrine\Common\Collections\Collection;
 final class CopySelectedProductsToOtherWishlist implements CopySelectedProductsToOtherWishlistInterface
 {
     public function __construct(
-        private Collection $wishlistProducts,
-        private int $destinedWishlistId,
+        private readonly Collection $wishlistProducts,
+        private readonly int $destinedWishlistId,
     ) {
     }
 

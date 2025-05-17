@@ -33,12 +33,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class ImportWishlistFromCsvHandler
 {
     public function __construct(
-        private AddProductVariantToWishlistAction $addProductVariantToWishlistAction,
-        private ProductVariantRepositoryInterface $productVariantRepository,
-        private array $allowedMimeTypes,
-        private CsvSerializerFactoryInterface $csvSerializerFactory,
-        private RequestStack $requestStack,
-        private TranslatorInterface $translator,
+        private readonly AddProductVariantToWishlistAction $addProductVariantToWishlistAction,
+        private readonly ProductVariantRepositoryInterface $productVariantRepository,
+        private readonly array $allowedMimeTypes,
+        private readonly CsvSerializerFactoryInterface $csvSerializerFactory,
+        private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 

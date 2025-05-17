@@ -28,9 +28,9 @@ use Symfony\Component\Security\Http\SecurityEvents;
 final class LoggedUserWishlistSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private SectionProviderInterface $uriBasedSectionContext,
-        private WishlistsResolverInterface $wishlistsResolver,
-        private EntityManagerInterface $entityManager,
+        private readonly SectionProviderInterface $uriBasedSectionContext,
+        private readonly WishlistsResolverInterface $wishlistsResolver,
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 

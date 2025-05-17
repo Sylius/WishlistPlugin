@@ -21,7 +21,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RemoveWishlistAction
 {
-    private MessageBusInterface $messageBus;
+    private readonly MessageBusInterface $messageBus;
 
     public function __construct(MessageBusInterface $messageBus)
     {

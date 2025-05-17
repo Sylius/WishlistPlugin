@@ -33,15 +33,15 @@ use Twig\Environment;
 final class ShowChosenWishlistAction
 {
     public function __construct(
-        private WishlistRepositoryInterface $wishlistRepository,
-        private CartContextInterface $cartContext,
-        private FormFactoryInterface $formFactory,
-        private Environment $twigEnvironment,
-        private WishlistCommandProcessorInterface $wishlistCommandProcessor,
-        private UrlGeneratorInterface $urlGenerator,
-        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
-        private TokenStorageInterface $tokenStorage,
-        private TokenUserResolverInterface $tokenUserResolver,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly CartContextInterface $cartContext,
+        private readonly FormFactoryInterface $formFactory,
+        private readonly Environment $twigEnvironment,
+        private readonly WishlistCommandProcessorInterface $wishlistCommandProcessor,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly TokenUserResolverInterface $tokenUserResolver,
     ) {
     }
 

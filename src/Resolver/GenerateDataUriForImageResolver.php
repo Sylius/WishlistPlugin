@@ -21,9 +21,9 @@ use Webmozart\Assert\Assert;
 final class GenerateDataUriForImageResolver implements GenerateDataUriForImageResolverInterface
 {
     public function __construct(
-        private PackageInterface $package,
-        private FilterService $filterService,
-        private string $imageFilterName,
+        private readonly PackageInterface $package,
+        private readonly FilterService $filterService,
+        private readonly string $imageFilterName,
     ) {
     }
 
@@ -45,6 +45,6 @@ final class GenerateDataUriForImageResolver implements GenerateDataUriForImageRe
         $data = file_get_contents($pathToReadFile);
         Assert::string($data);
 
-        return 'data:image/' . 'png' . ';base64,' . base64_encode($data);
+        return 'data:image/png;base64,' . base64_encode($data);
     }
 }

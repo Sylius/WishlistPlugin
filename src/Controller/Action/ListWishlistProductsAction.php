@@ -30,19 +30,19 @@ use Twig\Environment;
 
 final class ListWishlistProductsAction
 {
-    private CartContextInterface $cartContext;
+    private readonly CartContextInterface $cartContext;
 
-    private FormFactoryInterface $formFactory;
+    private readonly FormFactoryInterface $formFactory;
 
-    private Environment $twigEnvironment;
+    private readonly Environment $twigEnvironment;
 
-    private WishlistCommandProcessorInterface $wishlistCommandProcessor;
+    private readonly WishlistCommandProcessorInterface $wishlistCommandProcessor;
 
-    private WishlistsResolverInterface $wishlistsResolver;
+    private readonly WishlistsResolverInterface $wishlistsResolver;
 
-    private TranslatorInterface $translator;
+    private readonly TranslatorInterface $translator;
 
-    private UrlGeneratorInterface $generator;
+    private readonly UrlGeneratorInterface $generator;
 
     public function __construct(
         CartContextInterface $cartContext,

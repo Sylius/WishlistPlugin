@@ -18,7 +18,7 @@ use Sylius\Component\Resource\Repository\Exception\ExistingResourceException;
 
 final class WishlistProductsActionFailedException extends ExistingResourceException
 {
-    private Collection $failedProductsName;
+    private readonly Collection $failedProductsName;
 
     /** @var string */
     protected $message;

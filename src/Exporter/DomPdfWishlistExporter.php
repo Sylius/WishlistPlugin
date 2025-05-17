@@ -20,8 +20,8 @@ use Twig\Environment;
 final class DomPdfWishlistExporter implements DomPdfWishlistExporterInterface
 {
     public function __construct(
-        private Environment $twigEnvironment,
-        private DomPdfFactoryInterface $domPdfFactory,
+        private readonly Environment $twigEnvironment,
+        private readonly DomPdfFactoryInterface $domPdfFactory,
     ) {
     }
 

@@ -30,11 +30,11 @@ use Webmozart\Assert\Assert;
 final class UpdateWishlistNameAction
 {
     public function __construct(
-        private MessageBusInterface $commandBus,
-        private RequestStack $requestStack,
-        private TranslatorInterface $translator,
-        private WishlistRepositoryInterface $wishlistRepository,
-        private UrlGeneratorInterface $urlGenerator,
+        private readonly MessageBusInterface $commandBus,
+        private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 

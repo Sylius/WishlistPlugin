@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\Collection;
 final class RemoveSelectedProductsFromWishlist implements WishlistSyncCommandInterface
 {
     public function __construct(
-        private Collection $wishlistProducts,
+        private readonly Collection $wishlistProducts,
     ) {
     }
 

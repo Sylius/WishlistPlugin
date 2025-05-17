@@ -15,9 +15,9 @@ namespace Sylius\WishlistPlugin\Command\Wishlist;
 
 use Doctrine\Common\Collections\Collection;
 
-final class AddSelectedProductsToCart implements AddSelectedProductsToCartInterface
+final readonly class AddSelectedProductsToCart implements AddSelectedProductsToCartInterface
 {
-    public function __construct(private readonly Collection $wishlistProducts)
+    public function __construct(private Collection $wishlistProducts)
     {
     }
 

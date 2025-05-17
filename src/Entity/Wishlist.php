@@ -29,13 +29,11 @@ class Wishlist implements WishlistInterface
 
     protected ?string $name;
 
-    /** @var Collection|WishlistProductInterface[] */
-    protected $wishlistProducts;
+    protected Collection $wishlistProducts;
 
     protected ?ShopUserInterface $shopUser = null;
 
-    /** @var WishlistTokenInterface|null */
-    protected $token;
+    protected WishlistTokenInterface|string $token;
 
     protected ?ChannelInterface $channel;
 
@@ -43,7 +41,6 @@ class Wishlist implements WishlistInterface
     {
         $this->wishlistProducts = new ArrayCollection();
         $this->token = new WishlistToken();
-        $this->id = null;
 
         $this->createdAt = new \DateTime();
     }

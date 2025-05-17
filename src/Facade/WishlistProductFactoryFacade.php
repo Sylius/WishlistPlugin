@@ -24,7 +24,7 @@ use Sylius\WishlistPlugin\Factory\WishlistProductFactoryInterface;
 final class WishlistProductFactoryFacade implements WishlistProductFactoryFacadeInterface
 {
     public function __construct(
-        private WishlistProductFactoryInterface $wishlistProductFactory,
+        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
     ) {
     }
 

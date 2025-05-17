@@ -23,8 +23,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class RemoveWishlistHandler
 {
     public function __construct(
-        private WishlistRepositoryInterface $wishlistRepository,
-        private ObjectManager $wishlistManager,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly ObjectManager $wishlistManager,
     ) {
     }
 

@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 final class WishlistCookieTokenResolver implements WishlistCookieTokenResolverInterface
 {
     public function __construct(
-        private RequestStack $requestStack,
-        private string $wishlistCookieToken,
+        private readonly RequestStack $requestStack,
+        private readonly string $wishlistCookieToken,
     ) {
     }
 

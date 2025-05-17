@@ -28,12 +28,12 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 final class WishlistContext implements WishlistContextInterface
 {
     public function __construct(
-        private TokenStorageInterface $tokenStorage,
-        private WishlistRepositoryInterface $wishlistRepository,
-        private WishlistFactoryInterface $wishlistFactory,
-        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
-        private ChannelContextInterface $channelContext,
-        private TokenUserResolverInterface $tokenUserResolver,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly WishlistFactoryInterface $wishlistFactory,
+        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly TokenUserResolverInterface $tokenUserResolver,
     ) {
     }
 

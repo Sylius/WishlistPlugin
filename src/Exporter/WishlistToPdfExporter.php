@@ -19,8 +19,8 @@ use Sylius\WishlistPlugin\Processor\VariantPdfModelProcessorInterface;
 final class WishlistToPdfExporter implements WishlistToPdfExporterInterface
 {
     public function __construct(
-        private VariantPdfModelProcessorInterface $variantPdfModelProcessor,
-        private DomPdfWishlistExporterInterface $domPdfWishlistExporter,
+        private readonly VariantPdfModelProcessorInterface $variantPdfModelProcessor,
+        private readonly DomPdfWishlistExporterInterface $domPdfWishlistExporter,
     ) {
     }
 

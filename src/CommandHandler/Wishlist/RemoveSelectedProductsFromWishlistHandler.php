@@ -28,8 +28,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class RemoveSelectedProductsFromWishlistHandler
 {
     public function __construct(
-        private ProductVariantRepositoryInterface $productVariantRepository,
-        private EntityManagerInterface $wishlistProductManager,
+        private readonly ProductVariantRepositoryInterface $productVariantRepository,
+        private readonly EntityManagerInterface $wishlistProductManager,
     ) {
     }
 

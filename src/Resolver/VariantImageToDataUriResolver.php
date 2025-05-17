@@ -20,7 +20,7 @@ use Webmozart\Assert\Assert;
 final class VariantImageToDataUriResolver implements VariantImageToDataUriResolverInterface
 {
     public function __construct(
-        private GenerateDataUriForImageResolverInterface $dataUriForImageResolver,
+        private readonly GenerateDataUriForImageResolverInterface $dataUriForImageResolver,
     ) {
     }
 

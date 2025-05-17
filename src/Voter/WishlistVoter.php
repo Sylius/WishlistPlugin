@@ -26,7 +26,7 @@ final class WishlistVoter extends Voter
     public const DELETE = 'delete';
 
     public function __construct(
-        private Security $security,
+        private readonly Security $security,
     ) {
     }
 

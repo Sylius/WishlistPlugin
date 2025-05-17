@@ -27,11 +27,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class CleanWishlistAction
 {
     public function __construct(
-        private WishlistRepositoryInterface $wishlistRepository,
-        private EntityManagerInterface $wishlistManager,
-        private RequestStack $requestStack,
-        private TranslatorInterface $translator,
-        private UrlGeneratorInterface $urlGenerator,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly EntityManagerInterface $wishlistManager,
+        private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 

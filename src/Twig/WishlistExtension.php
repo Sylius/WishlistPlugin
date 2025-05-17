@@ -40,20 +40,20 @@ class WishlistExtension extends AbstractExtension
     private array $wishlists = [];
 
     public function __construct(
-        private WishlistRepositoryInterface $wishlistRepository,
-        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
     ) {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('getWishlists', [$this, 'getWishlists']),
-            new TwigFunction('findAllByShopUser', [$this, 'findAllByShopUser']),
-            new TwigFunction('findAllByAnonymous', [$this, 'findAllByAnonymous']),
-            new TwigFunction('findAllByShopUserAndToken', [$this, 'findAllByShopUserAndToken']),
-            new TwigFunction('findAllByShopUserAndChannel', [$this, 'findAllByShopUserAndChannel']),
-            new TwigFunction('findAllByAnonymousAndChannel', [$this, 'findAllByAnonymousAndChannel']),
+            new TwigFunction('getWishlists', $this->getWishlists(...)),
+            new TwigFunction('findAllByShopUser', $this->findAllByShopUser(...)),
+            new TwigFunction('findAllByAnonymous', $this->findAllByAnonymous(...)),
+            new TwigFunction('findAllByShopUserAndToken', $this->findAllByShopUserAndToken(...)),
+            new TwigFunction('findAllByShopUserAndChannel', $this->findAllByShopUserAndChannel(...)),
+            new TwigFunction('findAllByAnonymousAndChannel', $this->findAllByAnonymousAndChannel(...)),
         ];
     }
 

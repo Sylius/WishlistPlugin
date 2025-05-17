@@ -32,12 +32,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class AddProductVariantToWishlistAction
 {
     public function __construct(
-        private ProductVariantRepositoryInterface $productVariantRepository,
-        private WishlistProductFactoryInterface $wishlistProductFactory,
-        private RequestStack $requestStack,
-        private TranslatorInterface $translator,
-        private UrlGeneratorInterface $urlGenerator,
-        private WishlistRepositoryInterface $wishlistRepository,
+        private readonly ProductVariantRepositoryInterface $productVariantRepository,
+        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
+        private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
     ) {
     }
 

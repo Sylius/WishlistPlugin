@@ -22,7 +22,7 @@ use Sylius\WishlistPlugin\Entity\WishlistProductInterface;
 final class WishlistProductFactory implements WishlistProductFactoryInterface
 {
     public function __construct(
-        private FactoryInterface $wishlistProductFactory,
+        private readonly FactoryInterface $wishlistProductFactory,
     ) {
     }
 

@@ -18,8 +18,8 @@ use Doctrine\Common\Collections\Collection;
 final class ExportWishlistToCsv implements WishlistSyncCommandInterface
 {
     public function __construct(
-        private Collection $wishlistProducts,
-        private \SplFileObject $file,
+        private readonly Collection $wishlistProducts,
+        private readonly \SplFileObject $file,
     ) {
     }
 

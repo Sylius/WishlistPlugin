@@ -21,8 +21,8 @@ use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 final class CopySelectedProductsToOtherWishlistHandler
 {
     public function __construct(
-        private WishlistRepositoryInterface $wishlistRepository,
-        private WishlistProductsToOtherWishlistDuplicatorInterface $duplicatorProductsToWishlist,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly WishlistProductsToOtherWishlistDuplicatorInterface $duplicatorProductsToWishlist,
     ) {
     }
 

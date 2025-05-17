@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\Collection;
 
 final class ExportSelectedProductsFromWishlistToPdf implements ExportSelectedProductsFromWishlistToPdfInterface
 {
-    public function __construct(private Collection $wishlistProducts)
+    public function __construct(private readonly Collection $wishlistProducts)
     {
     }
 

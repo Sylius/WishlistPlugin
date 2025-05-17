@@ -33,13 +33,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class AddWishlistToUserAction
 {
     public function __construct(
-        private MessageBusInterface $commandBus,
-        private RequestStack $requestStack,
-        private TranslatorInterface $translator,
-        private WishlistRepositoryInterface $wishlistRepository,
-        private UrlGeneratorInterface $urlGenerator,
-        private TokenStorageInterface $tokenStorage,
-        private TokenUserResolverInterface $tokenUserResolver,
+        private readonly MessageBusInterface $commandBus,
+        private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly TokenUserResolverInterface $tokenUserResolver,
     ) {
     }
 

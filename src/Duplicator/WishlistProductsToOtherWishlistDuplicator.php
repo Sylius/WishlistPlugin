@@ -26,11 +26,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class WishlistProductsToOtherWishlistDuplicator implements WishlistProductsToOtherWishlistDuplicatorInterface
 {
     public function __construct(
-        private WishlistProductFactoryInterface $wishlistProductFactory,
-        private ProductVariantRepositoryInterface $productVariantRepository,
-        private WishlistRepositoryInterface $wishlistRepository,
-        private RequestStack $requestStack,
-        private TranslatorInterface $translator,
+        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
+        private readonly ProductVariantRepositoryInterface $productVariantRepository,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 

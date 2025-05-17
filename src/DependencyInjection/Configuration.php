@@ -38,7 +38,7 @@ final class Configuration implements ConfigurationInterface
                     ->defaultValue('wishlist_cookie_token')
                     ->cannotBeEmpty()
                     ->validate()
-                        ->always(function ($value) {
+                        ->always(function ($value): string {
                             if (!is_string($value)) {
                                 throw new InvalidConfigurationException('wishlist_cookie_token must be string');
                             }

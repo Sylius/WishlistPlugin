@@ -26,9 +26,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class AddProductToWishlistHandler
 {
     public function __construct(
-        private WishlistProductFactoryInterface $wishlistProductFactory,
-        private ProductRepositoryInterface $productRepository,
-        private ObjectManager $wishlistManager,
+        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly ObjectManager $wishlistManager,
     ) {
     }
 

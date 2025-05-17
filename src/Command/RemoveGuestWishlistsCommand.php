@@ -26,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class RemoveGuestWishlistsCommand extends Command
 {
-    public function __construct(private WishlistRepositoryInterface $wishlistRepository)
+    public function __construct(private readonly WishlistRepositoryInterface $wishlistRepository)
     {
         parent::__construct();
     }

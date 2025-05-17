@@ -32,10 +32,10 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 final class AddSelectedProductsToCartHandler
 {
     public function __construct(
-        private OrderItemQuantityModifierInterface $itemQuantityModifier,
-        private OrderModifierInterface $orderModifier,
-        private OrderRepositoryInterface $orderRepository,
-        private ?AvailabilityCheckerInterface $availabilityChecker = null,
+        private readonly OrderItemQuantityModifierInterface $itemQuantityModifier,
+        private readonly OrderModifierInterface $orderModifier,
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly ?AvailabilityCheckerInterface $availabilityChecker = null,
     ) {
     }
 

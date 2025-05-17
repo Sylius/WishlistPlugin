@@ -21,7 +21,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class ExportSelectedProductsFromWishlistToPdfHandler
 {
     public function __construct(
-        private WishlistToPdfExporterInterface $exporterWishlistToPdf,
+        private readonly WishlistToPdfExporterInterface $exporterWishlistToPdf,
     ) {
     }
 

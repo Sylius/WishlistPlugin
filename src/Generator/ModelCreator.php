@@ -26,9 +26,9 @@ use Webmozart\Assert\Assert;
 final class ModelCreator implements ModelCreatorInterface
 {
     public function __construct(
-        private VariantImageToDataUriResolverInterface $variantImageToDataUriResolver,
-        private VariantPdfModelFactoryInterface $variantPdfModelFactory,
-        private RequestStack $requestStack,
+        private readonly VariantImageToDataUriResolverInterface $variantImageToDataUriResolver,
+        private readonly VariantPdfModelFactoryInterface $variantPdfModelFactory,
+        private readonly RequestStack $requestStack,
     ) {
     }
 

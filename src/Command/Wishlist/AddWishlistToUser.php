@@ -19,8 +19,8 @@ use Sylius\WishlistPlugin\Entity\WishlistInterface;
 final class AddWishlistToUser implements WishlistSyncCommandInterface
 {
     public function __construct(
-        private WishlistInterface $wishlist,
-        private ShopUserInterface $shopUser,
+        private readonly WishlistInterface $wishlist,
+        private readonly ShopUserInterface $shopUser,
     ) {
     }
 

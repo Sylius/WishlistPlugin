@@ -22,8 +22,8 @@ use Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolverInterface;
 final class UpdateWishlistNameHandler
 {
     public function __construct(
-        private WishlistRepositoryInterface $wishlistRepository,
-        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
     ) {
     }
 

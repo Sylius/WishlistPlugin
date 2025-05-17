@@ -16,8 +16,8 @@ namespace Sylius\WishlistPlugin\Command\Wishlist;
 final class RemoveProductFromWishlist implements WishlistSyncCommandInterface
 {
     public function __construct(
-        private int $productId,
-        private string $wishlistToken,
+        private readonly int $productId,
+        private readonly string $wishlistToken,
     ) {
     }
 

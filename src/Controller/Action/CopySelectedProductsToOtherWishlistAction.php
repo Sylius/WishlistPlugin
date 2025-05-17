@@ -26,9 +26,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class CopySelectedProductsToOtherWishlistAction
 {
     public function __construct(
-        private MessageBusInterface $commandBus,
-        private RequestStack $requestStack,
-        private TranslatorInterface $translator,
+        private readonly MessageBusInterface $commandBus,
+        private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 

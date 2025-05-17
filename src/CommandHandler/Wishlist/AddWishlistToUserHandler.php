@@ -24,8 +24,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class AddWishlistToUserHandler
 {
     public function __construct(
-        private WishlistRepositoryInterface $wishlistRepository,
-        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
     ) {
     }
 

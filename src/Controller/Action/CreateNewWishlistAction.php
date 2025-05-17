@@ -30,11 +30,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class CreateNewWishlistAction
 {
     public function __construct(
-        private MessageBusInterface $commandBus,
-        private RequestStack $requestStack,
-        private TranslatorInterface $translator,
-        private ChannelContextInterface $channelContext,
-        private UrlGeneratorInterface $urlGenerator,
+        private readonly MessageBusInterface $commandBus,
+        private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 

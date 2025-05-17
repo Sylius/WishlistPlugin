@@ -23,8 +23,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class AddProductToSelectedWishlistHandler
 {
     public function __construct(
-        private WishlistProductFactoryInterface $wishlistProductFactory,
-        private WishlistRepositoryInterface $wishlistRepository,
+        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
+        private readonly WishlistRepositoryInterface $wishlistRepository,
     ) {
     }
 

@@ -30,10 +30,10 @@ final class CreateNewWishlistSubscriber implements EventSubscriberInterface
     private const ALLOWED_ENDPOINTS_PREFIX = '/wishlist';
 
     public function __construct(
-        private string $wishlistCookieToken,
-        private WishlistsResolverInterface $wishlistsResolver,
-        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
-        private RequestStack $requestStack,
+        private readonly string $wishlistCookieToken,
+        private readonly WishlistsResolverInterface $wishlistsResolver,
+        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private readonly RequestStack $requestStack,
     ) {
     }
 
