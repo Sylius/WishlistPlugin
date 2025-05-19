@@ -3,4 +3,4 @@ sylius_twig_hooks:
         'sylius_shop.shared.product.card':
             add_to_wishlist:
                 template: "@SyliusWishlistPlugin/common/add_to_wishlist.html.twig"
-                priority: -100
+                priority: 50
