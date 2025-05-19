@@ -1,106 +1,106 @@
 services:
-  _defaults: { public: true }
+    _defaults: { public: true }
 
-  sylius_wishlist_plugin.behat.context.setup.wishlist:
-    class: Tests\Sylius\WishlistPlugin\Behat\Context\Setup\WishlistContext
-    arguments:
-      - "@sylius.repository.product"
-      - "@sylius_wishlist_plugin.context.wishlist"
-      - "@sylius_wishlist_plugin.factory.wishlist_product"
-      - "@sylius_wishlist_plugin.manager.wishlist"
-      - "@sylius.factory.taxon"
-      - "@sylius.factory.product_taxon"
-      - "@sylius.manager.product_taxon"
-      - "@sylius.behat.cookie_setter"
-      - "%sylius_wishlist_plugin.parameters.wishlist_cookie_token%"
-      - '@sylius.repository.channel'
-      - '@sylius.repository.shop_user'
+    sylius_wishlist_plugin.behat.context.setup.wishlist:
+        class: Tests\Sylius\WishlistPlugin\Behat\Context\Setup\WishlistContext
+        arguments:
+            - "@sylius.repository.product"
+            - "@sylius_wishlist_plugin.context.wishlist"
+            - "@sylius_wishlist_plugin.factory.wishlist_product"
+            - "@sylius_wishlist_plugin.manager.wishlist"
+            - "@sylius.factory.taxon"
+            - "@sylius.factory.product_taxon"
+            - "@sylius.manager.product_taxon"
+            - "@sylius.behat.cookie_setter"
+            - "%sylius_wishlist_plugin.parameters.wishlist_cookie_token%"
+            - '@sylius.repository.channel'
+            - '@sylius.repository.shop_user'
 
-  sylius_wishlist_plugin.behat.context.ui.wishlist:
-    class: Tests\Sylius\WishlistPlugin\Behat\Context\Ui\WishlistContext
-    arguments:
-      - "@sylius.repository.product"
-      - "@sylius_wishlist_plugin.behat.page.shop.product_index"
-      - "@sylius_wishlist_plugin.behat.page.shop.product_show"
-      - "@sylius_wishlist_plugin.behat.page.shop.wishlist"
-      - "@sylius.behat.notification_checker.shop"
-      - "@sylius_wishlist_plugin.behat.loginer"
-      - "@sylius_wishlist_plugin.behat.wishlist_creator"
-      - "@sylius.resolver.product_variant.default"
-      - "@router"
-      - "@sylius_wishlist_plugin.repository.wishlist"
-      - "%sylius_wishlist_plugin.parameters.wishlist_cookie_token%"
-      - "@sylius.behat.shared_storage"
-      - "@sylius.behat.cookie_setter"
-      - "@sylius.repository.channel"
-      - "@sylius.repository.shop_user"
-      - "@sylius_wishlist_plugin.behat.page.wishlist.index_page"
-      - "@sylius_wishlist_plugin.behat.page.wishlist.chosen_show_page"
+    sylius_wishlist_plugin.behat.context.ui.wishlist:
+        class: Tests\Sylius\WishlistPlugin\Behat\Context\Ui\WishlistContext
+        arguments:
+            - "@sylius.repository.product"
+            - "@sylius_wishlist_plugin.behat.page.shop.product_index"
+            - "@sylius_wishlist_plugin.behat.page.shop.product_show"
+            - "@sylius_wishlist_plugin.behat.page.shop.wishlist"
+            - "@sylius.behat.notification_checker.shop"
+            - "@sylius_wishlist_plugin.behat.loginer"
+            - "@sylius_wishlist_plugin.behat.wishlist_creator"
+            - "@sylius.resolver.product_variant.default"
+            - "@router"
+            - "@sylius_wishlist_plugin.repository.wishlist"
+            - "%sylius_wishlist_plugin.parameters.wishlist_cookie_token%"
+            - "@sylius.behat.shared_storage"
+            - "@sylius.behat.cookie_setter"
+            - "@sylius.repository.channel"
+            - "@sylius.repository.shop_user"
+            - "@sylius_wishlist_plugin.behat.page.wishlist.index_page"
+            - "@sylius_wishlist_plugin.behat.page.wishlist.chosen_show_page"
 
-  sylius_wishlist_plugin.behat.context.cli.wishlist:
-    class: Tests\Sylius\WishlistPlugin\Behat\Context\Cli\WishlistContext
-    arguments:
-      - '@kernel'
+    sylius_wishlist_plugin.behat.context.cli.wishlist:
+        class: Tests\Sylius\WishlistPlugin\Behat\Context\Cli\WishlistContext
+        arguments:
+            - '@kernel'
 
-  sylius_wishlist_plugin.behat.context.common.wishlist:
-    class: Tests\Sylius\WishlistPlugin\Behat\Context\Common\WishlistContext
-    arguments:
-      - '@sylius_wishlist_plugin.repository.wishlist'
+    sylius_wishlist_plugin.behat.context.common.wishlist:
+        class: Tests\Sylius\WishlistPlugin\Behat\Context\Common\WishlistContext
+        arguments:
+            - '@sylius_wishlist_plugin.repository.wishlist'
 
-  sylius_wishlist_plugin.behat.page.shop.wishlist:
-    class: Tests\Sylius\WishlistPlugin\Behat\Page\Shop\WishlistPage
-    parent: sylius.behat.symfony_page
-    public: false
+    sylius_wishlist_plugin.behat.page.shop.wishlist:
+        class: Tests\Sylius\WishlistPlugin\Behat\Page\Shop\WishlistPage
+        parent: sylius.behat.symfony_page
+        public: false
 
-  sylius_wishlist_plugin.behat.page.wishlist.index_page:
-    class: Tests\Sylius\WishlistPlugin\Behat\Page\Shop\Wishlist\IndexPage
-    parent: sylius.behat.symfony_page
-    public: false
+    sylius_wishlist_plugin.behat.page.wishlist.index_page:
+        class: Tests\Sylius\WishlistPlugin\Behat\Page\Shop\Wishlist\IndexPage
+        parent: sylius.behat.symfony_page
+        public: false
 
-  sylius_wishlist_plugin.behat.page.wishlist.chosen_show_page:
-    class: Tests\Sylius\WishlistPlugin\Behat\Page\Shop\Wishlist\ChosenShowPage
-    parent: sylius.behat.symfony_page
-    public: false
+    sylius_wishlist_plugin.behat.page.wishlist.chosen_show_page:
+        class: Tests\Sylius\WishlistPlugin\Behat\Page\Shop\Wishlist\ChosenShowPage
+        parent: sylius.behat.symfony_page
+        public: false
 
-  sylius_wishlist_plugin.behat.page.shop.product_index:
-    class: Tests\Sylius\WishlistPlugin\Behat\Page\Shop\ProductIndexPage
-    parent: sylius.behat.page.shop.product.index
-    public: false
+    sylius_wishlist_plugin.behat.page.shop.product_index:
+        class: Tests\Sylius\WishlistPlugin\Behat\Page\Shop\ProductIndexPage
+        parent: sylius.behat.page.shop.product.index
+        public: false
 
-  sylius_wishlist_plugin.behat.page.shop.product_show:
-    class: Tests\Sylius\WishlistPlugin\Behat\Page\Shop\ProductShowPage
-    parent: sylius.behat.page.shop.product.show
-    public: false
+    sylius_wishlist_plugin.behat.page.shop.product_show:
+        class: Tests\Sylius\WishlistPlugin\Behat\Page\Shop\ProductShowPage
+        parent: sylius.behat.page.shop.product.show
+        public: false
 
-  sylius_wishlist_plugin.behat.loginer:
-    class: Tests\Sylius\WishlistPlugin\Behat\Service\Loginer
-    arguments:
-      - "@sylius.factory.customer"
-      - "@sylius.factory.shop_user"
-      - "@sylius.repository.shop_user"
-      - "@sylius.behat.page.shop.account.login"
-      - "@sylius.behat.page.shop.home"
-      - "@sylius.behat.shared_storage"
+    sylius_wishlist_plugin.behat.loginer:
+        class: Tests\Sylius\WishlistPlugin\Behat\Service\Loginer
+        arguments:
+            - "@sylius.factory.customer"
+            - "@sylius.factory.shop_user"
+            - "@sylius.repository.shop_user"
+            - "@sylius.behat.page.shop.account.login"
+            - "@sylius.behat.page.shop.home"
+            - "@sylius.behat.shared_storage"
 
-  sylius_wishlist_plugin.behat.wishlist_creator:
-    class: Tests\Sylius\WishlistPlugin\Behat\Service\WishlistCreator
-    arguments:
-      - "@sylius_wishlist_plugin.factory.wishlist_product"
-      - "@sylius_wishlist_plugin.repository.wishlist"
+    sylius_wishlist_plugin.behat.wishlist_creator:
+        class: Tests\Sylius\WishlistPlugin\Behat\Service\WishlistCreator
+        arguments:
+            - "@sylius_wishlist_plugin.factory.wishlist_product"
+            - "@sylius_wishlist_plugin.repository.wishlist"
 
-  sylius_wishlist_plugin.behat.context.api.wishlist:
-    class: Tests\Sylius\WishlistPlugin\Behat\Context\Api\WishlistContext
-    arguments:
-      - "@sylius_wishlist_plugin.repository.wishlist"
-      - "@sylius.repository.shop_user"
-      - "@sylius_wishlist_plugin.http_client"
-      - "@router"
-      - "@doctrine.orm.entity_manager"
-      - "@sylius.behat.shared_storage"
+    sylius_wishlist_plugin.behat.context.api.wishlist:
+        class: Tests\Sylius\WishlistPlugin\Behat\Context\Api\WishlistContext
+        arguments:
+            - "@sylius_wishlist_plugin.repository.wishlist"
+            - "@sylius.repository.shop_user"
+            - "@sylius_wishlist_plugin.http_client"
+            - "@router"
+            - "@doctrine.orm.entity_manager"
+            - "@sylius.behat.shared_storage"
 
-  sylius_wishlist_plugin.http_client:
-    class: GuzzleHttp\Client
-    arguments:
-      -
-        http_errors: false
-        verify: false
+    sylius_wishlist_plugin.http_client:
+        class: GuzzleHttp\Client
+        arguments:
+            -
+                http_errors: false
+                verify: false

@@ -38,7 +38,6 @@ use Tests\Sylius\WishlistPlugin\Behat\Page\Shop\ProductShowPageInterface;
 use Tests\Sylius\WishlistPlugin\Behat\Page\Shop\Wishlist\ChosenShowPageInterface;
 use Tests\Sylius\WishlistPlugin\Behat\Page\Shop\Wishlist\IndexPageInterface;
 use Tests\Sylius\WishlistPlugin\Behat\Page\Shop\WishlistPageInterface;
-use Tests\Sylius\WishlistPlugin\Behat\Service\LoginerInterface;
 use Tests\Sylius\WishlistPlugin\Behat\Service\WishlistCreatorInterface;
 use Webmozart\Assert\Assert;
 
@@ -50,7 +49,6 @@ final class WishlistContext extends RawMinkContext implements Context
         private ProductShowPageInterface $productShowPage,
         private WishlistPageInterface $wishlistPage,
         private NotificationCheckerInterface $notificationChecker,
-        private LoginerInterface $loginer,
         private WishlistCreatorInterface $wishlistCreator,
         private ProductVariantResolverInterface $defaultVariantResolver,
         private RouterInterface $router,
