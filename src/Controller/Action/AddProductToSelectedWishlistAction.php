@@ -28,15 +28,15 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AddProductToSelectedWishlistAction
+final readonly class AddProductToSelectedWishlistAction
 {
     public function __construct(
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly ProductRepositoryInterface $productRepository,
-        private readonly RequestStack $requestStack,
-        private readonly TranslatorInterface $translator,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly MessageBusInterface $commandBus,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private ProductRepositoryInterface $productRepository,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator,
+        private UrlGeneratorInterface $urlGenerator,
+        private MessageBusInterface $commandBus,
     ) {
     }
 

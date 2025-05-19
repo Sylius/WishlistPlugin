@@ -23,12 +23,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Webmozart\Assert\Assert;
 
-final class ModelCreator implements ModelCreatorInterface
+final readonly class ModelCreator implements ModelCreatorInterface
 {
     public function __construct(
-        private readonly VariantImageToDataUriResolverInterface $variantImageToDataUriResolver,
-        private readonly VariantPdfModelFactoryInterface $variantPdfModelFactory,
-        private readonly RequestStack $requestStack,
+        private VariantImageToDataUriResolverInterface $variantImageToDataUriResolver,
+        private VariantPdfModelFactoryInterface $variantPdfModelFactory,
+        private RequestStack $requestStack,
     ) {
     }
 

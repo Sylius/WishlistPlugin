@@ -18,12 +18,12 @@ use Sylius\Component\Core\Model\ImageInterface;
 use Symfony\Component\Asset\PackageInterface;
 use Webmozart\Assert\Assert;
 
-final class GenerateDataUriForImageResolver implements GenerateDataUriForImageResolverInterface
+final readonly class GenerateDataUriForImageResolver implements GenerateDataUriForImageResolverInterface
 {
     public function __construct(
-        private readonly PackageInterface $package,
-        private readonly FilterService $filterService,
-        private readonly string $imageFilterName,
+        private PackageInterface $package,
+        private FilterService $filterService,
+        private string $imageFilterName,
     ) {
     }
 

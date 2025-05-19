@@ -21,11 +21,11 @@ use Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolverInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class AddWishlistToUserHandler
+final readonly class AddWishlistToUserHandler
 {
     public function __construct(
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
     ) {
     }
 

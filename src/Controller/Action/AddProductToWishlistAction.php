@@ -32,16 +32,16 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AddProductToWishlistAction
+final readonly class AddProductToWishlistAction
 {
     public function __construct(
-        private readonly ProductRepositoryInterface $productRepository,
-        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
-        private readonly RequestStack $requestStack,
-        private readonly TranslatorInterface $translator,
-        private readonly WishlistsResolverInterface $wishlistsResolver,
-        private readonly ObjectManager $wishlistManager,
-        private readonly ChannelContextInterface $channelContext,
+        private ProductRepositoryInterface $productRepository,
+        private WishlistProductFactoryInterface $wishlistProductFactory,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator,
+        private WishlistsResolverInterface $wishlistsResolver,
+        private ObjectManager $wishlistManager,
+        private ChannelContextInterface $channelContext,
     ) {
     }
 
@@ -67,7 +67,7 @@ final class AddProductToWishlistAction
 
         try {
             $channel = $this->channelContext->getChannel();
-        } catch (ChannelNotFoundException $exception) {
+        } catch (ChannelNotFoundException) {
             $channel = null;
         }
 

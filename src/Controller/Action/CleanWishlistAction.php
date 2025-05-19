@@ -24,14 +24,14 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class CleanWishlistAction
+final readonly class CleanWishlistAction
 {
     public function __construct(
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly EntityManagerInterface $wishlistManager,
-        private readonly RequestStack $requestStack,
-        private readonly TranslatorInterface $translator,
-        private readonly UrlGeneratorInterface $urlGenerator,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private EntityManagerInterface $wishlistManager,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 

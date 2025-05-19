@@ -19,13 +19,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class RemoveProductVariantFromWishlistAction
+final readonly class RemoveProductVariantFromWishlistAction
 {
-    private readonly MessageBusInterface $messageBus;
-
-    public function __construct(MessageBusInterface $messageBus)
+    public function __construct(private MessageBusInterface $messageBus)
     {
-        $this->messageBus = $messageBus;
     }
 
     public function __invoke(Request $request): JsonResponse

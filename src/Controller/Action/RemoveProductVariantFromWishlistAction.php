@@ -28,15 +28,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class RemoveProductVariantFromWishlistAction
+final readonly class RemoveProductVariantFromWishlistAction
 {
     public function __construct(
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly ProductVariantRepositoryInterface $productVariantRepository,
-        private readonly EntityManagerInterface $wishlistProductManager,
-        private readonly RequestStack $requestStack,
-        private readonly TranslatorInterface $translator,
-        private readonly UrlGeneratorInterface $urlGenerator,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private ProductVariantRepositoryInterface $productVariantRepository,
+        private EntityManagerInterface $wishlistProductManager,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 

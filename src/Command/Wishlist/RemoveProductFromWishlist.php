@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Sylius\WishlistPlugin\Command\Wishlist;
 
-final class RemoveProductFromWishlist implements WishlistSyncCommandInterface
+final readonly class RemoveProductFromWishlist implements WishlistSyncCommandInterface
 {
     public function __construct(
-        private readonly int $productId,
-        private readonly string $wishlistToken,
+        private int $productId,
+        private string $wishlistToken,
     ) {
     }
 

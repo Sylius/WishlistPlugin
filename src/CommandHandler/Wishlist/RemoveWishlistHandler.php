@@ -20,11 +20,11 @@ use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class RemoveWishlistHandler
+final readonly class RemoveWishlistHandler
 {
     public function __construct(
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly ObjectManager $wishlistManager,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private ObjectManager $wishlistManager,
     ) {
     }
 

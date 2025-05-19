@@ -28,17 +28,17 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Webmozart\Assert\Assert;
 
 #[AsMessageHandler]
-final class CreateWishlistHandler
+final readonly class CreateWishlistHandler
 {
     public function __construct(
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly WishlistFactoryInterface $wishlistFactory,
-        private readonly ShopUserWishlistResolverInterface $shopUserWishlistResolver,
-        private readonly ObjectManager $wishlistManager,
-        private readonly ChannelRepositoryInterface $channelRepository,
-        private readonly TokenUserResolverInterface $tokenUserResolver,
-        private readonly RequestStack $requestStack,
-        private readonly string $wishlistCookieToken,
+        private TokenStorageInterface $tokenStorage,
+        private WishlistFactoryInterface $wishlistFactory,
+        private ShopUserWishlistResolverInterface $shopUserWishlistResolver,
+        private ObjectManager $wishlistManager,
+        private ChannelRepositoryInterface $channelRepository,
+        private TokenUserResolverInterface $tokenUserResolver,
+        private RequestStack $requestStack,
+        private string $wishlistCookieToken,
     ) {
     }
 

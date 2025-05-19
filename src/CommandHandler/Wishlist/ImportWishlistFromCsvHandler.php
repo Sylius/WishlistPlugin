@@ -30,15 +30,15 @@ use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsMessageHandler]
-final class ImportWishlistFromCsvHandler
+final readonly class ImportWishlistFromCsvHandler
 {
     public function __construct(
-        private readonly AddProductVariantToWishlistAction $addProductVariantToWishlistAction,
-        private readonly ProductVariantRepositoryInterface $productVariantRepository,
-        private readonly array $allowedMimeTypes,
-        private readonly CsvSerializerFactoryInterface $csvSerializerFactory,
-        private readonly RequestStack $requestStack,
-        private readonly TranslatorInterface $translator,
+        private AddProductVariantToWishlistAction $addProductVariantToWishlistAction,
+        private ProductVariantRepositoryInterface $productVariantRepository,
+        private array $allowedMimeTypes,
+        private CsvSerializerFactoryInterface $csvSerializerFactory,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator,
     ) {
     }
 

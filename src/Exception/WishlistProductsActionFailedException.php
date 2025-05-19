@@ -18,16 +18,9 @@ use Sylius\Component\Resource\Repository\Exception\ExistingResourceException;
 
 final class WishlistProductsActionFailedException extends ExistingResourceException
 {
-    private readonly Collection $failedProductsName;
-
-    /** @var string */
-    protected $message;
-
-    public function __construct(Collection $failedProducts, string $message)
+    public function __construct(private readonly Collection $failedProductsName, protected string $message)
     {
         parent::__construct();
-        $this->failedProductsName = $failedProducts;
-        $this->message = $message;
     }
 
     public function getFailedProductsName(): Collection

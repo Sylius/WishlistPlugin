@@ -18,10 +18,10 @@ use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 
-final class WishlistFactory implements WishlistFactoryInterface
+final readonly class WishlistFactory implements WishlistFactoryInterface
 {
     public function __construct(
-        private readonly FactoryInterface $wishlistFactory,
+        private FactoryInterface $wishlistFactory,
     ) {
     }
 

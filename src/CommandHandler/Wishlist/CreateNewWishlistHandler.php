@@ -27,15 +27,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Webmozart\Assert\Assert;
 
 #[AsMessageHandler]
-final class CreateNewWishlistHandler
+final readonly class CreateNewWishlistHandler
 {
     public function __construct(
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly WishlistFactoryInterface $wishlistFactory,
-        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
-        private readonly ChannelRepositoryInterface $channelRepository,
-        private readonly TokenUserResolverInterface $tokenUserResolver,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private TokenStorageInterface $tokenStorage,
+        private WishlistFactoryInterface $wishlistFactory,
+        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private ChannelRepositoryInterface $channelRepository,
+        private TokenUserResolverInterface $tokenUserResolver,
     ) {
     }
 

@@ -27,7 +27,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Webmozart\Assert\Assert;
 
 #[AsMessageHandler]
-final class ExportWishlistToCsvHandler
+final readonly class ExportWishlistToCsvHandler
 {
     public const CSV_HEADERS = [
         'variantId',
@@ -36,8 +36,8 @@ final class ExportWishlistToCsvHandler
     ];
 
     public function __construct(
-        private readonly CsvWishlistProductFactoryInterface $csvWishlistProductFactory,
-        private readonly CsvSerializerFactoryInterface $csvSerializerFactory,
+        private CsvWishlistProductFactoryInterface $csvWishlistProductFactory,
+        private CsvSerializerFactoryInterface $csvSerializerFactory,
     ) {
     }
 

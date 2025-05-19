@@ -23,12 +23,12 @@ use Sylius\WishlistPlugin\Factory\WishlistProductFactoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class AddProductToWishlistHandler
+final readonly class AddProductToWishlistHandler
 {
     public function __construct(
-        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
-        private readonly ProductRepositoryInterface $productRepository,
-        private readonly ObjectManager $wishlistManager,
+        private WishlistProductFactoryInterface $wishlistProductFactory,
+        private ProductRepositoryInterface $productRepository,
+        private ObjectManager $wishlistManager,
     ) {
     }
 

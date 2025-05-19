@@ -18,11 +18,11 @@ use Sylius\WishlistPlugin\Duplicator\WishlistProductsToOtherWishlistDuplicatorIn
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 
-final class CopySelectedProductsToOtherWishlistHandler
+final readonly class CopySelectedProductsToOtherWishlistHandler
 {
     public function __construct(
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly WishlistProductsToOtherWishlistDuplicatorInterface $duplicatorProductsToWishlist,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private WishlistProductsToOtherWishlistDuplicatorInterface $duplicatorProductsToWishlist,
     ) {
     }
 

@@ -29,14 +29,14 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[AsMessageHandler]
-final class RemoveProductFromWishlistHandler
+final readonly class RemoveProductFromWishlistHandler
 {
     public function __construct(
-        private readonly ProductRepositoryInterface $productRepository,
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly RepositoryInterface $wishlistProductRepository,
-        private readonly ObjectManager $wishlistManager,
-        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private ProductRepositoryInterface $productRepository,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private RepositoryInterface $wishlistProductRepository,
+        private ObjectManager $wishlistManager,
+        private AuthorizationCheckerInterface $authorizationChecker,
     ) {
     }
 

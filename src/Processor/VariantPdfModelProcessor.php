@@ -19,10 +19,10 @@ use Sylius\WishlistPlugin\Command\Wishlist\WishlistItem;
 use Sylius\WishlistPlugin\Generator\ModelCreatorInterface;
 use Sylius\WishlistPlugin\Model\VariantPdfModel;
 
-final class VariantPdfModelProcessor implements VariantPdfModelProcessorInterface
+final readonly class VariantPdfModelProcessor implements VariantPdfModelProcessorInterface
 {
     public function __construct(
-        private readonly ModelCreatorInterface $pdfModelCreator,
+        private ModelCreatorInterface $pdfModelCreator,
     ) {
     }
 

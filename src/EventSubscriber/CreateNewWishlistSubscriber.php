@@ -25,15 +25,15 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Webmozart\Assert\Assert;
 
-final class CreateNewWishlistSubscriber implements EventSubscriberInterface
+final readonly class CreateNewWishlistSubscriber implements EventSubscriberInterface
 {
     private const ALLOWED_ENDPOINTS_PREFIX = '/wishlist';
 
     public function __construct(
-        private readonly string $wishlistCookieToken,
-        private readonly WishlistsResolverInterface $wishlistsResolver,
-        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
-        private readonly RequestStack $requestStack,
+        private string $wishlistCookieToken,
+        private WishlistsResolverInterface $wishlistsResolver,
+        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private RequestStack $requestStack,
     ) {
     }
 

@@ -17,10 +17,10 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Webmozart\Assert\Assert;
 
-final class VariantImageToDataUriResolver implements VariantImageToDataUriResolverInterface
+final readonly class VariantImageToDataUriResolver implements VariantImageToDataUriResolverInterface
 {
     public function __construct(
-        private readonly GenerateDataUriForImageResolverInterface $dataUriForImageResolver,
+        private GenerateDataUriForImageResolverInterface $dataUriForImageResolver,
     ) {
     }
 

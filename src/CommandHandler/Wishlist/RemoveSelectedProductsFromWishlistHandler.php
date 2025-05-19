@@ -25,11 +25,11 @@ use Sylius\WishlistPlugin\Exception\WishlistProductNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class RemoveSelectedProductsFromWishlistHandler
+final readonly class RemoveSelectedProductsFromWishlistHandler
 {
     public function __construct(
-        private readonly ProductVariantRepositoryInterface $productVariantRepository,
-        private readonly EntityManagerInterface $wishlistProductManager,
+        private ProductVariantRepositoryInterface $productVariantRepository,
+        private EntityManagerInterface $wishlistProductManager,
     ) {
     }
 

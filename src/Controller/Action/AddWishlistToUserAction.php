@@ -30,16 +30,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AddWishlistToUserAction
+final readonly class AddWishlistToUserAction
 {
     public function __construct(
-        private readonly MessageBusInterface $commandBus,
-        private readonly RequestStack $requestStack,
-        private readonly TranslatorInterface $translator,
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly TokenUserResolverInterface $tokenUserResolver,
+        private MessageBusInterface $commandBus,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private UrlGeneratorInterface $urlGenerator,
+        private TokenStorageInterface $tokenStorage,
+        private TokenUserResolverInterface $tokenUserResolver,
     ) {
     }
 
@@ -69,7 +69,7 @@ final class AddWishlistToUserAction
                 'success',
                 $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_saved'),
             );
-        } catch (HandlerFailedException $exception) {
+        } catch (HandlerFailedException) {
             $session->getFlashBag()->add(
                 'error',
                 $this->translator->trans('sylius_wishlist_plugin.ui.you_have_no_access_to_that_wishlist'),

@@ -29,15 +29,15 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AddProductVariantToWishlistAction
+final readonly class AddProductVariantToWishlistAction
 {
     public function __construct(
-        private readonly ProductVariantRepositoryInterface $productVariantRepository,
-        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
-        private readonly RequestStack $requestStack,
-        private readonly TranslatorInterface $translator,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private ProductVariantRepositoryInterface $productVariantRepository,
+        private WishlistProductFactoryInterface $wishlistProductFactory,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator,
+        private UrlGeneratorInterface $urlGenerator,
+        private WishlistRepositoryInterface $wishlistRepository,
     ) {
     }
 

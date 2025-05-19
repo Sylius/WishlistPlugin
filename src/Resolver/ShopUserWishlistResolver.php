@@ -21,12 +21,12 @@ use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Factory\WishlistFactoryInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 
-final class ShopUserWishlistResolver implements ShopUserWishlistResolverInterface
+final readonly class ShopUserWishlistResolver implements ShopUserWishlistResolverInterface
 {
     public function __construct(
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly WishlistFactoryInterface $wishlistFactory,
-        private readonly ChannelContextInterface $channelContext,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private WishlistFactoryInterface $wishlistFactory,
+        private ChannelContextInterface $channelContext,
     ) {
     }
 
@@ -34,7 +34,7 @@ final class ShopUserWishlistResolver implements ShopUserWishlistResolverInterfac
     {
         try {
             $channel = $this->channelContext->getChannel();
-        } catch (ChannelNotFoundException $exception) {
+        } catch (ChannelNotFoundException) {
             $channel = null;
         }
 

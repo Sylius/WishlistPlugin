@@ -15,11 +15,11 @@ namespace Sylius\WishlistPlugin\Command\Wishlist;
 
 use Doctrine\Common\Collections\Collection;
 
-final class CopySelectedProductsToOtherWishlist implements CopySelectedProductsToOtherWishlistInterface
+final readonly class CopySelectedProductsToOtherWishlist implements CopySelectedProductsToOtherWishlistInterface
 {
     public function __construct(
-        private readonly Collection $wishlistProducts,
-        private readonly int $destinedWishlistId,
+        private Collection $wishlistProducts,
+        private int $destinedWishlistId,
     ) {
     }
 

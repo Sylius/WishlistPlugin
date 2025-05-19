@@ -19,10 +19,10 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Entity\WishlistProductInterface;
 
-final class WishlistProductFactory implements WishlistProductFactoryInterface
+final readonly class WishlistProductFactory implements WishlistProductFactoryInterface
 {
     public function __construct(
-        private readonly FactoryInterface $wishlistProductFactory,
+        private FactoryInterface $wishlistProductFactory,
     ) {
     }
 

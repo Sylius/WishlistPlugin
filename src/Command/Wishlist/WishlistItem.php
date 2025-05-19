@@ -19,9 +19,9 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class WishlistItem implements WishlistItemInterface
 {
-    private ?WishlistProductInterface $wishlistProduct;
+    private ?WishlistProductInterface $wishlistProduct = null;
 
-    private ?AddToCartCommandInterface $cartItem;
+    private ?AddToCartCommandInterface $cartItem = null;
 
     private bool $selected;
 

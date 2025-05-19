@@ -16,11 +16,11 @@ namespace Sylius\WishlistPlugin\Command\Wishlist;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 
-final class AddWishlistToUser implements WishlistSyncCommandInterface
+final readonly class AddWishlistToUser implements WishlistSyncCommandInterface
 {
     public function __construct(
-        private readonly WishlistInterface $wishlist,
-        private readonly ShopUserInterface $shopUser,
+        private WishlistInterface $wishlist,
+        private ShopUserInterface $shopUser,
     ) {
     }
 

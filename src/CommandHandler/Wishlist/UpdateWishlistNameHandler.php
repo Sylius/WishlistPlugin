@@ -19,11 +19,11 @@ use Sylius\WishlistPlugin\Exception\WishlistNameIsTakenException;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolverInterface;
 
-final class UpdateWishlistNameHandler
+final readonly class UpdateWishlistNameHandler
 {
     public function __construct(
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
     ) {
     }
 

@@ -20,11 +20,11 @@ use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class AddProductToSelectedWishlistHandler
+final readonly class AddProductToSelectedWishlistHandler
 {
     public function __construct(
-        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
-        private readonly WishlistRepositoryInterface $wishlistRepository,
+        private WishlistProductFactoryInterface $wishlistProductFactory,
+        private WishlistRepositoryInterface $wishlistRepository,
     ) {
     }
 

@@ -23,14 +23,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class WishlistProductsToOtherWishlistDuplicator implements WishlistProductsToOtherWishlistDuplicatorInterface
+final readonly class WishlistProductsToOtherWishlistDuplicator implements WishlistProductsToOtherWishlistDuplicatorInterface
 {
     public function __construct(
-        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
-        private readonly ProductVariantRepositoryInterface $productVariantRepository,
-        private readonly WishlistRepositoryInterface $wishlistRepository,
-        private readonly RequestStack $requestStack,
-        private readonly TranslatorInterface $translator,
+        private WishlistProductFactoryInterface $wishlistProductFactory,
+        private ProductVariantRepositoryInterface $productVariantRepository,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator,
     ) {
     }
 

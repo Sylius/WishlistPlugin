@@ -27,7 +27,7 @@ class Wishlist implements WishlistInterface
 
     protected ?int $id = null;
 
-    protected ?string $name;
+    protected ?string $name = null;
 
     protected Collection $wishlistProducts;
 
@@ -35,7 +35,7 @@ class Wishlist implements WishlistInterface
 
     protected WishlistTokenInterface|string $token;
 
-    protected ?ChannelInterface $channel;
+    protected ?ChannelInterface $channel = null;
 
     public function __construct()
     {

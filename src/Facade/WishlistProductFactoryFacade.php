@@ -21,10 +21,10 @@ use Sylius\WishlistPlugin\Factory\WishlistProductFactoryInterface;
 /**
  * @deprecated
  */
-final class WishlistProductFactoryFacade implements WishlistProductFactoryFacadeInterface
+final readonly class WishlistProductFactoryFacade implements WishlistProductFactoryFacadeInterface
 {
     public function __construct(
-        private readonly WishlistProductFactoryInterface $wishlistProductFactory,
+        private WishlistProductFactoryInterface $wishlistProductFactory,
     ) {
     }
 
