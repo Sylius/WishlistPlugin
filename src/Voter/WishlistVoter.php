@@ -26,7 +26,7 @@ final class WishlistVoter extends Voter
     public const DELETE = 'delete';
 
     public function __construct(
-        private Security $security,
+        private readonly Security $security,
     ) {
     }
 
@@ -60,14 +60,11 @@ final class WishlistVoter extends Voter
         /** @var WishlistInterface $wishlist */
         $wishlist = $subject;
 
-        switch ($attribute) {
-            case self::UPDATE:
-                return $this->canUpdate($wishlist, $user);
-            case self::DELETE:
-                return $this->canDelete($wishlist, $user);
-        }
-
-        throw new \LogicException(sprintf('Unsupported attribute: "%s"', $attribute));
+        return match ($attribute) {
+            self::UPDATE => $this->canUpdate($wishlist, $user),
+            self::DELETE => $this->canDelete($wishlist, $user),
+            default => throw new \LogicException(sprintf('Unsupported attribute: "%s"', $attribute)),
+        };
     }
 
     public function canUpdate(WishlistInterface $wishlist, ?ShopUserInterface $user): bool

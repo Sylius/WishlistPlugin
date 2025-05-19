@@ -17,7 +17,7 @@ use Sylius\WishlistPlugin\Entity\WishlistToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class WishlistCookieTokenResolver implements WishlistCookieTokenResolverInterface
+final readonly class WishlistCookieTokenResolver implements WishlistCookieTokenResolverInterface
 {
     public function __construct(
         private RequestStack $requestStack,

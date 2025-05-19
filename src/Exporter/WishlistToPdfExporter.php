@@ -16,7 +16,7 @@ namespace Sylius\WishlistPlugin\Exporter;
 use Doctrine\Common\Collections\Collection;
 use Sylius\WishlistPlugin\Processor\VariantPdfModelProcessorInterface;
 
-final class WishlistToPdfExporter implements WishlistToPdfExporterInterface
+final readonly class WishlistToPdfExporter implements WishlistToPdfExporterInterface
 {
     public function __construct(
         private VariantPdfModelProcessorInterface $variantPdfModelProcessor,

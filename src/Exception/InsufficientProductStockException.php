@@ -15,7 +15,7 @@ namespace Sylius\WishlistPlugin\Exception;
 
 final class InsufficientProductStockException extends \Exception
 {
-    public function __construct(private string $productName)
+    public function __construct(private readonly string $productName)
     {
         parent::__construct();
     }

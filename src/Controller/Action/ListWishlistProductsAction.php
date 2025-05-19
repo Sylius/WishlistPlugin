@@ -28,38 +28,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-final class ListWishlistProductsAction
+final readonly class ListWishlistProductsAction
 {
-    private CartContextInterface $cartContext;
-
-    private FormFactoryInterface $formFactory;
-
-    private Environment $twigEnvironment;
-
-    private WishlistCommandProcessorInterface $wishlistCommandProcessor;
-
-    private WishlistsResolverInterface $wishlistsResolver;
-
-    private TranslatorInterface $translator;
-
-    private UrlGeneratorInterface $generator;
-
-    public function __construct(
-        CartContextInterface $cartContext,
-        FormFactoryInterface $formFactory,
-        Environment $twigEnvironment,
-        WishlistCommandProcessorInterface $wishlistCommandProcessor,
-        WishlistsResolverInterface $wishlistsResolver,
-        TranslatorInterface $translator,
-        UrlGeneratorInterface $generator,
-    ) {
-        $this->cartContext = $cartContext;
-        $this->formFactory = $formFactory;
-        $this->twigEnvironment = $twigEnvironment;
-        $this->wishlistCommandProcessor = $wishlistCommandProcessor;
-        $this->wishlistsResolver = $wishlistsResolver;
-        $this->translator = $translator;
-        $this->generator = $generator;
+    public function __construct(private CartContextInterface $cartContext, private FormFactoryInterface $formFactory, private Environment $twigEnvironment, private WishlistCommandProcessorInterface $wishlistCommandProcessor, private WishlistsResolverInterface $wishlistsResolver, private TranslatorInterface $translator, private UrlGeneratorInterface $generator)
+    {
     }
 
     public function __invoke(Request $request): Response
@@ -81,7 +53,7 @@ final class ListWishlistProductsAction
 
         try {
             $cart = $this->cartContext->getCart();
-        } catch (CartNotFoundException $exception) {
+        } catch (CartNotFoundException) {
             $cart = null;
         }
 

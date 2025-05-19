@@ -16,7 +16,7 @@ namespace Sylius\WishlistPlugin\Command\Wishlist;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 
-final class AddProductToSelectedWishlist implements AddProductToSelectedWishlistInterface
+final readonly class AddProductToSelectedWishlist implements AddProductToSelectedWishlistInterface
 {
     public function __construct(
         private WishlistInterface $wishlist,

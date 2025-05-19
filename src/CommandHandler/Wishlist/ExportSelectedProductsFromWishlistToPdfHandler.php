@@ -18,7 +18,7 @@ use Sylius\WishlistPlugin\Exporter\WishlistToPdfExporterInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class ExportSelectedProductsFromWishlistToPdfHandler
+final readonly class ExportSelectedProductsFromWishlistToPdfHandler
 {
     public function __construct(
         private WishlistToPdfExporterInterface $exporterWishlistToPdf,

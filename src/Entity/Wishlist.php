@@ -27,24 +27,20 @@ class Wishlist implements WishlistInterface
 
     protected ?int $id = null;
 
-    protected ?string $name;
+    protected ?string $name = null;
 
-    /** @var Collection|WishlistProductInterface[] */
-    protected $wishlistProducts;
+    protected Collection $wishlistProducts;
 
     protected ?ShopUserInterface $shopUser = null;
 
-    /** @var WishlistTokenInterface|null */
-    protected $token;
+    protected WishlistTokenInterface|string $token;
 
-    protected ?ChannelInterface $channel;
+    protected ?ChannelInterface $channel = null;
 
     public function __construct()
     {
         $this->wishlistProducts = new ArrayCollection();
         $this->token = new WishlistToken();
-        $this->id = null;
-
         $this->createdAt = new \DateTime();
     }
 

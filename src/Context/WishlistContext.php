@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-final class WishlistContext implements WishlistContextInterface
+final readonly class WishlistContext implements WishlistContextInterface
 {
     public function __construct(
         private TokenStorageInterface $tokenStorage,
@@ -55,7 +55,7 @@ final class WishlistContext implements WishlistContextInterface
 
         try {
             $channel = $this->channelContext->getChannel();
-        } catch (ChannelNotFoundException $exception) {
+        } catch (ChannelNotFoundException) {
             return $wishlist;
         }
 

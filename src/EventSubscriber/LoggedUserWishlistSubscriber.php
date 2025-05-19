@@ -25,7 +25,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
-final class LoggedUserWishlistSubscriber implements EventSubscriberInterface
+final readonly class LoggedUserWishlistSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private SectionProviderInterface $uriBasedSectionContext,

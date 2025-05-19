@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webmozart\Assert\Assert;
 
-final class UpdateWishlistNameAction
+final readonly class UpdateWishlistNameAction
 {
     public function __construct(
         private MessageBusInterface $commandBus,
@@ -62,7 +62,7 @@ final class UpdateWishlistNameAction
                 'success',
                 $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_name_changed'),
             );
-        } catch (HandlerFailedException $exception) {
+        } catch (HandlerFailedException) {
             $session->getFlashBag()->add(
                 'error',
                 $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_name_already_exists'),

@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\Collection;
 use Sylius\WishlistPlugin\Factory\DomPdfFactoryInterface;
 use Twig\Environment;
 
-final class DomPdfWishlistExporter implements DomPdfWishlistExporterInterface
+final readonly class DomPdfWishlistExporter implements DomPdfWishlistExporterInterface
 {
     public function __construct(
         private Environment $twigEnvironment,

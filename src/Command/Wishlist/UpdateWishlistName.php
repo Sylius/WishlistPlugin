@@ -19,7 +19,7 @@ final class UpdateWishlistName implements UpdateWishlistNameInterface
 {
     public function __construct(
         public string $name,
-        private WishlistInterface $wishlist,
+        private readonly WishlistInterface $wishlist,
     ) {
     }
 

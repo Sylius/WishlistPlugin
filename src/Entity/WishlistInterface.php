@@ -49,7 +49,7 @@ interface WishlistInterface extends ResourceInterface
 
     public function getShopUser(): ?ShopUserInterface;
 
-    public function setShopUser(ShopUserInterface $shopShopUser): void;
+    public function setShopUser(ShopUserInterface $shopUser): void;
 
     public function getToken(): string;
 

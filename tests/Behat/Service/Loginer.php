@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Behat\Service;
 
+use Sylius\Behat\Context\Ui\Admin\Helper\SecurePasswordTrait;
 use Sylius\Behat\Page\Shop\Account\LoginPageInterface;
 use Sylius\Behat\Page\Shop\HomePageInterface;
+use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
@@ -22,6 +24,8 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class Loginer implements LoginerInterface
 {
+    use SecurePasswordTrait;
+
     private const EXAMPLE_USER_LOGIN = 'shop@example.com';
 
     private const EXAMPLE_USER_PASSWORD = '123';
@@ -32,6 +36,7 @@ final class Loginer implements LoginerInterface
         private RepositoryInterface $shopUserRepository,
         private LoginPageInterface $loginPage,
         private HomePageInterface $homePage,
+        private SharedStorageInterface $sharedStorage,
     ) {
     }
 
@@ -39,7 +44,7 @@ final class Loginer implements LoginerInterface
     {
         $this->loginPage->open();
         $this->loginPage->specifyUsername(self::EXAMPLE_USER_LOGIN);
-        $this->loginPage->specifyPassword(self::EXAMPLE_USER_PASSWORD);
+        $this->loginPage->specifyPassword($this->replaceWithSecurePassword(self::EXAMPLE_USER_PASSWORD));
         $this->loginPage->logIn();
     }
 

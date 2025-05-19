@@ -48,7 +48,7 @@ final class WishlistsResolver implements WishlistsResolverInterface
 
         try {
             $channel = $this->channelContext->getChannel();
-        } catch (ChannelNotFoundException $foundException) {
+        } catch (ChannelNotFoundException) {
             $channel = null;
         }
 
@@ -71,7 +71,7 @@ final class WishlistsResolver implements WishlistsResolverInterface
 
         try {
             $channel = $this->channelContext->getChannel();
-        } catch (ChannelNotFoundException $foundException) {
+        } catch (ChannelNotFoundException) {
             $channel = null;
         }
 

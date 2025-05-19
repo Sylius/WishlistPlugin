@@ -15,7 +15,7 @@ namespace Sylius\WishlistPlugin\Command\Wishlist;
 
 use Doctrine\Common\Collections\Collection;
 
-final class ExportWishlistToCsv implements WishlistSyncCommandInterface
+final readonly class ExportWishlistToCsv implements WishlistSyncCommandInterface
 {
     public function __construct(
         private Collection $wishlistProducts,
