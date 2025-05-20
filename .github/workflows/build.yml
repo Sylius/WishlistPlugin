@@ -144,8 +144,8 @@ jobs:
             -
                 name: Prepare test application assets
                 run: |
-                    vendor/bin/console assets:install public -vvv
-                    vendor/sylius/test-application && yarn prod
+                    vendor/bin/console assets:install -vvv
+                    cd vendor/sylius/test-application && yarn encore dev
 
             -
                 name: Prepare test application cache
