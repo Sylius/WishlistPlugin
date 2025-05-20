@@ -47,7 +47,6 @@
         }
     },
     "autoload-dev": {
-        "classmap": ["tests/Application/Kernel.php"],
         "psr-4": {
             "Sylius\\WishlistPlugin\\": "src/",
             "Tests\\Sylius\\WishlistPlugin\\": "tests/",
