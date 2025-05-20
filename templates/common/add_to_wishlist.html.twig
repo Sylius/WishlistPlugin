@@ -3,7 +3,7 @@
 {% set wishlists = isUser ? findAllByShopUserAndToken(app.user) : findAllByAnonymousAndChannel(sylius.channel) %}
 {% set is_single_wishlist = wishlists|length < 2 %}
 
-<div class="mt-3">
+<div class="my-3">
     {% if is_single_wishlist %}
         <a
             href="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_add_product', {'productId': product.id}) }}"

@@ -16,7 +16,7 @@
         {% endif %}
         {% if wishlists|length > 1 %}
         {% else %}
-            <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column flex-lg-row justify-content-between gap-2">
                 {% if wishlist.wishlistProducts.count > 0 %}
                     <a href="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_clean', {'wishlistId': wishlist.id}) }}"
                        class="clean-wishlist text-decoration-none d-flex align-items-center">
@@ -69,7 +69,7 @@
                            value="{{ itemForm.vars.data.wishlistProduct.variant.id }}"/>
                 {% endfor %}
 
-                <div class="bb-wishlist-actions">
+                <div class="bb-wishlist-actions flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2">
                     {% include "@SyliusWishlistPlugin/wishlist_details/collective_actions.html.twig" %}
                     {% include "@SyliusWishlistPlugin/wishlist_details/global_actions.html.twig" %}
                 </div>
