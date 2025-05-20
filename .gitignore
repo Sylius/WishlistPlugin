@@ -8,4 +8,6 @@
 
 /behat.yml
 /phpunit.xml
-tests/Application/yarn.lock
+
+/tests/TestApplication/.env.local
+/tests/TestApplication/.env.*.local
