@@ -75,12 +75,12 @@ jobs:
 
             -
                 name: Run webserver
-                run: (cd tests/Application && symfony server:start --port=8080 --dir=public --daemon)
+                run: symfony server:start --port=8080 --daemon
 
             -
                 name: Get Composer cache directory
                 id: composer-cache
-                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
             -
                 name: Cache Composer
@@ -133,27 +133,27 @@ jobs:
 
             -
                 name: Install JS dependencies
-                run: (cd tests/Application && yarn install)
+                run: cd vendor/sylius/test-application && yarn install
 
             -
                 name: Prepare test application database
                 run: |
-                    (cd tests/Application && bin/console doctrine:database:create -vvv)
-                    (cd tests/Application && bin/console doctrine:migrations:migrate -vvv)
+                    vendor/bin/console doctrine:database:create -vvv
+                    vendor/bin/console doctrine:migrations:migrate -vvv
 
             -
                 name: Prepare test application assets
                 run: |
-                    (cd tests/Application && bin/console assets:install public -vvv)
-                    (cd tests/Application && yarn prod)
+                    vendor/bin/console assets:install public -vvv
+                    vendor/sylius/test-application && yarn prod
 
             -
                 name: Prepare test application cache
-                run: (cd tests/Application && bin/console cache:warmup -vvv)
+                run: vendor/bin/console cache:warmup -vvv
 
             -
                 name: Load fixtures in test application
-                run: (cd tests/Application && bin/console sylius:fixtures:load -n)
+                run: vendor/bin/console sylius:fixtures:load -n
 
             -
                 name: Validate composer.json
@@ -161,7 +161,7 @@ jobs:
 
             -
                 name: Validate database schema
-                run: (cd tests/Application && bin/console doctrine:schema:validate)
+                run: vendor/bin/console doctrine:schema:validate
 
             -
                 name: Run PHPSpec
