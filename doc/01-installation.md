@@ -5,82 +5,32 @@
 
 ## Installation
 
+This installation instruction assumes that you're using Symfony Flex. If you don't, take a look at the
+[legacy installation instruction](legacy_installation.md). However, we strongly encourage you to use
+Symfony Flex, it's much quicker!
 
-1. *We work on stable, supported and up-to-date versions of packages. We recommend you to do the same.*
+1. Require plugin with composer:
 
-```bash
-composer require sylius/wishlist-plugin
-```
+    ```bash
+    composer require sylius/wishlist-plugin
+    ```
 
-2. (optional) Add plugin dependencies to your `config/bundles.php` file:
+   > Remember to allow community recipes with `composer config extra.symfony.allow-contrib true` or during plugin installation process
 
-```php
-// config/bundles.php
+1. Run `yarn encore dev` or `yarn encore production`
 
-return [
-    ...
+1. Database update:
 
-    Sylius\WishlistPlugin\SyliusWishlistPlugin::class => ['all' => true],
-];
-```
+    ```bash
+    bin/console doctrine:migrations:migrate
+    ```
+    **Note:** If you are running it on production, add the `-e prod` flag to this command.
 
-3. (optional) Import required config in your `config/packages/_sylius.yaml` file:
+1. Clear application cache by using command:**
 
-```yaml
-# config/packages/_sylius.yaml
-imports:
-  ...
-  - { resource: "@SyliusWishlistPlugin/config/config.yaml" }
-```
-
-4. (optional) Import routing in your `config/routes.yaml` file:
-
-  ```yaml
-# config/routes.yaml
-sylius_wishlist_plugin:
-    resource: "@SyliusWishlistPlugin/config/routes.yaml"
-```
-
-5. Create `bundles/SyliusShopBundle/product/common` directory in your project `templates` dir if it does not exist yet:
-
-```bash
-mkdir -p templates/bundles/SyliusShopBundle/product/common
-```
-
-6. Copy `@SyliusShopBundle/product/common/card.html.twig` template in your project:
-
-```bash
-cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/templates/product/common/card.html.twig templates/bundles/SyliusShopBundle/product/common/card.html.twig
-```
-
-7. Add the following code to the end of the `card.html.twig` file, just before latest closing `</div>` tag:
-
-```twig
-<hr>
-{% include '@SyliusWishlistPlugin/common/add_to_wishlist.html.twig' %} 
-```
-
-8. Clear application cache by using command:
-
-```bash
-bin/console cache:clear
-```
-
-9. Update your database
-
-```bash
-bin/console doctrine:migrations:migrate
-```
-
-**Note:** If you are running it on production, add the `-e prod` flag to this command.
-
-10. Add plugin assets to your project
-
-Just add to your `asssets/admin/entrypoint.js` and `assets/shop/entrypoint.js` the following line (create these files if it does not exist yet):
-
-```javascript
-import '../../vendor/sylius/wishlist-plugin/assets/entrypoint';
-```
+      ```bash
+      bin/console cache:clear
+      ```
 
 ## Asynchronous Messenger case
 
