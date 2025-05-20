@@ -7,5 +7,5 @@ sylius_wishlist_plugin_shop:
   name_prefix: 'sylius_wishlist_plugin_shop_locale_'
   prefix: /{_locale}
   requirements:
-    _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
+    _locale: ^[A-Za-z]{2,4}(_([A-Za-z]{4}|[0-9]{3}))?(_([A-Za-z]{2}|[0-9]{3}))?$
 
