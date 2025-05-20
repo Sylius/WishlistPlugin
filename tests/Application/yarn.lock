@@ -959,10 +959,10 @@
     schema-utils "^3.0.0"
 
 "@symfony/ux-autocomplete@file:../../vendor/symfony/ux-autocomplete/assets":
-  version "2.23.0"
+  version "2.25.0"
 
 "@symfony/ux-live-component@file:../../vendor/symfony/ux-live-component/assets":
-  version "2.23.0"
+  version "2.25.0"
   dependencies:
     idiomorph "^0.3.0"
 
