@@ -1,1 +1,1 @@
-import '../../../../assets/entrypoint';
+import '../../../../assets/admin/entrypoint';
