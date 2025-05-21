@@ -11,3 +11,5 @@
 
 /tests/TestApplication/.env.local
 /tests/TestApplication/.env.*.local
+
+.phpunit.result.cache

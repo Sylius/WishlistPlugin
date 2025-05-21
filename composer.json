@@ -46,6 +46,13 @@
             "Tests\\Sylius\\WishlistPlugin\\": "tests/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Sylius\\WishlistPlugin\\": "src/",
+            "Tests\\Sylius\\WishlistPlugin\\": "tests/",
+            "Sylius\\Tests\\Api\\": ["vendor/sylius/sylius/tests/Api/"]
+        }
+    },
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true,
