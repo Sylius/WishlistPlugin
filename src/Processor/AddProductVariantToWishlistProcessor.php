@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class AddProductVariantToWishlistProcessor implements AddProductVariantToWishlistProcessorInterface
@@ -44,10 +45,11 @@ final readonly class AddProductVariantToWishlistProcessor implements AddProductV
 
     public function process(ProductVariantInterface $productVariant, ?int $wishlistId = null): RedirectResponse
     {
+        /** @var UserInterface|null $user */
         $user = $this->security->getUser();
 
         $wishlists = null !== $user
-            ? $this->wishlistExtension->findAllByShopUserAndToken()
+            ? $this->wishlistExtension->findAllByShopUserAndToken($user)
             : $this->wishlistExtension->findAllByAnonymousAndChannel($this->channelContext->getChannel());
 
         $isSingleWishlist = count($wishlists) < 2;
