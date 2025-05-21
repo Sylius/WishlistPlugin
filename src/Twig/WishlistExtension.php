@@ -92,7 +92,7 @@ class WishlistExtension extends AbstractExtension
         return $this->wishlists[$cacheKey];
     }
 
-    public function findAllByShopUserAndToken(UserInterface $user = null): ?array
+    public function findAllByShopUserAndToken(?UserInterface $user = null): ?array
     {
         $wishlistCookieToken = $this->wishlistCookieTokenResolver->resolve();
 

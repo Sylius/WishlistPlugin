@@ -75,7 +75,7 @@ final class AddProductVariantToWishlistProcessorSpec extends ObjectBehavior
         $wishlistIdToFind = 999;
 
         $security->getUser()->willReturn($user);
-        $wishlistExtension->findAllByShopUserAndToken()->willReturn([$firstWishlist, $secondWishlist]);
+        $wishlistExtension->findAllByShopUserAndToken($user)->willReturn([$firstWishlist, $secondWishlist]);
 
         $wishlistRepository->find($wishlistIdToFind)->willReturn(null);
 
@@ -91,7 +91,7 @@ final class AddProductVariantToWishlistProcessorSpec extends ObjectBehavior
     ): void {
         $security->getUser()->willReturn($user);
 
-        $wishlistExtension->findAllByShopUserAndToken()->willReturn([]);
+        $wishlistExtension->findAllByShopUserAndToken($user)->willReturn([]);
 
         $this->shouldThrow(ResourceNotFoundException::class)
             ->during('process', [$productVariant, null]);
@@ -116,7 +116,7 @@ final class AddProductVariantToWishlistProcessorSpec extends ObjectBehavior
         $wishlist->getId()->willReturn($wishlistId);
 
         $security->getUser()->willReturn($user);
-        $wishlistExtension->findAllByShopUserAndToken()->willReturn([$wishlist]);
+        $wishlistExtension->findAllByShopUserAndToken($user)->willReturn([$wishlist]);
 
         $wishlist->hasProductVariant($productVariant)->willReturn(false);
         $wishlistProductFactory->createForWishlistAndVariant($wishlist, $productVariant)->willReturn($wishlistProduct);
@@ -157,7 +157,7 @@ final class AddProductVariantToWishlistProcessorSpec extends ObjectBehavior
         $targetWishlist->getId()->willReturn($targetWishlistId);
 
         $security->getUser()->willReturn($user);
-        $wishlistExtension->findAllByShopUserAndToken()->willReturn([$otherWishlist, $targetWishlist]);
+        $wishlistExtension->findAllByShopUserAndToken($user)->willReturn([$otherWishlist, $targetWishlist]);
 
         $wishlistRepository->find($targetWishlistId)->willReturn($targetWishlist);
 
@@ -245,7 +245,7 @@ final class AddProductVariantToWishlistProcessorSpec extends ObjectBehavior
         $product->getName()->willReturn($productName);
 
         $security->getUser()->willReturn($user);
-        $wishlistExtension->findAllByShopUserAndToken()->willReturn([$wishlist]);
+        $wishlistExtension->findAllByShopUserAndToken($user)->willReturn([$wishlist]);
 
         $wishlist->hasProductVariant($productVariant)->willReturn(true);
         $wishlistProductFactory->createForWishlistAndVariant($wishlist, $productVariant)->willReturn($wishlistProduct);
