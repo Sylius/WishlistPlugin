@@ -167,9 +167,9 @@ jobs:
                 name: Run webserver
                 run: symfony server:start --port=8080 --daemon
 
-            #            -
-#                name: Run PHPUnit
-#                run: vendor/bin/phpunit --colors=always
+            -
+                name: Run PHPUnit
+                run: vendor/bin/phpunit --colors=always
 
             -
                 name: Run Behat

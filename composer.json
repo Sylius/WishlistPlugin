@@ -50,7 +50,7 @@
         "psr-4": {
             "Sylius\\WishlistPlugin\\": "src/",
             "Tests\\Sylius\\WishlistPlugin\\": "tests/",
-            "Sylius\\Tests\\Api\\": ["vendor/sylius/sylius/tests/Api/"]
+            "Sylius\\Tests\\Api\\": "vendor/sylius/sylius/tests/Api/"
         }
     },
     "config": {
