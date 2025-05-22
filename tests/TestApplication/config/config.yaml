@@ -3,4 +3,4 @@ imports:
     - { resource: "services_test.php" }
 
 parameters:
-    sylius_cms_api_platform_mapping_path: '%kernel.project_dir%/../../../config/api_platform/'
+    sylius_wishlist_api_platform_mapping_path: '%kernel.project_dir%/../../../config/api_platform/'
