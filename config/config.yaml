@@ -1,6 +1,9 @@
 imports:
     - { resource: "@SyliusWishlistPlugin/config/twig_hooks/**/*.yaml" }
 
+parameters:
+    sylius_wishlist_api_platform_mapping_path: '%kernel.project_dir%/vendor/sylius/wishlist-plugin/config/api_platform/'
+
 api_platform:
     mapping:
         paths:
