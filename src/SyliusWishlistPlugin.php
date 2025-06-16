@@ -15,6 +15,7 @@ namespace Sylius\WishlistPlugin;
 
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Sylius\WishlistPlugin\DependencyInjection\SyliusMessageBusPolyfillPass;
+use Sylius\WishlistPlugin\DependencyInjection\TwigHooksProfilerPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
@@ -43,5 +44,7 @@ final class SyliusWishlistPlugin extends Bundle
             PassConfig::TYPE_BEFORE_OPTIMIZATION,
             1,
         );
+
+        $container->addCompilerPass(new TwigHooksProfilerPass());
     }
 }
