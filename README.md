@@ -14,11 +14,9 @@
 
 [ ![](https://img.shields.io/packagist/l/sylius/wishlist-plugin.svg) ](https://packagist.org/packages/sylius/wishlist-plugin "License")
 [ ![](https://img.shields.io/packagist/v/sylius/wishlist-plugin.svg) ](https://packagist.org/packages/sylius/wishlist-plugin "Version")
-[ ![](https://img.shields.io/github/actions/workflow/status/BitBagCommerce/SyliusWishlistPlugin/build.yml) ](https://github.com/BitBagCommerce/SyliusWishlistPlugin/actions "Build status")
-[ ![](https://img.shields.io/scrutinizer/g/BitBagCommerce/SyliusWishlistPlugin.svg) ](https://scrutinizer-ci.com/g/BitBagCommerce/SyliusWishlistPlugin/ "Scrutinizer")
+[ ![](https://img.shields.io/github/actions/workflow/status/Sylius/WishlistPlugin/build.yml) ](https://github.com/Sylius/WishlistPlugin/actions "Build status")
 [ ![](https://poser.pugx.org/sylius/wishlist-plugin/downloads)](https://packagist.org/packages/sylius/wishlist-plugin "Total Downloads")
 [ ![Slack](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)](http://sylius-devs.slack.com)
-[ ![Support](https://img.shields.io/badge/support-contact%20author-blue])](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_wishlist)
 
 <p align="center"><a href="https://sylius.com/plugins/" target="_blank"><img src="https://sylius.com/assets/badge-official-sylius-plugin.png" width="200"></a></p>
 
