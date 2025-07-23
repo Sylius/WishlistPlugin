@@ -5,6 +5,7 @@
 
 /etc/build/*
 !/etc/build/.gitignore
+/var/
 
 /behat.yml
 /phpunit.xml

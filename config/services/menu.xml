@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="sylius_wishlist_plugin.event_listener.menu.shop_user_account" class="Sylius\WishlistPlugin\Menu\ShopUserAccountMenuListener">
+            <tag name="kernel.event_listener" event="sylius.menu.shop.account" method="addWishlistItem" />
+        </service>
+    </services>
+</container>
