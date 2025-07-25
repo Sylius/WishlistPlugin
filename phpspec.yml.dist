@@ -1,4 +1,0 @@
-suites:
-    main:
-        namespace: Sylius\WishlistPlugin
-        psr4_prefix: Sylius\WishlistPlugin
