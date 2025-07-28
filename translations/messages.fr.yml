@@ -1,13 +1,70 @@
 sylius_wishlist_plugin:
     ui:
         wishlist: Favoris
+        go_to_wishlist_failure: Un problème est survenu lors de la redirection. Veuillez réessayer
         add_to_wishlist: Ajouter aux favoris
         remove_from_wishlist: Enlever des favoris
         your_wishlist_is_empty: Aucun favoris
+        your_wishlist: Vos favoris
+        your_wishlists: Vos listes de favoris
+        add_another_wishlist: Ajouter une autre liste de favoris
         added_wishlist_item: Le produit a été ajouté à vos favoris.
         removed_wishlist_item: Le produit a été retiré de vos favoris.
         add_items_to_cart: Ajouter les produits au panier
+        export_wishlist_to_pdf: Exporter en PDF
         added_to_cart: Vos produits favoris ont été ajoutés à votre panier.
         save_wishlist: Enregistrer les favoris
         variant_not_unique: Vous avez déjà ajouté ce produit à vos favoris
+        insufficient_stock: '%productName% n''a pas suffisamment de stock.'
+        increase_quantity: Augmentez la quantité d'au moins un produit.
+        select_products: Sélectionnez au moins un produit.
+        added_selected_wishlist_items_to_cart: Les produits sélectionnés ont été ajoutés à votre panier.
+        removed_selected_wishlist_items: Les produits sélectionnés ont été retirés de vos favoris.
+        toggle_checkboxes: Basculer
+        remove: Enlever des favoris
+        add: Ajouter
+        add_to_cart: Ajouter au panier
+        copy_to_wishlist: Copier vers une autre liste de favoris
+        export_to_csv: Exporter en CSV
+        import_from_csv: Importer un CSV
         submit: Soumettre
+        upload_valid_csv: Le fichier téléchargé n'est pas du bon type
+        variant_already_in_wishlist: Le produit est déjà dans vos favoris
+        selected_wishlist_items_successfully_exported: Les produits sélectionnés ont été exportés avec succès.
+        create_new_wishlist: Une nouvelle liste de favoris a été créée.
+        remove_wishlist: La liste de favoris a été supprimée.
+        edit_wishlist_name: Le nom de la liste de favoris a été modifié.
+        clear_wishlist: Vider la liste de favoris
+        cleared_wishlist: La liste de favoris a été vidée.
+        create_new_wishlist_label: Choisissez le nom de la liste de favoris
+        copied_selected_wishlist_items: Les produits sélectionnés ont été copiés avec succès.
+        wishlist_not_found: Aucune liste de favoris n'a été trouvée
+        wishlist_for_channel_not_found: Aucune liste de favoris n'a été trouvée pour le canal actuel
+        wishlist_product_not_found: Le produit de la liste de favoris n'a pas été trouvé
+        csv_file_contains_incorrect_products: Le fichier CSV contient des produits incorrects.
+        wishlist_name_already_exists: Une liste de favoris avec ce nom existe déjà, veuillez en choisir un autre.
+        does_not_have_sufficient_stock: n'a pas suffisamment de stock.
+        wishlist_not_exists: Votre liste de favoris n'existe pas.
+        change_wishlist_name: Modifier le nom de la liste de favoris.
+        product_variant_exists_in_another_wishlist: existe dans une autre liste de favoris.
+        wishlist_name_changed: Le nom de la liste de favoris a été modifié.
+        wishlist_save: Enregistrer la liste de favoris
+        wishlist_saved: La liste de favoris a été enregistrée.
+        you_have_no_access_to_that_wishlist: Vous n'avez pas accès à cette liste de favoris.
+        wishlist_has_product_variant: 'Le produit %productName% est déjà dans votre liste de favoris.'
+        wishlist_modal_copy_title: 'Choisissez la liste vers laquelle les produits seront copiés'
+        wishlist_modal_copy_cancel: 'annuler'
+        wishlist_modal_copy_perform: 'effectuer'
+        wishlist_modal_add_title: 'Choisissez un nom pour votre nouvelle liste de favoris'
+        wishlist_modal_add_perform: 'effectuer'
+        wishlist_modal_add_cancel: 'annuler'
+        wishlist_modal_add_error: 'Veuillez entrer le nom de la liste de favoris.'
+        wishlist_modal_edit_title: 'Choisissez un nouveau nom pour votre liste de favoris'
+        wishlist_modal_edit_error: 'Veuillez entrer le nom de la liste de favoris.'
+        wishlist_modal_edit_perform: 'effectuer'
+        wishlist_modal_edit_cancel: 'annuler'
+        wishlist_modal_remove_title: 'Supprimer la liste de favoris'
+        wishlist_modal_remove_content: 'Êtes-vous sûr ?'
+        wishlist_modal_remove_perform: 'effectuer'
+        wishlist_modal_remove_cancel: 'annuler'
+        wishlist_modal_placeholder: 'Mes listes de favoris...'
