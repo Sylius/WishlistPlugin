@@ -1,0 +1,30 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.wishlist_details.actions':
+            clear_wishlist_button:
+                template: '@SyliusWishlistPlugin/wishlist_details/actions/clear_wishlist_button.html.twig'
+            create_new_wishlist_button:
+                template: '@SyliusWishlistPlugin/wishlist_details/actions/create_new_wishlist_button.html.twig'
+
+
+        'sylius_shop.wishlist_details':
+            collective_actions:
+                template: '@SyliusWishlistPlugin/wishlist_details/collective_actions.html.twig'
+#
+        'sylius_shop.wishlist_details.collective_actions':
+            add_selected_to_cart:
+                template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/add_selected_to_cart.html.twig'
+            remove_selected:
+                template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/remove_selected.html.twig'
+            copy_to_wishlist:
+                template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/copy_to_wishlist.html.twig'
+            export_to_csv:
+                template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/export_to_csv.html.twig'
+            export_to_pdf:
+                template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/export_to_pdf.html.twig'
+            
+        'sylius_shop.wishlist_details.global_actions':
+            add_all_to_cart:
+                template: '@SyliusWishlistPlugin/wishlist_details/global_actions/add_all_to_cart.html.twig'
+            import_from_csv:
+                template: '@SyliusWishlistPlugin/wishlist_details/global_actions/import_from_csv.html.twig'

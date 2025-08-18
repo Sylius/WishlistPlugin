@@ -17,23 +17,7 @@
         {% if wishlists|length > 1 %}
         {% else %}
             <div class="d-flex flex-column flex-lg-row justify-content-between gap-2">
-                {% if wishlist.wishlistProducts.count > 0 %}
-                    <a href="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_clean', {'wishlistId': wishlist.id}) }}"
-                       class="clean-wishlist text-decoration-none d-flex align-items-center">
-                        {{ ux_icon('bx:x') }}{{ 'sylius_wishlist_plugin.ui.clear_wishlist'|trans }}
-                    </a>
-                {% endif %}
-                <button id="create_new_wishlist_button" class="btn btn-primary ms-auto"
-                        data-bb-wishlist-add="add-another-wishlist"
-                        data-bb-wishlist-add-url="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_create_new_wishlist') }}"
-                        data-bb-wishlist-add-title="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_add_title'|trans }}"
-                        data-bb-wishlist-add-perform="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_add_perform'|trans }}"
-                        data-bb-wishlist-add-cancel="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_add_cancel'|trans }}"
-                        data-bb-wishlist-add-error="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_add_error'|trans }}"
-                >
-                    {{ 'sylius_wishlist_plugin.ui.add_another_wishlist'|trans }}
-                </button>
-                <input type="hidden" data-bb-csrf="{{ csrf_token('some-name') }}"/>
+                {% hook 'sylius_shop.wishlist_details.index' with { wishlist: wishlist } %}
             </div>
         {% endif %}
 
@@ -70,8 +54,8 @@
                 {% endfor %}
 
                 <div class="bb-wishlist-actions flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2">
-                    {% include "@SyliusWishlistPlugin/wishlist_details/collective_actions.html.twig" %}
-                    {% include "@SyliusWishlistPlugin/wishlist_details/global_actions.html.twig" %}
+                    {% hook 'sylius_shop.wishlist_details' with { wishlist: wishlist, wishlists: wishlists } %}
+                    {% hook 'sylius_shop.wishlist_details.global_actions' with { form: form, wishlist: wishlist } %}
                 </div>
                 <input type="hidden" data-bb-csrf="{{ csrf_token('some-name') }}"/>
             </div>
@@ -80,13 +64,6 @@
             {{ form_end(form, {'render_rest': false} ) }}
         {% else %}
             {{ messages.info('sylius_wishlist_plugin.ui.your_wishlist_is_empty'|trans) }}
-            <a href="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_import_from_csv') }}">
-                <button type="button"
-                        class="btn btn-outline-secondary" {{ sylius_test_html_attribute('wishlist-import-from-csv') }}>
-                    {{ ux_icon('mdi:import', {'class': 'icon icon-sm'}) }}
-                    {{ 'sylius_wishlist_plugin.ui.import_from_csv'|trans }}
-                </button>
-            </a>
         {% endif %}
     </div>
 {% endblock %}
