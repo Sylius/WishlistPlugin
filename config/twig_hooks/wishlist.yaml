@@ -1,58 +1,77 @@
 sylius_twig_hooks:
     hooks:
-        'sylius_shop.wishlist_details.index':
-            clear_wishlist_button:
-                template: '@SyliusWishlistPlugin/wishlist_details/actions/clear_wishlist_button.html.twig'
-            create_new_wishlist_button:
-                template: '@SyliusWishlistPlugin/wishlist_details/actions/create_new_wishlist_button.html.twig'
-        
-        
         'sylius_shop.wishlist_details':
             collective_actions:
                 template: '@SyliusWishlistPlugin/wishlist_details/collective_actions.html.twig'
-
+                priority: 0
+        
+        'sylius_shop.wishlist_details.index':
+            clear_wishlist_button:
+                template: '@SyliusWishlistPlugin/wishlist_details/actions/clear_wishlist_button.html.twig'
+                priority: 100
+            create_new_wishlist_button:
+                template: '@SyliusWishlistPlugin/wishlist_details/actions/create_new_wishlist_button.html.twig'
+                priority: 0
+        
         'sylius_shop.wishlist_details.collective_actions':
             add_selected_to_cart:
                 template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/add_selected_to_cart.html.twig'
+                priority: 400
             remove_selected:
                 template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/remove_selected.html.twig'
+                priority: 300
             copy_to_wishlist:
                 template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/copy_to_wishlist.html.twig'
+                priority: 200
             export_to_csv:
                 template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/export_to_csv.html.twig'
+                priority: 100
             export_to_pdf:
                 template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/export_to_pdf.html.twig'
+                priority: 0
         
         'sylius_shop.wishlist_details.global_actions':
             add_all_to_cart:
                 template: '@SyliusWishlistPlugin/wishlist_details/global_actions/add_all_to_cart.html.twig'
+                priority: 100
             import_from_csv:
                 template: '@SyliusWishlistPlugin/wishlist_details/global_actions/import_from_csv.html.twig'
+                priority: 0
         
         'sylius_shop.wishlist_details.item':
             data:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item.html.twig'
+                priority: 0
         
         'sylius_shop.wishlist_details.item.data':
             checkbox:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/checkbox.html.twig'
+                priority: 600
             image:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/image.html.twig'
+                priority: 500
             name:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/name.html.twig'
+                priority: 400
             variant:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/variant.html.twig'
+                priority: 300
             variant_price:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/variant_price.html.twig'
+                priority: 200
             quantity:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/quantity.html.twig'
+                priority: 100
             action:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/action.html.twig'
+                priority: 0
         
         'sylius_shop.wishlist_details.item.data.variant_price':
             price:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/price/price.html.twig'
+                priority: 0
         
         'sylius_shop.wishlist_details.item.data.action':
             remove:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/action/remove.html.twig'
+                priority: 0
