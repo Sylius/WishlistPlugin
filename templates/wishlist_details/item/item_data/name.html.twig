@@ -1,0 +1,8 @@
+{% set product = hookable_metadata.context.product %}
+{% set productUrl = hookable_metadata.context.productUrl %}
+
+<div class="bb-wishlist-item-name">
+    <a href="{{ productUrl }}" {{ sylius_test_html_attribute('wishlist-item-name') }}>
+        {{ product.name }}
+    </a>
+</div>

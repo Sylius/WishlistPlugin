@@ -1,0 +1,6 @@
+{% set itemForm = hookable_metadata.context.itemForm %}
+{% set product = hookable_metadata.context.product %}
+
+<div class="bb-wishlist-item-action d-flex justify-content-center align-items-center mt-5">
+    {% hook 'action' %}
+</div>

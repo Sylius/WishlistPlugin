@@ -1,16 +1,16 @@
 sylius_twig_hooks:
     hooks:
-        'sylius_shop.wishlist_details.actions':
+        'sylius_shop.wishlist_details.index':
             clear_wishlist_button:
                 template: '@SyliusWishlistPlugin/wishlist_details/actions/clear_wishlist_button.html.twig'
             create_new_wishlist_button:
                 template: '@SyliusWishlistPlugin/wishlist_details/actions/create_new_wishlist_button.html.twig'
-
-
+        
+        
         'sylius_shop.wishlist_details':
             collective_actions:
                 template: '@SyliusWishlistPlugin/wishlist_details/collective_actions.html.twig'
-#
+
         'sylius_shop.wishlist_details.collective_actions':
             add_selected_to_cart:
                 template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/add_selected_to_cart.html.twig'
@@ -22,9 +22,37 @@ sylius_twig_hooks:
                 template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/export_to_csv.html.twig'
             export_to_pdf:
                 template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/export_to_pdf.html.twig'
-            
+        
         'sylius_shop.wishlist_details.global_actions':
             add_all_to_cart:
                 template: '@SyliusWishlistPlugin/wishlist_details/global_actions/add_all_to_cart.html.twig'
             import_from_csv:
                 template: '@SyliusWishlistPlugin/wishlist_details/global_actions/import_from_csv.html.twig'
+        
+        'sylius_shop.wishlist_details.item':
+            data:
+                template: '@SyliusWishlistPlugin/wishlist_details/item/item.html.twig'
+        
+        'sylius_shop.wishlist_details.item.data':
+            checkbox:
+                template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/checkbox.html.twig'
+            image:
+                template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/image.html.twig'
+            name:
+                template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/name.html.twig'
+            variant:
+                template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/variant.html.twig'
+            variant_price:
+                template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/variant_price.html.twig'
+            quantity:
+                template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/quantity.html.twig'
+            action:
+                template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/action.html.twig'
+        
+        'sylius_shop.wishlist_details.item.data.variant_price':
+            price:
+                template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/price/price.html.twig'
+        
+        'sylius_shop.wishlist_details.item.data.action':
+            remove:
+                template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/action/remove.html.twig'

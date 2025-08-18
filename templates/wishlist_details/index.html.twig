@@ -48,7 +48,7 @@
                 </div>
 
                 {% for itemForm in form.items %}
-                    {% include "@SyliusWishlistPlugin/wishlist_details/item.html.twig" %}
+                    {% hook 'sylius_shop.wishlist_details.item' with { itemForm: itemForm, wishlist: wishlist } %}
                     <input type="hidden" name="wishlist_collection[items][{{ loop.index - 1 }}][variant]"
                            value="{{ itemForm.vars.data.wishlistProduct.variant.id }}"/>
                 {% endfor %}
