@@ -1,0 +1,12 @@
+{% set wishlist = hookable_metadata.context.wishlist %}
+
+{% if wishlist.shopuser is null and app.user is not null %}
+    <a
+            href="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_add_wishlist_to_user', {'id': wishlist.id}) }}"
+            id="wishlist-add-to-user-button-{{ wishlist.name }}"
+            class="btn btn-sm btn-outline-secondary"
+            data-wishlist-name="{{ wishlist.name }}"
+    >
+        {{ 'sylius_wishlist_plugin.ui.wishlist_save'|trans }}
+    </a>
+{% endif %}

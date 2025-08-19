@@ -1,0 +1,22 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.wishlist_group.index':
+            create_new_wishlist_button:
+                template: '@SyliusWishlistPlugin/wishlist_group/actions/create_new_wishlist_button.html.twig'
+                priority: 0
+        
+        'sylius_shop.wishlist_group.item':
+            content:
+                template: '@SyliusWishlistPlugin/wishlist_group/item/item.html.twig'
+                priority: 0
+        
+        'sylius_shop.wishlist_group.item.buttons':
+            add_to_user:
+                template: '@SyliusWishlistPlugin/wishlist_group/item/buttons/add_to_user.html.twig'
+                priority: 200
+            delete:
+                template: '@SyliusWishlistPlugin/wishlist_group/item/buttons/delete.html.twig'
+                priority: 100
+            edit:
+                template: '@SyliusWishlistPlugin/wishlist_group/item/buttons/edit.html.twig'
+                priority: 0

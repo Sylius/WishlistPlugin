@@ -1,0 +1,5 @@
+{% set product = hookable_metadata.context.product %}
+
+<div class="bb-wishlist-item-image">
+    {{ component('sylius_shop:main_image', { product: product }) }}
+</div>

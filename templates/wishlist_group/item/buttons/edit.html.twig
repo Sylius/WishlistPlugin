@@ -1,0 +1,13 @@
+{% set wishlist = hookable_metadata.context.wishlist %}
+<button
+        id="wishlist-edit-button-{{ wishlist.name }}" class="btn btn-sm btn-outline-secondary"
+        {{ sylius_test_html_attribute('wishlist-wishlist-edit') }}
+        data-wishlist-name="{{ wishlist.name }}"
+        data-wishlist-edit-id="{{ wishlist.id }}"
+        data-wishlist-edit-title="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_edit_title'|trans }}"
+        data-wishlist-edit-error="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_edit_error'|trans }}"
+        data-wishlist-edit-perform="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_edit_perform'|trans }}"
+        data-wishlist-edit-cancel="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_edit_cancel'|trans }}"
+>
+    {{ ux_icon('lucide:edit', {'class': 'icon icon-sm'}) }}
+</button>

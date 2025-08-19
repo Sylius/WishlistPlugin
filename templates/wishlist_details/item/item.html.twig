@@ -1,0 +1,13 @@
+{% set itemForm = hookable_metadata.context.itemForm %}
+{% set wishlist = hookable_metadata.context.wishlist %}
+
+{% form_theme itemForm '@SyliusShop/form/theme.html.twig' %}
+
+{% set variant = itemForm.vars.value.wishlistProduct.variant %}
+{% set product = variant.product %}
+{% set productUrl = path('sylius_shop_product_show', { slug: product.slug, _locale: product.translation.locale }) %}
+{% set itemId = "wishlist_item_#{ variant.id }_#{ product.id }" %}
+
+<div id="{{ itemId }}" class="bb-wishlist-item">
+    {% hook 'data' with { itemForm: itemForm, productUrl: productUrl } %}
+</div>
