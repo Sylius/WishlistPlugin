@@ -38,6 +38,28 @@ sylius_twig_hooks:
                 template: '@SyliusWishlistPlugin/wishlist_details/global_actions/import_from_csv.html.twig'
                 priority: 0
         
+        'sylius_shop.wishlist_details.header':
+            content:
+                template: '@SyliusWishlistPlugin/wishlist_details/header/header.html.twig'
+                priority: 0
+            
+        'sylius_shop.wishlist_details.header.columns':
+            checkbox:
+                template: '@SyliusWishlistPlugin/wishlist_details/header/columns/checkbox.html.twig'
+                priority: 400
+            image:
+                template: '@SyliusWishlistPlugin/wishlist_details/header/columns/image.html.twig'
+                priority: 300
+            price:
+                template: '@SyliusWishlistPlugin/wishlist_details/header/columns/price.html.twig'
+                priority: 200
+            quantity:
+                template: '@SyliusWishlistPlugin/wishlist_details/header/columns/quantity.html.twig'
+                priority: 100
+            actions:
+                template: '@SyliusWishlistPlugin/wishlist_details/header/columns/actions.html.twig'
+                priority: 0
+        
         'sylius_shop.wishlist_details.item':
             data:
                 template: '@SyliusWishlistPlugin/wishlist_details/item/item.html.twig'

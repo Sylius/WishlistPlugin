@@ -1,0 +1,7 @@
+{% set product = hookable_metadata.context.product %}
+{% set wishlists = hookable_metadata.context.wishlists %}
+
+<div class="dropdown">
+    {% hook 'toggle' with { product: product } %}
+    {% hook 'items' with { wishlists: wishlists, product: product } %}
+</div>

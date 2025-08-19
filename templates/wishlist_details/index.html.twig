@@ -29,23 +29,7 @@
             {{ form_start(form, { attr: { class: 'bb-wishlist ui form', id: "wishlist_form" } }) }}
 
             <div id="wishlist">
-                <div class="bb-wishlist-item">
-                    <div class="bb-wishlist-item-select">
-                        <input type="checkbox" id="toggle-checkboxes" class="bb-wishlist-item-select-checkbox">
-                    </div>
-                    <div class="bb-wishlist-item-image">
-                        <span>{{ 'sylius.ui.item'|trans }}</span>
-                    </div>
-                    <div class="bb-wishlist-item-price">
-                        <span>{{ 'sylius.ui.unit_price'|trans }}</span>
-                    </div>
-                    <div class="bb-wishlist-item-quantity">
-                        <span>{{ 'sylius.ui.qty'|trans }}</span>
-                    </div>
-                    <div class="bb-wishlist-item-actions">
-                        <span>{{ 'sylius.ui.actions'|trans }}</span>
-                    </div>
-                </div>
+                {% hook 'sylius_shop.wishlist_details.header' %}
 
                 {% for itemForm in form.items %}
                     {% hook 'sylius_shop.wishlist_details.item' with { itemForm: itemForm, wishlist: wishlist } %}
