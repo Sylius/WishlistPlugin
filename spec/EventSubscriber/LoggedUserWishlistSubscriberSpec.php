@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace spec\Sylius\WishlistPlugin\EventSubscriber;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\AdminBundle\SectionResolver\AdminSection;
@@ -23,8 +24,10 @@ use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\EventSubscriber\LoggedUserWishlistSubscriber;
+use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final class LoggedUserWishlistSubscriberSpec extends ObjectBehavior
 {
@@ -32,11 +35,18 @@ final class LoggedUserWishlistSubscriberSpec extends ObjectBehavior
         SectionProviderInterface $uriBasedSectionContext,
         WishlistsResolverInterface $wishlistsResolver,
         EntityManagerInterface $entityManager,
+        WishlistRepositoryInterface $wishlistRepository,
+        RequestStack $requestStack,
     ): void {
+        $requestStack->getMainRequest()->willReturn(null);
+
         $this->beConstructedWith(
             $uriBasedSectionContext,
             $wishlistsResolver,
             $entityManager,
+            $wishlistRepository,
+            $requestStack,
+            'wishlist_token'
         );
     }
 
@@ -83,6 +93,9 @@ final class LoggedUserWishlistSubscriberSpec extends ObjectBehavior
         WishlistInterface $wishlist2,
         ShopUserInterface $shopUser2,
         EntityManagerInterface $entityManager,
+        WishlistRepositoryInterface $wishlistRepository,
+        RequestStack $requestStack,
+        Collection $wishlistProducts2
     ): void {
         $wishlists = [
             $wishlist->getWrappedObject(),
@@ -94,15 +107,24 @@ final class LoggedUserWishlistSubscriberSpec extends ObjectBehavior
         $wishlistsResolver->resolve()->willReturn($wishlists)->shouldBeCalledOnce();
 
         $shopUser->getId()->willReturn(1)->shouldBeCalledOnce();
-
         $wishlist->getShopUser()->willReturn($shopUser2)->shouldBeCalledOnce();
         $shopUser2->getId()->willReturn(15)->shouldBeCalledOnce();
+
         $wishlist->setShopUser($shopUser)->shouldNotBeCalled();
 
         $wishlist2->getShopUser()->willReturn(null)->shouldBeCalledOnce();
+        $wishlist2->getName()->willReturn(null);
+        $wishlistRepository->findOneByShopUserAndName($shopUser, null)->shouldNotBeCalled();
+
+        $wishlistProducts2->count()->willReturn(1)->shouldBeCalledOnce();
+        $wishlist2->getWishlistProducts()->willReturn($wishlistProducts2)->shouldBeCalledOnce();
+
         $wishlist2->setShopUser($shopUser)->shouldBeCalledOnce();
 
         $entityManager->flush()->shouldBeCalledOnce();
+
+        $requestStack->getMainRequest()->willReturn(null)->shouldBeCalled();
+
         $this->onImplicitLogin($event);
     }
 }
