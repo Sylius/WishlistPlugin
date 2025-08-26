@@ -23,9 +23,9 @@ use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 final readonly class LoggedUserWishlistSubscriber implements EventSubscriberInterface
 {
@@ -94,6 +94,7 @@ final readonly class LoggedUserWishlistSubscriber implements EventSubscriberInte
 
             if (null !== $existingWishlist && $existingWishlist->getId() !== $wishlist->getId()) {
                 $this->mergeWishlists($wishlist, $existingWishlist);
+
                 continue;
             }
 

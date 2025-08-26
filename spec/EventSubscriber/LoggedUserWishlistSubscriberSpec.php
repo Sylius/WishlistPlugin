@@ -46,7 +46,7 @@ final class LoggedUserWishlistSubscriberSpec extends ObjectBehavior
             $entityManager,
             $wishlistRepository,
             $requestStack,
-            'wishlist_token'
+            'wishlist_token',
         );
     }
 
@@ -95,7 +95,7 @@ final class LoggedUserWishlistSubscriberSpec extends ObjectBehavior
         EntityManagerInterface $entityManager,
         WishlistRepositoryInterface $wishlistRepository,
         RequestStack $requestStack,
-        Collection $wishlistProducts2
+        Collection $wishlistProducts2,
     ): void {
         $wishlists = [
             $wishlist->getWrappedObject(),
