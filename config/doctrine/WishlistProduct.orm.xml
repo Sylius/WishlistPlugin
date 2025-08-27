@@ -24,7 +24,7 @@
 
         <field name="quantity" column="quantity" type="integer">
             <options>
-                <option name="default">0</option>
+                <option name="default">1</option>
             </options>
         </field>
 
