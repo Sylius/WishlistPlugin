@@ -25,7 +25,7 @@ final class Version20250827052726 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE sylius_wishlist_product ADD quantity INT NOT NULL');
+        $this->addSql('ALTER TABLE sylius_wishlist_product ADD quantity INT NOT NULL DEFAULT 1');
     }
 
     public function down(Schema $schema): void
