@@ -31,6 +31,8 @@ sylius_twig_hooks:
                 priority: 0
         
         'sylius_shop.wishlist_details.global_actions':
+            save_changes:
+                template: '@SyliusWishlistPlugin/wishlist_details/global_actions/save_changes.html.twig'
             add_all_to_cart:
                 template: '@SyliusWishlistPlugin/wishlist_details/global_actions/add_all_to_cart.html.twig'
                 priority: 100

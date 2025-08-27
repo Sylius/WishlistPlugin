@@ -47,6 +47,9 @@ final class WishlistCollectionType extends AbstractType
             ->add('addAll', SubmitType::class, [
                 'label' => 'sylius_wishlist_plugin.ui.add_items_to_cart',
             ])
+            ->add('save', SubmitType::class, [
+                'label' => 'sylius_wishlist_plugin.ui.save_changes',
+            ])
             ->addEventListener(
                 FormEvents::SUBMIT,
                 $this->pickSelectedWishlistItems(...),
@@ -56,11 +59,15 @@ final class WishlistCollectionType extends AbstractType
 
     public function pickSelectedWishlistItems(FormEvent $event): void
     {
-        /** @var FormInterface $submitButton */
-        $submitButton = $event->getForm()->get('addAll');
-        Assert::isInstanceOf($submitButton, SubmitButton::class);
+        /** @var FormInterface $addAllButton */
+        $addAllButton = $event->getForm()->get('addAll');
+        Assert::isInstanceOf($addAllButton, SubmitButton::class);
 
-        if ($submitButton->isClicked()) {
+        /** @var FormInterface $saveButton */
+        $saveButton = $event->getForm()->get('save');
+        Assert::isInstanceOf($saveButton, SubmitButton::class);
+
+        if ($addAllButton->isClicked() || $saveButton->isClicked()) {
             return;
         }
 
