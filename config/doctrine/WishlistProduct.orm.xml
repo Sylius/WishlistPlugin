@@ -22,7 +22,11 @@
             <join-column name="variant_id" referenced-column-name="id" nullable="true" />
         </many-to-one>
 
-        <field name="quantity" column="quantity" type="integer" />
+        <field name="quantity" column="quantity" type="integer">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
 
     </mapped-superclass>
 
