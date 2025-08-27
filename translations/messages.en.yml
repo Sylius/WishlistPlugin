@@ -14,6 +14,8 @@ sylius_wishlist_plugin:
         export_wishlist_to_pdf: Export to PDF
         added_to_cart: Wishlist items have been added to your cart.
         save_wishlist: Save wishlist
+        save_changes: Save changes
+        changes_saved: Changes have been saved.
         variant_not_unique: You already have this variant on your wishlist
         insufficient_stock: '%productName% does not have sufficient stock.'
         increase_quantity: Increase the quantity of at least one item.

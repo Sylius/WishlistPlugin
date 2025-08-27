@@ -200,5 +200,10 @@
             <argument type="service" id="sylius_wishlist_plugin.resolver.token_user_resolver"/>
             <tag name="controller.service_arguments"/>
         </service>
+
+        <service id="sylius_wishlist_plugin.controller.action.update_wishlist_products_quantity" class="Sylius\WishlistPlugin\Controller\Action\UpdateWishlistProductsQuantityAction" parent="sylius_wishlist_plugin.controller.action.base_wishlist_products_action" public="true">
+            <argument type="service" id="sylius_wishlist_plugin.manager.wishlist_product"/>
+            <tag name="controller.service_arguments"/>
+        </service>
     </services>
 </container>

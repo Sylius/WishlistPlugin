@@ -66,7 +66,7 @@ final class AddProductsToCartType extends AbstractType
         $cartItem = $this->cartItemFactory->createForProduct($wishlistProduct->getProduct());
         $cartItem->setVariant($wishlistProduct->getVariant());
 
-        $this->orderItemQuantityModifier->modify($cartItem, 0);
+        $this->orderItemQuantityModifier->modify($cartItem, $wishlistProduct->getQuantity());
 
         return $cartItem;
     }

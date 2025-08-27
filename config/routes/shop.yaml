@@ -30,6 +30,11 @@ wishlist_add_selected_products:
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.add_selected_products_to_cart
 
+wishlist_save_products:
+    path: /wishlist/{wishlistId}/products/save
+    defaults:
+        _controller: sylius_wishlist_plugin.controller.action.update_wishlist_products_quantity
+        
 wishlsit_export_selected_products_to_csv:
     path: /wishlist/{wishlistId}/csv/export
     defaults:
