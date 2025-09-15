@@ -56,15 +56,6 @@
                 id="sylius.wishlist_plugin.twig.component.wishlist_details.items"
                 class="Sylius\WishlistPlugin\Twig\Component\WishlistDetails\WishlistItemsComponent"
         >
-            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist" />
-            <argument type="service" id="sylius.context.cart" />
-            <argument type="service" id="sylius.factory.add_to_cart_command" />
-            <argument type="service" id="sylius.factory.order_item" />
-            <argument type="service" id="sylius.order_item_quantity_modifier" />
-            <argument type="service" id="messenger.default_bus" />
-            <argument type="service" id="request_stack" />
-            <argument type="service" id="router" />
-            <argument type="service" id="translator" />
             <tag name="sylius.live_component.shop" key="sylius_shop:wishlist:items"/>
         </service>
         <service
@@ -79,19 +70,6 @@
             <tag name="sylius.live_component.shop" key="sylius_shop:wishlist:item"/>
         </service>
 
-        <service
-                id="sylius.wishlist_plugin.twig.component.wishlist_details.global_actions.add_all_to_cart"
-                class="Sylius\WishlistPlugin\Twig\Component\WishlistDetails\GlobalActions\AddAllToCartComponent"
-        >
-            <argument type="service" id="sylius.context.cart" />
-            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist" />
-            <argument type="service" id="sylius.wishlist_plugin.processor.wishlist_command" />
-            <argument type="service" id="messenger.default_bus" />
-            <argument type="service" id="request_stack" />
-            <argument type="service" id="router" />
-            <argument type="service" id="translator" />
-
-            <tag name="sylius.live_component.shop" key="sylius_shop:wishlist:add_all_to_cart"/>
-        </service>
+        
     </services>
 </container>

@@ -39,10 +39,7 @@ sylius_twig_hooks:
             save_changes:
                 template: '@SyliusWishlistPlugin/wishlist_details/global_actions/save_changes.html.twig'
             add_all_to_cart:
-                component: 'sylius_shop:wishlist:add_all_to_cart'
-                props:
-                    template: '@SyliusWishlistPlugin/wishlist_details/global_actions/add_all_to_cart.html.twig'
-                    wishlistId: '@=_context.wishlist.getId()'
+                template: '@SyliusWishlistPlugin/wishlist_details/global_actions/add_all_to_cart.html.twig'
                 priority: 100
             import_from_csv:
                 template: '@SyliusWishlistPlugin/wishlist_details/global_actions/import_from_csv.html.twig'
