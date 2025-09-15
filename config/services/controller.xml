@@ -65,14 +65,7 @@
             <tag name="controller.service_arguments"/>
         </service>
 
-        <service id="sylius_wishlist_plugin.controller.action.clean_wishlist" class="Sylius\WishlistPlugin\Controller\Action\CleanWishlistAction">
-            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
-            <argument type="service" id="sylius_wishlist_plugin.manager.wishlist_product"/>
-            <argument type="service" id="request_stack"/>
-            <argument type="service" id="translator"/>
-            <argument type="service" id="router"/>
-            <tag name="controller.service_arguments"/>
-        </service>
+        <!-- removed: clean wishlist handled by LiveComponent -->
 
         <service id="sylius_wishlist_plugin.controller.action.add_product_variant_to_wishlist" class="Sylius\WishlistPlugin\Controller\Action\AddProductVariantToWishlistAction">
             <argument type="service" id="sylius.repository.product_variant"/>
@@ -134,9 +127,7 @@
             <tag name="controller.service_arguments"/>
         </service>
 
-        <service id="sylius_wishlist_plugin.controller.action.add_products_to_wishlist" class="Sylius\WishlistPlugin\Controller\Action\AddProductsToCartAction" parent="sylius_wishlist_plugin.controller.action.base_wishlist_products_action" public="true">
-            <tag name="controller.service_arguments"/>
-        </service>
+        <!-- removed: handled by LiveComponent AddAllToCartComponent -->
 
         <service id="sylius_wishlist_plugin.controller.action.export_wishlist_to_pdf_action" class="Sylius\WishlistPlugin\Controller\Action\ExportWishlistToPdfAction" parent="sylius_wishlist_plugin.controller.action.base_wishlist_products_action" public="true">
             <tag name="controller.service_arguments"/>
@@ -205,5 +196,7 @@
             <argument type="service" id="sylius_wishlist_plugin.manager.wishlist_product"/>
             <tag name="controller.service_arguments"/>
         </service>
+        <!-- Override and disable removed controller service to avoid missing class error -->
+        <service id="sylius_wishlist_plugin.controller.action.add_selected_products_to_cart" abstract="true" public="false" />
     </services>
 </container>

@@ -1,3 +1,8 @@
 <div class="bb-wishlist-item-select">
-    <input type="checkbox" id="toggle-checkboxes" class="bb-wishlist-item-select-checkbox">
+    <input
+        type="checkbox"
+        id="toggle-checkboxes"
+        class="bb-wishlist-item-select-checkbox"
+        onclick="(function(cb){try{var boxes=document.querySelectorAll('input[type=checkbox][name^=\'wishlist_collection[items]\'][name$=\'[selected]\']');boxes.forEach(function(b){if(!b.disabled){b.checked=cb.checked;}});}catch(e){console.error(e);}})(this)"
+    >
     </div>

@@ -57,3 +57,4 @@ final class AddSelectedProductsToCartAction extends BaseWishlistProductsAction
         return $exception->getMessage();
     }
 }
+

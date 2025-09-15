@@ -4,11 +4,7 @@ wishlist_list_products:
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.list_wishlist_products
 
-wishlist_add_products:
-    path: /wishlist/{wishlistId}/products
-    methods: [POST]
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.add_products_to_wishlist
+## removed: add all to cart now handled by LiveComponent
 
 wishlist_add_product:
     path: /wishlist/add/{productId}
@@ -60,10 +56,7 @@ wishlist_export_to_pdf:
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.export_wishlist_to_pdf_action
 
-wishlist_clean:
-    path: /wishlist/clear/{wishlistId}
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.clean_wishlist
+## removed: clean wishlist now handled by LiveComponent
 
 wishlist_list_wishlists:
     path: /wishlists
