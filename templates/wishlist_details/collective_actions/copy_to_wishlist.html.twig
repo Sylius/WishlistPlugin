@@ -1,25 +1,50 @@
-{% set wishlist = hookable_metadata.context.wishlist %}
 {% set wishlists = hookable_metadata.context.wishlists %}
+
+<div {{ attributes }}>
 {% set btn_class = 'btn btn-icon btn-outline-secondary text-nowrap w-100 justify-content-start' %}
 
 <li class="mb-3">
     <button type="button"
-            class="{{ btn_class }}" {{ sylius_test_html_attribute('wishlist-copy-to-wishlist') }}
-            data-bb-wl-list-modal-target="choose-wishlist-button"
-            data-bb-wl-list-modal-title="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_copy_title'|trans }}"
-            data-bb-wl-list-modal-perform="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_copy_perform'|trans }}"
-            data-bb-wl-list-modal-cancel="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_copy_cancel'|trans }}"
-            data-bb-wl-list-modal-placeholder="{{ 'sylius_wishlist_plugin.ui.wishlist_modal_placeholder'|trans }}"
-    >
+            class="{{ btn_class }}"
+            {{ sylius_test_html_attribute('wishlist-copy-to-wishlist') }}
+            data-action="live#action" data-live-action-param="openModal">
         {{ ux_icon('mingcute:copy-fill', {'class': 'icon icon-sm'}) }}
         {{ 'sylius_wishlist_plugin.ui.copy_to_wishlist'|trans }}
     </button>
-</li>
-<input type="hidden" data-bb-current-wishlist-id="{{ wishlist.id }}">
+    </li>
 
-{% for wishlistTarget in wishlists %}
-    {% if wishlist.id != wishlistTarget.id %}
-        <input type="hidden" data-bb-wishlists="{{ wishlistTarget.name }}"
-               data-bb-wishlists-id="{{ wishlistTarget.id }}">
-    {% endif %}
-{% endfor %}
+{% if this.showModal %}
+    <form class="copy-confirmation-modal">
+        <header class="copy-confirmation-modal__header">
+            <h2 class="copy-confirmation-modal__header--title">
+                {{ 'sylius_wishlist_plugin.ui.wishlist_modal_copy_title'|trans }}
+            </h2>
+        </header>
+        <section class="copy-confirmation-modal__body">
+            <select class="form-select" data-model="selectedId">
+                <option selected disabled>{{ 'sylius_wishlist_plugin.ui.wishlist_modal_placeholder'|trans }}</option>
+                {% for wl in wishlists %}
+                    {% if wl.id != props.wishlistId %}
+                        <option value="{{ wl.id }}">{{ wl.name ?? wl.getName() }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </section>
+        <section class="copy-confirmation-modal__confirm">
+            <button type="button" class="copy-confirmation-modal__confirm--cancel"
+                    data-action="live#action" data-live-action-param="closeModal">
+                {{ 'sylius_wishlist_plugin.ui.wishlist_modal_copy_cancel'|trans }}
+            </button>
+            <button type="submit"
+                    class="copy-confirmation-modal__confirm--perform"
+                    form="wishlist_form"
+                    {% if this.selectedId is not null %}
+                        formaction="{{ path('wishlist_copy_selected_products_to_other_wishlist', { wishlistId: props.wishlistId, destinedWishlistId: this.selectedId }) }}"
+                    {% endif %}
+            >
+                {{ 'sylius_wishlist_plugin.ui.wishlist_modal_copy_perform'|trans }}
+            </button>
+        </section>
+    </form>
+{% endif %}
+</div>

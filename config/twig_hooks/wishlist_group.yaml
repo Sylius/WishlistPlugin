@@ -2,12 +2,19 @@ sylius_twig_hooks:
     hooks:
         'sylius_shop.wishlist_group.index':
             create_new_wishlist_button:
-                template: '@SyliusWishlistPlugin/wishlist_group/actions/create_new_wishlist_button.html.twig'
+                component: 'sylius_shop:wishlist:create_new_wishlist_button'
+                props:
+                    template: '@SyliusWishlistPlugin/wishlist_group/actions/create_new_wishlist_button.html.twig'
                 priority: 0
         
         'sylius_shop.wishlist_group.item':
             content:
-                template: '@SyliusWishlistPlugin/wishlist_group/item/item.html.twig'
+                component: 'sylius_shop:wishlist:item'
+                props:
+                    template: '@SyliusWishlistPlugin/wishlist_group/item/item_component.html.twig'
+                    wishlistId: '@=_context.wishlist.getId()'
+                    name: '@=_context.wishlist.getName()'
+                    isLast: '@=_context.is_last'
                 priority: 0
         
         'sylius_shop.wishlist_group.item.buttons':
@@ -15,8 +22,16 @@ sylius_twig_hooks:
                 template: '@SyliusWishlistPlugin/wishlist_group/item/buttons/add_to_user.html.twig'
                 priority: 200
             delete:
-                template: '@SyliusWishlistPlugin/wishlist_group/item/buttons/delete.html.twig'
+                component: 'sylius_shop:wishlist:remove_wishlist_button'
+                props:
+                    template: '@SyliusWishlistPlugin/wishlist_group/item/buttons/delete.html.twig'
+                    wishlistId: '@=_context.wishlist.getId()'
+                    wishlistName: '@=_context.wishlist.getName()'
                 priority: 100
             edit:
-                template: '@SyliusWishlistPlugin/wishlist_group/item/buttons/edit.html.twig'
+                component: 'sylius_shop:wishlist:edit_wishlist_button'
+                props:
+                    template: '@SyliusWishlistPlugin/wishlist_group/item/buttons/edit.html.twig'
+                    wishlistId: '@=_context.wishlist.getId()'
+                    currentName: '@=_context.wishlist.getName()'
                 priority: 0

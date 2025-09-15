@@ -3,9 +3,9 @@
 {% set btn_class = 'btn btn-icon btn-outline-secondary text-nowrap w-100 justify-content-start' %}
 
 <li class="mb-3">
-    <button type="submit"
+    <button type="button"
             class="{{ btn_class }}" {{ sylius_test_html_attribute('wishlist-add-selected-to-cart') }}
-            formaction="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_add_selected_products', { wishlistId: wishlist.id }) }}">
+            data-action="live#action:prevent" data-live-action-param="addSelected">
         {{ ux_icon('mdi:cart', {'class': 'icon icon-sm'}) }}
         {{ 'sylius_wishlist_plugin.ui.add_to_cart'|trans }}
     </button>

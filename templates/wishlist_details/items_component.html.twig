@@ -1,0 +1,21 @@
+{# Rendered with \Sylius\WishlistPlugin\Twig\Component\WishlistDetails\WishlistItemsComponent #}
+
+<div {{ attributes }}>
+    <div id="wishlist">
+        {% hook 'sylius_shop.wishlist_details.header' %}
+
+        {% for itemForm in props.form.items %}
+            {% hook 'sylius_shop.wishlist_details.item' with { itemForm: itemForm, wishlist: props.wishlist, index: loop.index0 } %}
+            <input type="hidden" name="wishlist_collection[items][{{ loop.index - 1 }}][variant]"
+                   value="{{ itemForm.vars.data.wishlistProduct.variant.id }}"/>
+        {% endfor %}
+
+        <div class="bb-wishlist-actions flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2">
+            {% if props.wishlists is defined %}
+                {% hook 'sylius_shop.wishlist_details' with { wishlist: props.wishlist, wishlists: props.wishlists } %}
+            {% else %}
+                {% hook 'sylius_shop.wishlist_details' with { wishlist: props.wishlist } %}
+            {% endif %}
+        </div>
+    </div>
+</div>
