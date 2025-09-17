@@ -1,0 +1,40 @@
+{# Rendered with Sylius\WishlistPlugin\Twig\Component\WishlistDetails\GlobalActions\ImportFromCsvComponent #}
+
+<div {{ attributes }}>
+    <button type="button" class="btn btn-icon btn-outline-secondary w-100"
+            data-action="live#action" data-live-action-param="openModal"
+            {{ sylius_test_html_attribute('wishlist-import-from-csv') }}>
+        {{ ux_icon('mdi:import', {'class': 'icon icon-sm'}) }}
+        {{ 'sylius_wishlist_plugin.ui.import_from_csv'|trans }}
+    </button>
+
+    {% if this.showModal %}
+        <form class="wishlist-confirmation-modal" enctype="multipart/form-data">
+            <header class="wishlist-confirmation-modal__header">
+                <h2 class="wishlist-confirmation-modal__header--title">
+                    {{ 'sylius_wishlist_plugin.ui.import_from_csv'|trans }}
+                </h2>
+            </header>
+            <section class="wishlist-confirmation-modal__body">
+                <input type="file" name="wishlist_file" accept=".csv" class="form-control mb-2" />
+                <select class="form-select" data-model="selectedWishlistId">
+                    <option selected disabled>{{ 'sylius_wishlist_plugin.ui.wishlist_modal_placeholder'|trans }}</option>
+                    {% for wl in this.wishlists %}
+                        <option value="{{ wl.id }}">{{ wl.name }}</option>
+                    {% endfor %}
+                </select>
+            </section>
+            <section class="wishlist-confirmation-modal__confirm">
+                <button type="button" class="wishlist-confirmation-modal__confirm--cancel"
+                        data-action="live#action" data-live-action-param="closeModal">
+                    {{ 'sylius_wishlist_plugin.ui.cancel'|trans }}
+                </button>
+                <button type="button" class="wishlist-confirmation-modal__confirm--perform"
+                        data-action="live#action:prevent" data-live-action-param="import">
+                    {{ 'sylius_wishlist_plugin.ui.import'|trans }}
+                </button>
+            </section>
+        </form>
+    {% endif %}
+</div>
+

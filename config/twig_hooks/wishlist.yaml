@@ -13,28 +13,33 @@ sylius_twig_hooks:
                 priority: 0
         
         'sylius_shop.wishlist_details.collective_actions':
-            add_selected_to_cart:
-                template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/add_selected_to_cart.html.twig'
-                priority: 400
-            remove_selected:
-                template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/remove_selected.html.twig'
-                priority: 300
+            bulk_live:
+                component: 'sylius_shop:wishlist:bulk_actions'
+                props:
+                    template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/bulk_actions_component.html.twig'
+                    wishlistId: '@=_context.wishlist.getId()'
+                priority: 350
+            export_actions:
+                component: 'sylius_shop:wishlist:export_actions'
+                props:
+                    template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/export_to_csv.html.twig'
+                    wishlistId: '@=_context.wishlist.getId()'
+                    wishlistName: '@=_context.wishlist.getName()'
+                priority: 150
             copy_to_wishlist:
                 component: 'sylius_shop:wishlist:copy_to_wishlist'
                 props:
                     template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/copy_to_wishlist.html.twig'
                     wishlistId: '@=_context.wishlist.getId()'
                 priority: 200
-            export_to_csv:
-                template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/export_to_csv.html.twig'
-                priority: 100
-            export_to_pdf:
-                template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/export_to_pdf.html.twig'
-                priority: 0
+            # export buttons rendered by export_actions LiveComponent
         
         'sylius_shop.wishlist_details.global_actions':
             save_changes:
-                template: '@SyliusWishlistPlugin/wishlist_details/global_actions/save_changes.html.twig'
+                component: 'sylius_shop:wishlist:save_changes'
+                props:
+                    template: '@SyliusWishlistPlugin/wishlist_details/global_actions/save_changes.html.twig'
+                    wishlistId: '@=_context.wishlist.getId()'
             clear_wishlist_button:
                 component: 'sylius_shop:wishlist:clear_wishlist_button'
                 props:
@@ -48,7 +53,9 @@ sylius_twig_hooks:
                     wishlistId: '@=_context.wishlist.getId()'
                 priority: 100
             import_from_csv:
-                template: '@SyliusWishlistPlugin/wishlist_details/global_actions/import_from_csv.html.twig'
+                component: 'sylius_shop:wishlist:import_from_csv'
+                props:
+                    template: '@SyliusWishlistPlugin/wishlist_details/global_actions/import_from_csv_component.html.twig'
                 priority: 0
         
         'sylius_shop.wishlist_details.header':
@@ -108,5 +115,17 @@ sylius_twig_hooks:
         
         'sylius_shop.wishlist_details.item.data.action':
             remove:
-                template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/action/remove.html.twig'
+                component: 'sylius_shop:wishlist:item_remove_button'
+                props:
+                    template: '@SyliusWishlistPlugin/wishlist_details/item/item_data/action/remove.html.twig'
+                    wishlistId: '@=_context.wishlist.getId()'
+                    variantId: '@=_context.variant.getId()'
                 priority: 0
+
+        'sylius_shop.common.add_to_wishlist':
+            single:
+                component: 'sylius_shop:wishlist:add_to_wishlist_button'
+                props:
+                    template: '@SyliusWishlistPlugin/common/add_to_wishlist/single.html.twig'
+                    productId: '@=_context.product.getId()'
+                priority: 100

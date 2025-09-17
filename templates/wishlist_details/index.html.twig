@@ -27,6 +27,7 @@
             <div class="my-3"></div>
 
             {{ form_start(form, { attr: { class: 'bb-wishlist ui form', id: "wishlist_form" } }) }}
+            <input type="hidden" id="wishlist_selected_indices" value="[]">
 
             <div id="wishlist">
                 {% hook 'sylius_shop.wishlist_details.header' %}
@@ -44,6 +45,19 @@
             </div>
 
             {{ form_row(form._token) }}
+            <script>
+            (function(){
+              function collect(){
+                try{
+                  var boxes=document.querySelectorAll("input[type=checkbox][name^='wishlist_collection[items]'][name$='[selected]']");
+                  var sel=[]; boxes.forEach(function(b){ if(b.checked){ var m=b.name.match(/items\]\[(\d+)\]\[selected\]/); if(m){ sel.push(parseInt(m[1])); } } });
+                  var el=document.getElementById('wishlist_selected_indices'); if(el){ el.value=JSON.stringify(sel); }
+                }catch(e){ console.error(e); }
+              }
+              document.addEventListener('change', function(ev){ var t=ev.target; if(t && t.matches && t.matches("input[type=checkbox][name^='wishlist_collection[items]'][name$='[selected]']")){ collect(); } });
+              if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', collect); } else { collect(); }
+            })();
+            </script>
             {{ form_end(form, {'render_rest': false} ) }}
         {% else %}
             {{ messages.info('sylius_wishlist_plugin.ui.your_wishlist_is_empty'|trans) }}

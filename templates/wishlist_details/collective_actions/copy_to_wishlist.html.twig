@@ -1,12 +1,14 @@
-{% set wishlists = hookable_metadata.context.wishlists %}
+{% set wishlists = this.wishlists %}
 
 <div {{ attributes }}>
+<input type="hidden" id="copy_preselected_holder" data-model="preselected" />
 {% set btn_class = 'btn btn-icon btn-outline-secondary text-nowrap w-100 justify-content-start' %}
 
 <li class="mb-3">
     <button type="button"
             class="{{ btn_class }}"
             {{ sylius_test_html_attribute('wishlist-copy-to-wishlist') }}
+            onclick="(function(btn){try{var json=(document.getElementById('wishlist_selected_indices')||{value:'[]'}).value; var indices=[]; try{indices=JSON.parse(json)||[];}catch(_){} var ids=[]; indices.forEach(function(idx){ var hid=document.querySelector('input[name=\'wishlist_collection[items]['+idx+'][variant]\']'); if(hid){ ids.push(parseInt(hid.value)); } }); btn.setAttribute('data-live-param-selection-value', JSON.stringify(ids)); var root=btn.closest('[data-controller]'); if(root){ var el=root.querySelector('#copy_preselected_holder'); if(el){ el.value=JSON.stringify(ids); el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true})); } }}catch(e){console.error(e);}})(this)"
             data-action="live#action" data-live-action-param="openModal">
         {{ ux_icon('mingcute:copy-fill', {'class': 'icon icon-sm'}) }}
         {{ 'sylius_wishlist_plugin.ui.copy_to_wishlist'|trans }}
@@ -24,8 +26,8 @@
             <select class="form-select" data-model="selectedId">
                 <option selected disabled>{{ 'sylius_wishlist_plugin.ui.wishlist_modal_placeholder'|trans }}</option>
                 {% for wl in wishlists %}
-                    {% if wl.id != props.wishlistId %}
-                        <option value="{{ wl.id }}">{{ wl.name ?? wl.getName() }}</option>
+                    {% if wl.id != this.wishlistId %}
+                        <option value="{{ wl.id }}">{{ wl.name }}</option>
                     {% endif %}
                 {% endfor %}
             </select>
@@ -35,13 +37,9 @@
                     data-action="live#action" data-live-action-param="closeModal">
                 {{ 'sylius_wishlist_plugin.ui.wishlist_modal_copy_cancel'|trans }}
             </button>
-            <button type="submit"
+            <button type="button" id="copy_perform_btn"
                     class="copy-confirmation-modal__confirm--perform"
-                    form="wishlist_form"
-                    {% if this.selectedId is not null %}
-                        formaction="{{ path('wishlist_copy_selected_products_to_other_wishlist', { wishlistId: props.wishlistId, destinedWishlistId: this.selectedId }) }}"
-                    {% endif %}
-            >
+                    data-action="live#action:prevent" data-live-action-param="copy">
                 {{ 'sylius_wishlist_plugin.ui.wishlist_modal_copy_perform'|trans }}
             </button>
         </section>

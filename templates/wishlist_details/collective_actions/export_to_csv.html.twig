@@ -1,12 +1,25 @@
 {% set wishlist = hookable_metadata.context.wishlist %}
-{% set wishlists = hookable_metadata.context.wishlists %}
 {% set btn_class = 'btn btn-icon btn-outline-secondary text-nowrap w-100 justify-content-start' %}
 
-<li class="mb-3">
-    <button type="submit"
+<li class="mb-3" {{ attributes }}>
+    <input type="hidden" data-model="selection" id="export_csv_selection_holder" />
+    <input type="hidden" data-model="wishlistName" value="{{ wishlist.name }}" />
+    <button type="button"
             class="{{ btn_class }}" {{ sylius_test_html_attribute('wishlist-export-to-csv') }}
-            formaction="{{ path('sylius_wishlist_plugin_shop_locale_wishlsit_export_selected_products_to_csv', { wishlistId: wishlist.id }) }}">
+            onmousedown="(function(root){try{var json=(document.getElementById('wishlist_selected_indices')||{value:'[]'}).value; var el=root.querySelector('#export_csv_selection_holder'); el.value=json; el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true}));}catch(e){console.error(e);}})(this.closest('[data-controller]'))"
+            data-action="live#action:prevent" data-live-action-param="exportCsv">
         {{ ux_icon('mingcute:copy-fill', {'class': 'icon icon-sm'}) }}
         {{ 'sylius_wishlist_plugin.ui.export_to_csv'|trans }}
+    </button>
+</li>
+
+<li {{ attributes }}>
+    <input type="hidden" data-model="selection" id="export_pdf_selection_holder" />
+    <button type="button"
+            class="{{ btn_class }}" {{ sylius_test_html_attribute('wishlist-export-to-pdf-from-wishlist') }}
+            onmousedown="(function(root){try{var json=(document.getElementById('wishlist_selected_indices')||{value:'[]'}).value; var el=root.querySelector('#export_pdf_selection_holder'); el.value=json; el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true}));}catch(e){console.error(e);}})(this.closest('[data-controller]'))"
+            data-action="live#action:prevent" data-live-action-param="exportPdf">
+        {{ ux_icon('material-symbols:download', {'class': 'icon icon-sm'}) }}
+        {{ 'sylius_wishlist_plugin.ui.export_wishlist_to_pdf'|trans }}
     </button>
 </li>
