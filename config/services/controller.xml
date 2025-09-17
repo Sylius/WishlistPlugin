@@ -60,7 +60,42 @@
         <!-- removed: remove product variant handled by LiveComponent -->
         <!-- removed: remove selected handled by LiveComponent -->
         <!-- removed: add selected handled by LiveComponent -->
-        <!-- removed: export selected to CSV handled by LiveComponent -->
+        <!-- export selected to CSV handled by dedicated controller for proper file download -->
+        <service id="sylius_wishlist_plugin.controller.action.export_selected_to_csv" class="Sylius\WishlistPlugin\Controller\Action\ExportSelectedToCsvAction">
+            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
+            <argument type="service" id="sylius.context.cart"/>
+            <argument type="service" id="sylius.factory.add_to_cart_command"/>
+            <argument type="service" id="sylius.factory.cart_item"/>
+            <argument type="service" id="sylius.modifier.order_item_quantity"/>
+            <argument type="service" id="messenger.default_bus"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="translator"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="sylius_wishlist_plugin.controller.action.export_selected_products_to_csv" class="Sylius\WishlistPlugin\Controller\Action\ExportSelectedProductsToCsvAction">
+            <argument type="service" id="sylius.context.cart"/>
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="sylius_wishlist_plugin.processor.wishlist_command_processor"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
+            <argument type="service" id="messenger.default_bus"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="sylius_wishlist_plugin.controller.action.export_wishlist_to_pdf" class="Sylius\WishlistPlugin\Controller\Action\ExportWishlistToPdfAction">
+            <argument type="service" id="sylius.context.cart"/>
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="sylius_wishlist_plugin.processor.wishlist_command_processor"/>
+            <argument type="service" id="messenger.default_bus"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
+            <argument type="service" id="translator"/>
+            <tag name="controller.service_arguments"/>
+        </service>
         <!-- removed: import from CSV handled by LiveComponent -->
 
         <service id="sylius_wishlist_plugin.controller.action.list_wishlist_products" class="Sylius\WishlistPlugin\Controller\Action\ListWishlistProductsAction">

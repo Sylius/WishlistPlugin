@@ -37,6 +37,16 @@ class DomPdfFactory implements DomPdfFactoryInterface
         $domPdf = $this->createNew();
         $domPdf->setOptions($pdfOptions);
 
+        // Allow fetching remote assets even with self-signed/invalid SSL in non-prod setups
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true,
+            ],
+        ]);
+        $domPdf->setHttpContext($context);
+
         return $domPdf;
     }
 }

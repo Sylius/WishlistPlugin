@@ -18,6 +18,30 @@ wishlist_list_products:
         
 ## removed: export selected to CSV handled by LiveComponent
 
+wishlist_export_selected_to_csv:
+    path: /wishlists/{wishlistId}/export-csv
+    methods: [POST]
+    defaults:
+        _controller: sylius_wishlist_plugin.controller.action.export_selected_to_csv
+        _sylius:
+            csrf_protection: false
+
+wishlist_export_selected_products_to_csv:
+    path: /wishlists/{wishlistId}/export-selected-csv
+    methods: [POST]
+    defaults:
+        _controller: sylius_wishlist_plugin.controller.action.export_selected_products_to_csv
+        _sylius:
+            csrf_protection: false
+
+wishlist_export_to_pdf:
+    path: /wishlists/{wishlistId}/export-pdf
+    methods: [POST]
+    defaults:
+        _controller: sylius_wishlist_plugin.controller.action.export_wishlist_to_pdf
+        _sylius:
+            csrf_protection: false
+
 ## removed: import from CSV handled by LiveComponent
 
 ## removed: remove variant handled by LiveComponent
