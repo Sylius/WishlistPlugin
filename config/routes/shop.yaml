@@ -42,6 +42,12 @@ wishlist_export_to_pdf:
         _sylius:
             csrf_protection: false
 
+wishlist_import_from_csv:
+    path: /wishlists/import-from-csv
+    methods: [GET, POST]
+    defaults:
+        _controller: sylius_wishlist_plugin.controller.action.import_wishlist_from_csv
+
 ## removed: import from CSV handled by LiveComponent
 
 ## removed: remove variant handled by LiveComponent
