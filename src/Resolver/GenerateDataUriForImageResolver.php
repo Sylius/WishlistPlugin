@@ -32,7 +32,6 @@ final readonly class GenerateDataUriForImageResolver implements GenerateDataUriF
         Assert::notNull($image->getPath());
         $pathToReadFile = $this->package->getUrl($image->getPath());
         $targetUrl = $this->filterService->getUrlOfFilteredImage($pathToReadFile, $this->imageFilterName);
-        // Handle self-signed/invalid SSL certs in dev by disabling verification for this read
         $context = stream_context_create([
             'ssl' => [
                 'verify_peer' => false,

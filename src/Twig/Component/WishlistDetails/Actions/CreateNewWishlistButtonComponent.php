@@ -65,7 +65,6 @@ final class CreateNewWishlistButtonComponent
         $wishlistName = trim($this->name);
 
         if ($wishlistName === '') {
-            // Keep modal open; template shows inline validation when empty.
             return null;
         }
 
@@ -98,7 +97,6 @@ final class CreateNewWishlistButtonComponent
             $session = $this->requestStack->getSession();
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_name_already_exists'));
 
-            // Keep modal open on failure; error flashed by session
             return null;
         }
     }

@@ -32,7 +32,7 @@ sylius_twig_hooks:
                     template: '@SyliusWishlistPlugin/wishlist_details/collective_actions/copy_to_wishlist.html.twig'
                     wishlistId: '@=_context.wishlist.getId()'
                 priority: 200
-            # export buttons rendered by export_actions LiveComponent
+            
         
         'sylius_shop.wishlist_details.global_actions':
             save_changes:

@@ -42,7 +42,6 @@ final class BulkActionsComponent
     #[LiveProp]
     public int $wishlistId;
 
-    // JSON-encoded array of selected indices, set from the template before triggering action
     #[LiveProp(writable: true)]
     public string $selection = '[]';
 

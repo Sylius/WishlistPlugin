@@ -72,7 +72,6 @@ final readonly class ExportSelectedToCsvAction
         $tmpPath = tempnam(sys_get_temp_dir(), 'wishlist_csv_') ?: (sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('wishlist_csv_', true));
         $file = new \SplFileObject($tmpPath, 'w+');
 
-        // Synchronously generate the CSV via message bus and retrieve handler result
         $envelope = $this->messageBus->dispatch(new ExportWishlistToCsv($selected, $file));
         $handled = $envelope->last(HandledStamp::class);
         if ($handled instanceof HandledStamp && $handled->getResult() instanceof \SplFileObject) {

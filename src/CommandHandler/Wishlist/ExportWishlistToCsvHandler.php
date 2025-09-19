@@ -67,7 +67,6 @@ final readonly class ExportWishlistToCsvHandler
             $wishlistProduct = $wishlistItem->getWishlistProduct();
             Assert::notNull($wishlistProduct);
 
-            // Write values strictly in the same order as CSV_HEADERS
             $row = [
                 $variant->getId(),
                 $wishlistProduct->getProduct()->getId(),

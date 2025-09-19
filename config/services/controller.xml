@@ -43,10 +43,7 @@
         <service id="sylius_wishlist_plugin.controller.action.render_header_template" class="Sylius\WishlistPlugin\Controller\Action\RenderHeaderTemplateAction" parent="sylius_wishlist_plugin.controller.action.base_wishlists_listing_action">
             <tag name="controller.service_arguments"/>
         </service>
-        <!-- removed: add product to wishlist handled by LiveComponent -->
-        <!-- TODO: remove remove_product_from_wishlist after migrating to Live -->
-
-        <!-- removed: clean wishlist handled by LiveComponent -->
+        
 
         <service id="sylius_wishlist_plugin.controller.action.add_product_variant_to_wishlist" class="Sylius\WishlistPlugin\Controller\Action\AddProductVariantToWishlistAction">
             <argument type="service" id="sylius.repository.product_variant"/>
@@ -57,10 +54,7 @@
             <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
             <tag name="controller.service_arguments"/>
         </service>
-        <!-- removed: remove product variant handled by LiveComponent -->
-        <!-- removed: remove selected handled by LiveComponent -->
-        <!-- removed: add selected handled by LiveComponent -->
-        <!-- export selected to CSV handled by dedicated controller for proper file download -->
+        
         <service id="sylius_wishlist_plugin.controller.action.export_selected_to_csv" class="Sylius\WishlistPlugin\Controller\Action\ExportSelectedToCsvAction">
             <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
             <argument type="service" id="sylius.context.cart"/>
@@ -105,7 +99,7 @@
             <argument type="service" id="translator"/>
             <tag name="controller.service_arguments"/>
         </service>
-        <!-- removed: import from CSV handled by LiveComponent -->
+        
 
         <service id="sylius_wishlist_plugin.controller.action.list_wishlist_products" class="Sylius\WishlistPlugin\Controller\Action\ListWishlistProductsAction">
             <argument type="service" id="sylius.context.cart"/>
@@ -118,9 +112,7 @@
             <tag name="controller.service_arguments"/>
         </service>
 
-        <!-- removed: handled by LiveComponent AddAllToCartComponent -->
-        <!-- removed: export wishlist to PDF handled by LiveComponent -->
-        <!-- removed: create new wishlist handled by LiveComponent -->
+        
 
         <service id="sylius_wishlist_plugin.controller.action.show_chosen_wishlist" class="Sylius\WishlistPlugin\Controller\Action\ShowChosenWishlistAction">
             <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
@@ -134,12 +126,7 @@
             <argument type="service" id="sylius_wishlist_plugin.resolver.token_user_resolver"/>
             <tag name="controller.service_arguments"/>
         </service>
-        <!-- removed: add product to selected wishlist handled by LiveComponent -->
-        <!-- removed: copy selected handled by LiveComponent -->
-        <!-- removed: update wishlist name handled by LiveComponent -->
-        <!-- removed: add wishlist to user handled by LiveComponent -->
-        <!-- removed: save products handled by LiveComponent -->
-        <!-- Override and disable removed controller service to avoid missing class error -->
+        
         <service id="sylius_wishlist_plugin.controller.action.add_selected_products_to_cart" abstract="true" public="false" />
     </services>
 </container>

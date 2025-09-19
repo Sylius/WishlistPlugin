@@ -4,20 +4,7 @@ wishlist_list_products:
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.list_wishlist_products
 
-## removed: add all to cart now handled by LiveComponent
-
-## removed: add product handled by LiveComponent
-
-## removed: remove by product handled by LiveComponent
-
-## removed: remove selected handled by LiveComponent
-
-## removed: add selected handled by LiveComponent
-
-## removed: save products handled by LiveComponent
         
-## removed: export selected to CSV handled by LiveComponent
-
 wishlist_export_selected_to_csv:
     path: /wishlists/{wishlistId}/export-csv
     methods: [POST]
@@ -48,25 +35,18 @@ wishlist_import_from_csv:
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.import_wishlist_from_csv
 
-## removed: import from CSV handled by LiveComponent
-
-## removed: remove variant handled by LiveComponent
 
 wishlist_render_header_template:
     path: /wishlist/header-template
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.render_header_template
 
-## removed: export to PDF handled by LiveComponent
-
-## removed: clean wishlist now handled by LiveComponent
 
 wishlist_list_wishlists:
     path: /wishlists
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.list_wishlists
 
-## removed: create new wishlist handled by LiveComponent
 
 wishlist_remove_wishlist:
     path: /wishlists/{id}/remove
@@ -79,15 +59,8 @@ wishlist_remove_wishlist:
             redirect:
                 route: wishlist_list_wishlists
 
-## removed: update wishlist name handled by LiveComponent
 
 wishlist_show_chosen_wishlist:
     path: /wishlists/{wishlistId}
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.show_chosen_wishlist
-
-## removed: add product to selected wishlist handled by LiveComponent
-
-## TODO: migrate copy selected to LiveComponent, then remove controller
-
-## removed: add wishlist to user handled by LiveComponent

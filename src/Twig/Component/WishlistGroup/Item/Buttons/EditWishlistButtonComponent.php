@@ -84,7 +84,6 @@ final class EditWishlistButtonComponent
         try {
             $this->commandBus->dispatch(new UpdateWishlistName($name, $wishlist));
             $session->getFlashBag()->add('success', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_name_changed'));
-            // stay on the same page without full reload
             $this->showModal = false;
             $this->currentName = $name;
             $this->name = $name;

@@ -63,7 +63,6 @@ final readonly class ImportWishlistFromCsvHandler
         $file = new \SplFileObject($fileInfo->getRealPath(), 'r');
         $file->setFlags(\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY | \SplFileObject::DROP_NEW_LINE);
 
-        // Detect delimiter: try comma, then semicolon, then tab
         $file->setCsvControl(',');
         $headers = [];
         if (!$file->eof()) {
@@ -91,7 +90,6 @@ final readonly class ImportWishlistFromCsvHandler
                 $map[$key] = (int) $idx;
             }
         }
-        // expected keys from export
         $keyVariantId = $map['variantid'] ?? null;
         $keyProductId = $map['productid'] ?? null;
         $keyVariantCode = $map['variantcode'] ?? null;
@@ -144,18 +142,15 @@ final readonly class ImportWishlistFromCsvHandler
 
     private function resolveVariant(CsvWishlistProductInterface $csvWishlistProduct): ?ProductVariantInterface
     {
-        // Prefer strong lookup by variant ID when present
         $variantId = $csvWishlistProduct->getVariantId();
         if (null !== $variantId) {
             /** @var ProductVariantInterface|null $variant */
             $variant = $this->productVariantRepository->find($variantId);
             if (null !== $variant) {
-                // Accept by ID alone to ensure exported files always import
                 return $variant;
             }
         }
 
-        // Fallback: resolve by unique variant code
         $code = $csvWishlistProduct->getVariantCode();
         if (null !== $code && $code !== '') {
             /** @var ProductVariantInterface|null $variant */

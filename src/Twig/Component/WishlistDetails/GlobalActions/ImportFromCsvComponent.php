@@ -94,7 +94,6 @@ final class ImportFromCsvComponent
 
     private function redirectBack(): RedirectResponse
     {
-        // redirect to first or selected wishlist
         $id = $this->selectedWishlistId ?? ($this->wishlists[0]['id'] ?? null);
         if ($id === null) {
             return new RedirectResponse($this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_list_wishlists'));
@@ -107,4 +106,3 @@ final class ImportFromCsvComponent
         );
     }
 }
-

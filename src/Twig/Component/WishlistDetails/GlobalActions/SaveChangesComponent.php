@@ -31,7 +31,6 @@ final class SaveChangesComponent
     #[LiveProp]
     public int $wishlistId;
 
-    // JSON-encoded map { index: quantity }
     #[LiveProp(writable: true)]
     public string $quantities = '{}';
 
@@ -81,4 +80,3 @@ final class SaveChangesComponent
         );
     }
 }
-

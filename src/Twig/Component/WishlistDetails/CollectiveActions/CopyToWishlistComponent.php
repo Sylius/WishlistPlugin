@@ -84,7 +84,6 @@ final class CopyToWishlistComponent
         $session = $this->requestStack->getSession();
 
         if (null === $this->selectedId) {
-            // no destination selected, keep modal open
             return $this->redirectBack();
         }
 
@@ -94,7 +93,6 @@ final class CopyToWishlistComponent
             return $this->redirectBack();
         }
 
-        // Build selected variant ids
         $variantIds = [];
         if (null !== $selection) {
             $decoded = json_decode($selection, true);

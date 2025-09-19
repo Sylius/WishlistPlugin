@@ -44,7 +44,6 @@ final class ExportActionsComponent
     public int $wishlistId;
     #[LiveProp]
     public string $wishlistName = 'wishlist';
-    // JSON-encoded selected indices
     #[LiveProp(writable: true)]
     public string $selection = '[]';
 
@@ -90,7 +89,7 @@ final class ExportActionsComponent
 
         $file = new \SplFileObject(sprintf('%s.csv', $this->wishlistName ?: 'wishlist'), 'w+');
         $csv = new ExportWishlistToCsv($collection, $file);
-        $this->messageBus->dispatch($csv); // let handler fill the file
+        $this->messageBus->dispatch($csv);
 
         $file->rewind();
         $response = new BinaryFileResponse($file);
@@ -118,7 +117,6 @@ final class ExportActionsComponent
             return $this->redirectBack();
         }
 
-        // Exporter writes directly to output; dispatch and redirect back
         $this->messageBus->dispatch(new ExportSelectedProductsFromWishlistToPdf($collection));
 
         return $this->redirectBack();
