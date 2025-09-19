@@ -6,9 +6,10 @@
             id="{{ form.save.vars.id }}"
             name="{{ form.save.vars.full_name }}"
             class="btn btn-icon btn-secondary"
+            type="button"
             data-bb-toggle="wishlist-save"
             {{ sylius_test_html_attribute('wishlist-save-changes') }}
-            onclick="(function(root){try{var inputs=document.querySelectorAll('input[name^=\'wishlist_collection[items]\'][name$=\'[cartItem][cartItem][quantity]\']');var map={};inputs.forEach(function(inp){var m=inp.name.match(/items\]\[(\d+)\]/); if(m){map[m[1]]=parseInt(inp.value||'0')||0;}}); root.querySelector('#quantities_holder').value=JSON.stringify(map);}catch(e){console.error(e);}})(this.closest('[data-controller]'))"
+            onclick="(function(root){try{var inputs=document.querySelectorAll('input[name^=\'wishlist_collection[items]\'][name$=\'[cartItem][cartItem][quantity]\']');var map={};inputs.forEach(function(inp){var m=inp.name.match(/items\]\[(\d+)\]/); if(m){map[m[1]]=parseInt(inp.value||'0')||0;}}); var holder=root.querySelector('#quantities_holder'); if(holder){ holder.value=JSON.stringify(map); holder.dispatchEvent(new Event('input',{bubbles:true})); }}catch(e){console.error(e);}})(this.closest('[data-controller]'))"
             data-action="live#action:prevent" data-live-action-param="save"
     >
         {{ ux_icon('mdi:content-save', {'class': 'icon icon-sm'}) }}
