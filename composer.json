@@ -26,6 +26,8 @@
         "sylius/sylius-rector": "^2.0",
         "sylius/test-application": "^2.0.0@alpha",
         "sylius-labs/coding-standard": "^4.4",
+        "slevomat/coding-standard": "^8.20",
+        "squizlabs/php_codesniffer": "^3.13",
         "sylius-labs/suite-tags-extension": "~0.2",
         "symfony/browser-kit": "^6.4 || ^7.1",
         "symfony/debug-bundle": "^6.4 || ^7.1",
