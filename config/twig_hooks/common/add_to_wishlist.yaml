@@ -24,6 +24,6 @@ sylius_twig_hooks:
                 component: 'sylius_shop:wishlist:add_to_selected_wishlist_button'
                 props:
                     template: '@SyliusWishlistPlugin/common/add_to_wishlist/multiple/item.html.twig'
-                    wishlistId: '@=_context.wishlist.getId()'
-                    productId: '@=_context.product.getId()'
+                    wishlist: '@=_context.wishlist'
+                    product: '@=_context.product'
                 priority: 0
