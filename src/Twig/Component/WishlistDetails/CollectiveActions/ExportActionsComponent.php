@@ -42,8 +42,10 @@ final class ExportActionsComponent
 
     #[LiveProp]
     public int $wishlistId;
+
     #[LiveProp]
     public string $wishlistName = 'wishlist';
+
     #[LiveProp(writable: true)]
     public string $selection = '[]';
 
@@ -67,23 +69,27 @@ final class ExportActionsComponent
         if (!\is_array($decoded)) {
             return [];
         }
-        return array_values(array_filter($decoded, static fn($v) => \is_int($v) || ctype_digit((string) $v)));
+
+        return array_values(array_filter($decoded, static fn ($v) => \is_int($v) || ctype_digit((string) $v)));
     }
 
     #[LiveAction]
     public function exportCsv(): BinaryFileResponse|RedirectResponse
     {
+        /** @var ?WishlistInterface $wishlist */
         $wishlist = $this->wishlistRepository->find($this->wishlistId);
         /** @var Session $session */
         $session = $this->requestStack->getSession();
         if (null === $wishlist) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'));
+
             return $this->redirectBack();
         }
 
         $collection = $this->buildSelectedWishlistItems($wishlist->getWishlistProducts(), $this->decodeSelection());
         if ($collection->isEmpty()) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.select_products'));
+
             return $this->redirectBack();
         }
 
@@ -103,17 +109,20 @@ final class ExportActionsComponent
     #[LiveAction]
     public function exportPdf(): RedirectResponse
     {
+        /** @var ?WishlistInterface $wishlist */
         $wishlist = $this->wishlistRepository->find($this->wishlistId);
         /** @var Session $session */
         $session = $this->requestStack->getSession();
         if (null === $wishlist) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'));
+
             return $this->redirectBack();
         }
 
         $collection = $this->buildSelectedWishlistItemsSimple($wishlist->getWishlistProducts(), $this->decodeSelection());
         if ($collection->isEmpty()) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.select_products'));
+
             return $this->redirectBack();
         }
 
@@ -141,7 +150,9 @@ final class ExportActionsComponent
         $collection = new ArrayCollection();
         foreach ($indices as $index) {
             $wp = $wishlistProducts->get((int) $index);
-            if (null === $wp) { continue; }
+            if (null === $wp) {
+                continue;
+            }
             $wi = new WishlistItem();
             $wi->setWishlistProduct($wp);
             /** @var OrderItemInterface $cartItem */
@@ -151,6 +162,7 @@ final class ExportActionsComponent
             $wi->setCartItem($this->addToCartCommandFactory->createWithCartAndCartItem($cart, $cartItem));
             $collection->add($wi);
         }
+
         return $collection;
     }
 
@@ -163,11 +175,14 @@ final class ExportActionsComponent
         $collection = new ArrayCollection();
         foreach ($indices as $index) {
             $wp = $wishlistProducts->get((int) $index);
-            if (null === $wp) { continue; }
+            if (null === $wp) {
+                continue;
+            }
             $wi = new WishlistItem();
             $wi->setWishlistProduct($wp);
             $collection->add($wi);
         }
+
         return $collection;
     }
 }

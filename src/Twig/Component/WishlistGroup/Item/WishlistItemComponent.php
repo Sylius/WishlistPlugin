@@ -51,6 +51,7 @@ final class WishlistItemComponent
 
     #[LiveProp]
     public ?string $localMessage = null;
+
     #[LiveProp]
     public string $localMessageType = 'success';
 
@@ -123,6 +124,7 @@ final class WishlistItemComponent
     #[LiveAction]
     public function remove(): RedirectResponse
     {
+        /** @var ?WishlistInterface $wishlist */
         $wishlist = $this->wishlistRepository->find($this->wishlistId);
         if (null !== $wishlist) {
             $this->messageBus->dispatch(new RemoveWishlist($wishlist->getToken()));

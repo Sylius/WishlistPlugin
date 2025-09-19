@@ -65,27 +65,35 @@ final class BulkActionsComponent
         if (!\is_array($decoded)) {
             return [];
         }
-        return array_values(array_filter($decoded, static fn($v) => \is_int($v) || ctype_digit((string) $v)));
+
+        return array_values(array_filter($decoded, static fn ($v) => \is_int($v) || ctype_digit((string) $v)));
     }
 
     /** @return array<int,int> */
     private function decodeSelectionString(?string $selection): array
     {
-        if (null === $selection) { return []; }
+        if (null === $selection) {
+            return [];
+        }
         $decoded = json_decode($selection, true);
-        if (!\is_array($decoded)) { return []; }
-        return array_values(array_filter($decoded, static fn($v) => \is_int($v) || ctype_digit((string) $v)));
+        if (!\is_array($decoded)) {
+            return [];
+        }
+
+        return array_values(array_filter($decoded, static fn ($v) => \is_int($v) || ctype_digit((string) $v)));
     }
 
     #[LiveAction]
     public function addSelected(?string $selection = null): RedirectResponse
     {
+        /** @var ?WishlistInterface $wishlist */
         $wishlist = $this->wishlistRepository->find($this->wishlistId);
         /** @var Session $session */
         $session = $this->requestStack->getSession();
 
         if (null === $wishlist) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'));
+
             return new RedirectResponse($this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_list_wishlists'));
         }
 
@@ -93,6 +101,7 @@ final class BulkActionsComponent
         $selected = $this->buildSelectedWishlistItems($wishlist->getWishlistProducts(), $indices);
         if ($selected->isEmpty()) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.select_products'));
+
             return $this->redirectBack();
         }
 
@@ -109,12 +118,14 @@ final class BulkActionsComponent
     #[LiveAction]
     public function removeSelected(?string $selection = null): RedirectResponse
     {
+        /** @var ?WishlistInterface $wishlist */
         $wishlist = $this->wishlistRepository->find($this->wishlistId);
         /** @var Session $session */
         $session = $this->requestStack->getSession();
 
         if (null === $wishlist) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'));
+
             return new RedirectResponse($this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_list_wishlists'));
         }
 
@@ -122,6 +133,7 @@ final class BulkActionsComponent
         $selected = $this->buildSelectedWishlistItemsSimple($wishlist->getWishlistProducts(), $indices);
         if ($selected->isEmpty()) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.select_products'));
+
             return $this->redirectBack();
         }
 
@@ -192,6 +204,7 @@ final class BulkActionsComponent
             $wishlistItem->setWishlistProduct($wishlistProduct);
             $collection->add($wishlistItem);
         }
+
         return $collection;
     }
 }

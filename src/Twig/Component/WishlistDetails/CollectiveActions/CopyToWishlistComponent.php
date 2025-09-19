@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Sylius\WishlistPlugin\Twig\Component\WishlistDetails\CollectiveActions;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Bundle\UiBundle\Twig\Component\TemplatePropTrait;
 use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
-use Doctrine\Common\Collections\ArrayCollection;
-use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Sylius\WishlistPlugin\Command\Wishlist\CopySelectedProductsToOtherWishlist;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
+use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -18,8 +18,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
-use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
@@ -33,14 +33,17 @@ final class CopyToWishlistComponent
 
     #[LiveProp]
     public int $wishlistId;
+
     /** @var array<int, array{name: string, id: int}> */
     #[LiveProp]
     public array $wishlists = [];
 
     #[LiveProp]
     public bool $showModal = false;
+
     #[LiveProp(writable: true)]
     public ?int $selectedId = null;
+
     /** JSON string with preselected variant ids from main list */
     #[LiveProp(writable: true)]
     public string $preselected = '[]';
@@ -108,12 +111,15 @@ final class CopyToWishlistComponent
 
         if (empty($variantIds)) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.select_products'));
+
             return $this->redirectBack();
         }
 
         $collection = new ArrayCollection();
         foreach ($wishlist->getWishlistProducts() as $wp) {
-            if (null === $wp->getVariant()) { continue; }
+            if (null === $wp->getVariant()) {
+                continue;
+            }
             $vid = (int) $wp->getVariant()->getId();
             if (in_array($vid, $variantIds, true)) {
                 $collection->add(['variant' => $vid]);

@@ -20,7 +20,6 @@ use Sylius\WishlistPlugin\Exception\NoProductSelectedException;
 use Sylius\WishlistPlugin\Form\Type\WishlistCollectionType;
 use Sylius\WishlistPlugin\Processor\WishlistCommandProcessorInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -112,6 +111,7 @@ final class ExportSelectedProductsToCsvAction
         $file = new \SplFileObject(sprintf('%s.csv', $this->wishlistName ?: 'wishlist'), 'w+');
         /** @var \SplFileObject $result */
         $result = $this->handle(new ExportWishlistToCsv($form->getData(), $file));
+
         return $result;
     }
 
@@ -122,7 +122,7 @@ final class ExportSelectedProductsToCsvAction
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $file->getFilename());
         $response->headers->set('Content-Type', 'text/csv');
         $response->deleteFileAfterSend(true);
+
         return $response;
     }
 }
-

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Sylius\WishlistPlugin\Twig\Component\WishlistDetails;
 
-use Sylius\Bundle\UiBundle\Twig\Component\TemplatePropTrait;
-use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Bundle\OrderBundle\Factory\AddToCartCommandFactoryInterface;
+use Sylius\Bundle\UiBundle\Twig\Component\TemplatePropTrait;
 use Sylius\Component\Core\Factory\CartItemFactoryInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
+use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Sylius\WishlistPlugin\Command\Wishlist\AddSelectedProductsToCart;
 use Sylius\WishlistPlugin\Command\Wishlist\RemoveSelectedProductsFromWishlist;
 use Sylius\WishlistPlugin\Command\Wishlist\WishlistItem;
@@ -26,8 +26,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
-use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
@@ -210,6 +210,7 @@ final class WishlistItemsComponent
             $wishlistItem->setWishlistProduct($wishlistProduct);
             $collection->add($wishlistItem);
         }
+
         return $collection;
     }
 }

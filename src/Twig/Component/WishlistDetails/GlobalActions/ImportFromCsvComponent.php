@@ -75,12 +75,14 @@ final class ImportFromCsvComponent
 
         if (null === $request || null === $this->selectedWishlistId) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'));
+
             return new RedirectResponse($this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_list_wishlists'));
         }
 
         $file = $request->files->get('wishlist_file');
         if (null === $file) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.csv_file_contains_incorrect_products'));
+
             return $this->redirectBack();
         }
 

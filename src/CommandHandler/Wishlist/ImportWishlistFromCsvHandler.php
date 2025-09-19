@@ -26,8 +26,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Serializer\Encoder\CsvEncoder;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsMessageHandler]
@@ -75,13 +73,17 @@ final readonly class ImportWishlistFromCsvHandler
             $file->rewind();
             $file->setCsvControl(';');
             $headers = $file->fgetcsv();
-            if (!\is_array($headers)) { $headers = []; }
+            if (!\is_array($headers)) {
+                $headers = [];
+            }
         }
         if (\count($headers) <= 1) {
             $file->rewind();
             $file->setCsvControl("\t");
             $headers = $file->fgetcsv();
-            if (!\is_array($headers)) { $headers = []; }
+            if (!\is_array($headers)) {
+                $headers = [];
+            }
         }
         $map = [];
         foreach ($headers as $idx => $name) {

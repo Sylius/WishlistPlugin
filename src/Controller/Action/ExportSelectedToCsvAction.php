@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -48,12 +48,13 @@ final readonly class ExportSelectedToCsvAction
     ) {
     }
 
-    public function __invoke(string $wishlistId, Request $request, SessionInterface $session): BinaryFileResponse|RedirectResponse
+    public function __invoke(string $wishlistId, Request $request, Session $session): BinaryFileResponse|RedirectResponse
     {
         /** @var ?WishlistInterface $wishlist */
         $wishlist = $this->wishlistRepository->find((int) $wishlistId);
         if (null === $wishlist) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'));
+
             return new RedirectResponse($this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_list_wishlists'));
         }
 
@@ -64,12 +65,13 @@ final readonly class ExportSelectedToCsvAction
         $selected = $this->buildSelectedWishlistItems($wishlist->getWishlistProducts(), $indices);
         if ($selected->isEmpty()) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.select_products'));
+
             return new RedirectResponse($this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', [
                 'wishlistId' => $wishlistId,
             ]));
         }
 
-        $tmpPath = tempnam(sys_get_temp_dir(), 'wishlist_csv_') ?: (sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('wishlist_csv_', true));
+        $tmpPath = tempnam(sys_get_temp_dir(), 'wishlist_csv_') ?: (sys_get_temp_dir() . \DIRECTORY_SEPARATOR . uniqid('wishlist_csv_', true));
         $file = new \SplFileObject($tmpPath, 'w+');
 
         $envelope = $this->messageBus->dispatch(new ExportWishlistToCsv($selected, $file));
@@ -97,7 +99,8 @@ final readonly class ExportSelectedToCsvAction
         if (!\is_array($decoded)) {
             return [];
         }
-        return array_values(array_filter($decoded, static fn($v) => \is_int($v) || ctype_digit((string) $v)));
+
+        return array_values(array_filter($decoded, static fn ($v) => \is_int($v) || ctype_digit((string) $v)));
     }
 
     /**
@@ -110,7 +113,9 @@ final readonly class ExportSelectedToCsvAction
         $collection = new ArrayCollection();
         foreach ($indices as $index) {
             $wp = $wishlistProducts->get((int) $index);
-            if (null === $wp) { continue; }
+            if (null === $wp) {
+                continue;
+            }
             $wi = new WishlistItem();
             $wi->setWishlistProduct($wp);
             /** @var OrderItemInterface $cartItem */
@@ -120,6 +125,7 @@ final readonly class ExportSelectedToCsvAction
             $wi->setCartItem($this->addToCartCommandFactory->createWithCartAndCartItem($cart, $cartItem));
             $collection->add($wi);
         }
+
         return $collection;
     }
 }

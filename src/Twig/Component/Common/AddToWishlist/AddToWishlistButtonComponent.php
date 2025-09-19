@@ -6,12 +6,12 @@ namespace Sylius\WishlistPlugin\Twig\Component\Common\AddToWishlist;
 
 use Doctrine\Persistence\ObjectManager;
 use Sylius\Bundle\UiBundle\Twig\Component\TemplatePropTrait;
-use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Entity\WishlistProductInterface;
 use Sylius\WishlistPlugin\Exception\WishlistNotFoundException;
@@ -97,4 +97,3 @@ final class AddToWishlistButtonComponent
         return new RedirectResponse($refererPath);
     }
 }
-

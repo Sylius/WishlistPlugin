@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Sylius\WishlistPlugin\Twig\Component\WishlistDetails\Actions;
 
 use Sylius\Bundle\UiBundle\Twig\Component\TemplatePropTrait;
-use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
+use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Sylius\WishlistPlugin\Command\Wishlist\CreateNewWishlist;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;

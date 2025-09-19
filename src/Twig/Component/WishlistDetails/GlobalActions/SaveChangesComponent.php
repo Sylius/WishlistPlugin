@@ -53,6 +53,7 @@ final class SaveChangesComponent
         $wishlist = $this->wishlistRepository->find($this->wishlistId);
         if (null === $wishlist) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'));
+
             return new RedirectResponse($this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_list_wishlists'));
         }
 

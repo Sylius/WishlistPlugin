@@ -7,10 +7,11 @@ namespace Sylius\WishlistPlugin\Twig\Component\WishlistGroup\Item\Buttons;
 use Sylius\Bundle\UiBundle\Twig\Component\TemplatePropTrait;
 use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Sylius\WishlistPlugin\Command\Wishlist\RemoveWishlist;
+use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
@@ -27,8 +28,10 @@ final class RemoveWishlistButtonComponent
 
     #[LiveProp]
     public int $wishlistId;
+
     #[LiveProp]
     public string $wishlistName = '';
+
     #[LiveProp]
     public bool $showModal = false;
 
@@ -36,8 +39,7 @@ final class RemoveWishlistButtonComponent
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly MessageBusInterface $messageBus,
         private readonly WishlistRepositoryInterface $wishlistRepository,
-    )
-    {
+    ) {
     }
 
     #[LiveAction]
@@ -55,6 +57,7 @@ final class RemoveWishlistButtonComponent
     #[LiveAction]
     public function remove(): RedirectResponse
     {
+        /** @var ?WishlistInterface $wishlist */
         $wishlist = $this->wishlistRepository->find($this->wishlistId);
         if (null !== $wishlist) {
             $this->messageBus->dispatch(new RemoveWishlist($wishlist->getToken()));

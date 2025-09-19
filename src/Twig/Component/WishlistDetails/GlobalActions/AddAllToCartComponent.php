@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Sylius\WishlistPlugin\Twig\Component\WishlistDetails\GlobalActions;
 
-use Sylius\Bundle\UiBundle\Twig\Component\TemplatePropTrait;
-use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Bundle\OrderBundle\Factory\AddToCartCommandFactoryInterface;
+use Sylius\Bundle\UiBundle\Twig\Component\TemplatePropTrait;
 use Sylius\Component\Core\Factory\CartItemFactoryInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
+use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Sylius\WishlistPlugin\Command\Wishlist\AddProductsToCart;
 use Sylius\WishlistPlugin\Command\Wishlist\WishlistItem;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
-use Sylius\WishlistPlugin\Processor\WishlistCommandProcessorInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;

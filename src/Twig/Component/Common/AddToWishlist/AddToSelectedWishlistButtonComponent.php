@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Sylius\WishlistPlugin\Twig\Component\Common\AddToWishlist;
 
 use Sylius\Bundle\UiBundle\Twig\Component\TemplatePropTrait;
-use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Sylius\TwigHooks\LiveComponent\HookableLiveComponentTrait;
 use Sylius\WishlistPlugin\Command\Wishlist\AddProductToSelectedWishlist;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Exception\ProductNotFoundException;
@@ -77,4 +77,3 @@ final class AddToSelectedWishlistButtonComponent
         );
     }
 }
-

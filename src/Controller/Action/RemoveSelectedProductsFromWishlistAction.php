@@ -31,4 +31,3 @@ final class RemoveSelectedProductsFromWishlistAction extends BaseWishlistProduct
         }
     }
 }
-

@@ -32,10 +32,13 @@ final class EditWishlistButtonComponent
 
     #[LiveProp]
     public int $wishlistId;
+
     #[LiveProp]
     public string $currentName = '';
+
     #[LiveProp(writable: true)]
     public string $name = '';
+
     #[LiveProp]
     public bool $showModal = false;
 
@@ -87,9 +90,11 @@ final class EditWishlistButtonComponent
             $this->showModal = false;
             $this->currentName = $name;
             $this->name = $name;
+
             return null;
         } catch (HandlerFailedException) {
             $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_name_already_exists'));
+
             return null;
         }
     }
