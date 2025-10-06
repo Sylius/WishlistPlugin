@@ -11,7 +11,11 @@
             <argument type="service" id="sylius.context.channel"/>
         </service>
 
-        <service id="sylius_wishlist_plugin.resolver.wishlists_resolver" class="Sylius\WishlistPlugin\Resolver\WishlistsResolver">
+        <service
+            id="sylius_wishlist_plugin.resolver.wishlists_resolver"
+            class="Sylius\WishlistPlugin\Resolver\WishlistsResolver"
+            lazy="Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface"
+        >
             <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="sylius_wishlist_plugin.resolver.wishlist_cookie_token_resolver"/>
@@ -20,7 +24,11 @@
             <argument type="service" id="sylius.command_bus"/>
         </service>
 
-        <service id="sylius_wishlist_plugin.resolver.wishlist_cookie_token_resolver" class="Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolver">
+        <service
+            id="sylius_wishlist_plugin.resolver.wishlist_cookie_token_resolver"
+            class="Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolver"
+            lazy="Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolverInterface"
+        >
             <argument type="service" id="request_stack"/>
             <argument>%sylius_wishlist_plugin.parameters.wishlist_cookie_token%</argument>
             <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>

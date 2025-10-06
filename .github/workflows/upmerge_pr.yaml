@@ -44,7 +44,7 @@ jobs:
                     title: '[UPMERGE] ${{ matrix.base_branch }} -> ${{ matrix.target_branch }}'
                     body: |
                         This PR has been generated automatically.
-                        For more details see [upmerge_pr.yaml](/Sylius/PayPalPlugin/blob/1.7/.github/workflows/upmerge_pr.yaml).
+                        For more details see [upmerge_pr.yaml](/Sylius/WishlistPlugin/blob/1.0/.github/workflows/upmerge_pr.yaml).
                         
                         **Remember!** The upmerge should always be merged with using `Merge pull request` button.
                         
@@ -55,7 +55,7 @@ jobs:
                         git merge upstream/${{ matrix.target_branch }} -m "Resolve conflicts between ${{ matrix.base_branch }} and ${{ matrix.target_branch }}"
                         ```
                         
-                        If you use other name for the upstream remote, please replace `upstream` with the name of your remote pointing to the `Sylius/PayPalPlugin` repository.
+                        If you use other name for the upstream remote, please replace `upstream` with the name of your remote pointing to the `Sylius/WishlistPlugin` repository.
                         
                         Once the conflicts are resolved, please run `git merge --continue` and push the changes to this PR.
                     branch: "upmerge/${{ matrix.base_branch }}_${{ matrix.target_branch }}"
