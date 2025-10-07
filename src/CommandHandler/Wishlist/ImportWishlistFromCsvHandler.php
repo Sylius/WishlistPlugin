@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\WishlistPlugin\CommandHandler\Wishlist;
 
 use Gedmo\Exception\UploadableInvalidMimeTypeException;
+use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
 use Sylius\WishlistPlugin\Command\Wishlist\ImportWishlistFromCsv;
 use Sylius\WishlistPlugin\Controller\Action\AddProductVariantToWishlistAction;
@@ -25,8 +26,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Serializer\Encoder\CsvEncoder;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsMessageHandler]
@@ -59,24 +58,78 @@ final readonly class ImportWishlistFromCsvHandler
             throw new UploadableInvalidMimeTypeException();
         }
 
-        $csvData = file_get_contents((string) $fileInfo);
+        $file = new \SplFileObject($fileInfo->getRealPath(), 'r');
+        $file->setFlags(\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY | \SplFileObject::DROP_NEW_LINE);
 
-        $csvWishlistProducts = $this->csvSerializerFactory->createNew()->deserialize($csvData, sprintf('%s[]', CsvWishlistProduct::class), 'csv', [
-            AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,
-            CsvEncoder::AS_COLLECTION_KEY => true,
-        ]);
+        $file->setCsvControl(',');
+        $headers = [];
+        if (!$file->eof()) {
+            $headers = $file->fgetcsv();
+        }
+        if (!\is_array($headers)) {
+            $headers = [];
+        }
+        if (\count($headers) <= 1) {
+            $file->rewind();
+            $file->setCsvControl(';');
+            $headers = $file->fgetcsv();
+            if (!\is_array($headers)) {
+                $headers = [];
+            }
+        }
+        if (\count($headers) <= 1) {
+            $file->rewind();
+            $file->setCsvControl("\t");
+            $headers = $file->fgetcsv();
+            if (!\is_array($headers)) {
+                $headers = [];
+            }
+        }
+        $map = [];
+        foreach ($headers as $idx => $name) {
+            $key = strtolower(trim((string) $name));
+            if ($key !== '') {
+                $map[$key] = (int) $idx;
+            }
+        }
+        $keyVariantId = $map['variantid'] ?? null;
+        $keyProductId = $map['productid'] ?? null;
+        $keyVariantCode = $map['variantcode'] ?? null;
 
         $variantIdRequestAttributes = [];
+        while (!$file->eof()) {
+            $row = $file->fgetcsv();
+            if (!\is_array($row) || $row === [null] || $row === false) {
+                continue;
+            }
+            $variantId = $keyVariantId !== null ? ($row[$keyVariantId] ?? null) : null;
+            $productId = $keyProductId !== null ? ($row[$keyProductId] ?? null) : null;
+            $variantCode = $keyVariantCode !== null ? ($row[$keyVariantCode] ?? null) : null;
 
-        /** @var CsvWishlistProduct $csvWishlistProduct */
-        foreach ($csvWishlistProducts as $csvWishlistProduct) {
-            if ($this->csvWishlistProductIsValid($csvWishlistProduct)) {
-                $variantIdRequestAttributes[] = $csvWishlistProduct->getVariantId();
+            $variantId = is_string($variantId) ? trim($variantId) : $variantId;
+            $productId = is_string($productId) ? trim($productId) : $productId;
+            $variantCode = is_string($variantCode) ? trim($variantCode) : $variantCode;
+
+            $variantId = (is_numeric($variantId)) ? (int) $variantId : null;
+            $productId = (is_numeric($productId)) ? (int) $productId : ($productId !== null && $productId !== '' ? (int) $productId : null);
+            $variantCode = is_string($variantCode) ? $variantCode : null;
+
+            if ($variantId === null && $productId === null && ($variantCode === null || $variantCode === '')) {
+                continue;
+            }
+
+            $dto = new CsvWishlistProduct();
+            $dto->setVariantId($variantId);
+            $dto->setProductId($productId);
+            $dto->setVariantCode($variantCode);
+
+            $variant = $this->resolveVariant($dto);
+            if ($variant instanceof ProductVariantInterface) {
+                $variantIdRequestAttributes[] = (int) $variant->getId();
                 $request->attributes->set('variantId', $variantIdRequestAttributes);
             } else {
                 /** @var Session $session */
                 $session = $this->requestStack->getSession();
-
                 $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.csv_file_contains_incorrect_products'));
             }
         }
@@ -89,18 +142,26 @@ final readonly class ImportWishlistFromCsvHandler
         return in_array($finfo->file($fileInfo->getRealPath()), $this->allowedMimeTypes, true);
     }
 
-    private function csvWishlistProductIsValid(CsvWishlistProductInterface $csvWishlistProduct): bool
+    private function resolveVariant(CsvWishlistProductInterface $csvWishlistProduct): ?ProductVariantInterface
     {
-        $wishlistProduct = $this->productVariantRepository->findOneBy([
-            'id' => $csvWishlistProduct->getVariantId(),
-            'product' => $csvWishlistProduct->getProductId(),
-            'code' => $csvWishlistProduct->getVariantCode(),
-        ]);
-
-        if (null === $wishlistProduct) {
-            return false;
+        $variantId = $csvWishlistProduct->getVariantId();
+        if (null !== $variantId) {
+            /** @var ProductVariantInterface|null $variant */
+            $variant = $this->productVariantRepository->find($variantId);
+            if (null !== $variant) {
+                return $variant;
+            }
         }
 
-        return true;
+        $code = $csvWishlistProduct->getVariantCode();
+        if (null !== $code && $code !== '') {
+            /** @var ProductVariantInterface|null $variant */
+            $variant = $this->productVariantRepository->findOneBy(['code' => (string) $code]);
+            if (null !== $variant) {
+                return $variant;
+            }
+        }
+
+        return null;
     }
 }

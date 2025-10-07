@@ -1,0 +1,89 @@
+{# Rendered with \Sylius\WishlistPlugin\Twig\Component\WishlistGroup\Item\WishlistItemComponent #}
+
+<article {{ attributes }} class="bb-wishlist-list-wraper {% if not this.isLast %}mb-3{% endif %}">
+    {% if this.localMessage %}
+        <div class="alert alert-{{ this.localMessageType == 'success' ? 'success' : 'danger' }}" role="alert">
+            {{ this.localMessage }}
+        </div>
+    {% endif %}
+
+    <div class="bb-wishlist-list-wraper-content">
+        <div class="bb-wishlist-list-wraper-content-name">
+            <a
+                href="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', {'wishlistId': this.wishlistId}) }}"
+                {{ sylius_test_html_attribute('wishlist-wishlist') }}
+                data-wishlist-name="{{ this.name }}"
+            >
+                {{ this.name == null ? 'sylius_wishlist_plugin.ui.wishlist'|trans : this.name|trans }}
+            </a>
+        </div>
+        <div class="bb-wishlist-list-wraper-content-buttons">
+            <button class="btn btn-sm btn-outline-secondary"
+                    data-action="live#action" data-live-action-param="openEdit">
+                {{ ux_icon('lucide:edit', {'class': 'icon icon-sm'}) }}
+            </button>
+            <button class="btn btn-sm btn-outline-secondary"
+                    data-action="live#action" data-live-action-param="openRemove">
+                {{ ux_icon('flowbite:x-outline', {'class': 'icon icon-sm'}) }}
+            </button>
+        </div>
+    </div>
+
+    {% if this.showEditModal %}
+        <form class="wishlist-confirmation-modal">
+            <header class="wishlist-confirmation-modal__header">
+                <h2 class="wishlist-confirmation-modal__header--title">
+                    {{ 'sylius_wishlist_plugin.ui.wishlist_modal_edit_title'|trans }}
+                </h2>
+            </header>
+            <section class="wishlist-confirmation-modal__body">
+                <input type="text"
+                       class="wishlist-confirmation-modal__body--input {{ this.editName is empty ? 'error' : '' }}"
+                       maxlength="50"
+                       data-model="editName"
+                       placeholder="{{ 'sylius_wishlist_plugin.ui.create_new_wishlist_label'|trans }}"
+                >
+                {% if this.editName is empty %}
+                    <div class="ui red pointing label validation-error">
+                        {{ 'sylius_wishlist_plugin.ui.wishlist_modal_edit_error'|trans }}
+                    </div>
+                {% endif %}
+            </section>
+            <section class="wishlist-confirmation-modal__confirm">
+                <button type="button" class="wishlist-confirmation-modal__confirm--cancel"
+                        data-action="live#action" data-live-action-param="closeEdit">
+                    {{ 'sylius_wishlist_plugin.ui.wishlist_modal_edit_cancel'|trans }}
+                </button>
+                <button type="button" id="edit_wishlist_save"
+                        class="wishlist-confirmation-modal__confirm--perform"
+                        data-action="live#action:prevent" data-live-action-param="saveName">
+                    {{ 'sylius_wishlist_plugin.ui.wishlist_modal_edit_perform'|trans }}
+                </button>
+            </section>
+        </form>
+    {% endif %}
+
+    {% if this.showRemoveModal %}
+        <form class="wishlist-confirmation-modal">
+            <header class="wishlist-confirmation-modal__header">
+                <h2 class="wishlist-confirmation-modal__header--title">
+                    {{ 'sylius_wishlist_plugin.ui.wishlist_modal_remove_title'|trans }}
+                </h2>
+            </header>
+            <section class="wishlist-confirmation-modal__body">
+                {{ 'sylius_wishlist_plugin.ui.wishlist_modal_remove_content'|trans }}
+            </section>
+            <section class="wishlist-confirmation-modal__confirm">
+                <button type="button" class="wishlist-confirmation-modal__confirm--cancel"
+                        data-action="live#action" data-live-action-param="closeRemove">
+                    {{ 'sylius_wishlist_plugin.ui.wishlist_modal_remove_cancel'|trans }}
+                </button>
+                <button type="button" id="remove_wishlist_confirm"
+                        class="wishlist-confirmation-modal__confirm--perform"
+                        data-action="live#action:prevent" data-live-action-param="remove">
+                    {{ 'sylius_wishlist_plugin.ui.wishlist_modal_remove_perform'|trans }}
+                </button>
+            </section>
+        </form>
+    {% endif %}
+</article>

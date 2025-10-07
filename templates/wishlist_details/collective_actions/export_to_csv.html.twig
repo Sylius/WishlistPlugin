@@ -1,12 +1,27 @@
 {% set wishlist = hookable_metadata.context.wishlist %}
-{% set wishlists = hookable_metadata.context.wishlists %}
 {% set btn_class = 'btn btn-icon btn-outline-secondary text-nowrap w-100 justify-content-start' %}
 
-<li class="mb-3">
+<li class="mb-3" {{ attributes }}>
     <button type="submit"
-            class="{{ btn_class }}" {{ sylius_test_html_attribute('wishlist-export-to-csv') }}
-            formaction="{{ path('sylius_wishlist_plugin_shop_locale_wishlsit_export_selected_products_to_csv', { wishlistId: wishlist.id }) }}">
+            class="{{ btn_class }}"
+            {{ sylius_test_html_attribute('wishlist-export-to-csv') }}
+            form="wishlist_form"
+            formmethod="post"
+            formaction="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_export_selected_products_to_csv', { wishlistId: wishlist.id }) }}"
+            target="_blank">
         {{ ux_icon('mingcute:copy-fill', {'class': 'icon icon-sm'}) }}
         {{ 'sylius_wishlist_plugin.ui.export_to_csv'|trans }}
+    </button>
+</li>
+
+<li {{ attributes }}>
+    <button type="submit"
+            class="{{ btn_class }}" {{ sylius_test_html_attribute('wishlist-export-to-pdf-from-wishlist') }}
+            form="wishlist_form"
+            formmethod="post"
+            formaction="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_export_to_pdf', { wishlistId: wishlist.id }) }}"
+            target="_blank">
+        {{ ux_icon('material-symbols:download', {'class': 'icon icon-sm'}) }}
+        {{ 'sylius_wishlist_plugin.ui.export_wishlist_to_pdf'|trans }}
     </button>
 </li>

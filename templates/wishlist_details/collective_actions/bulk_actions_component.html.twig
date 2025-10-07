@@ -1,0 +1,28 @@
+{# Rendered with Sylius\WishlistPlugin\Twig\Component\WishlistDetails\CollectiveActions\BulkActionsComponent #}
+
+<div {{ attributes }}>
+    <input type="hidden" data-model="selection" id="bulk_selection_holder" />
+    {% set btn_class = 'btn btn-icon btn-outline-secondary text-nowrap w-100 justify-content-start' %}
+
+    <li class="mb-3">
+        <button type="button"
+                class="{{ btn_class }}"
+                {{ sylius_test_html_attribute('wishlist-add-selected-to-cart') }}
+                onmousedown="(function(btn){try{var root=btn.closest('[data-controller]'); var elSel=document.getElementById('wishlist_selected_indices'); var json = (elSel && elSel.value) ? elSel.value : '[]'; btn.setAttribute('data-live-param-selection-value', json); if(root){ var el=root.querySelector('#bulk_selection_holder'); if(el){ el.value=json; el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true})); } }}catch(e){console.error(e);}})(this)"
+                data-action="live#action:prevent" data-live-action-param="addSelected">
+            {{ ux_icon('mdi:cart', {'class': 'icon icon-sm'}) }}
+            {{ 'sylius_wishlist_plugin.ui.add_to_cart'|trans }}
+        </button>
+    </li>
+
+    <li class="mb-3">
+        <button type="button"
+                class="{{ btn_class }}"
+                {{ sylius_test_html_attribute('wishlist-remove-selected-from-wishlist') }}
+                onmousedown="(function(btn){try{var root=btn.closest('[data-controller]'); var elSel=document.getElementById('wishlist_selected_indices'); var json = (elSel && elSel.value) ? elSel.value : '[]'; btn.setAttribute('data-live-param-selection-value', json); if(root){ var el=root.querySelector('#bulk_selection_holder'); if(el){ el.value=json; el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true})); } }}catch(e){console.error(e);}})(this)"
+                data-action="live#action:prevent" data-live-action-param="removeSelected">
+            {{ ux_icon('flowbite:x-outline', {'class': 'icon icon-sm'}) }}
+            {{ 'sylius_wishlist_plugin.ui.remove'|trans }}
+        </button>
+    </li>
+</div>

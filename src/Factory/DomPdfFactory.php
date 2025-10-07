@@ -37,6 +37,15 @@ class DomPdfFactory implements DomPdfFactoryInterface
         $domPdf = $this->createNew();
         $domPdf->setOptions($pdfOptions);
 
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true,
+            ],
+        ]);
+        $domPdf->setHttpContext($context);
+
         return $domPdf;
     }
 }

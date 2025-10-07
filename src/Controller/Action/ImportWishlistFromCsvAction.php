@@ -17,7 +17,6 @@ use Sylius\WishlistPlugin\Command\Wishlist\ImportWishlistFromCsv;
 use Sylius\WishlistPlugin\Entity\Wishlist;
 use Sylius\WishlistPlugin\Form\Type\ImportWishlistFromCsvType;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -46,7 +45,6 @@ final class ImportWishlistFromCsvAction
     public function __invoke(Request $request): Response
     {
         $form = $this->createForm();
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -55,8 +53,6 @@ final class ImportWishlistFromCsvAction
 
         /** @var Session $session */
         $session = $this->requestStack->getSession();
-
-        /** @var FormError $error */
         foreach ($form->getErrors() as $error) {
             $session->getFlashBag()->add('error', $error->getMessage());
         }
@@ -79,7 +75,6 @@ final class ImportWishlistFromCsvAction
     {
         /** @var UploadedFile $file */
         $file = $form->get('wishlist_file')->getData();
-
         /** @var Wishlist $wishlist */
         $wishlist = $form->get('wishlists')->getData();
 

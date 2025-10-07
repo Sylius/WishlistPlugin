@@ -2,7 +2,10 @@ sylius_twig_hooks:
     hooks:
         'sylius_shop.common.add_to_wishlist.single':
             content:
-                template: '@SyliusWishlistPlugin/common/add_to_wishlist/single.html.twig'
+                component: 'sylius_shop:wishlist:add_to_wishlist_button'
+                props:
+                    template: '@SyliusWishlistPlugin/common/add_to_wishlist/single.html.twig'
+                    productId: '@=_context.product.getId()'
                 priority: 0
         'sylius_shop.common.add_to_wishlist.multiple':
             content:
@@ -18,5 +21,9 @@ sylius_twig_hooks:
                 priority: 0
         'sylius_shop.common.add_to_wishlist.multiple.items.item':
             content:
-                template: '@SyliusWishlistPlugin/common/add_to_wishlist/multiple/item.html.twig'
+                component: 'sylius_shop:wishlist:add_to_selected_wishlist_button'
+                props:
+                    template: '@SyliusWishlistPlugin/common/add_to_wishlist/multiple/item.html.twig'
+                    wishlist: '@=_context.wishlist'
+                    product: '@=_context.product'
                 priority: 0

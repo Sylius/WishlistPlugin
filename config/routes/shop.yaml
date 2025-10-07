@@ -4,77 +4,49 @@ wishlist_list_products:
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.list_wishlist_products
 
-wishlist_add_products:
-    path: /wishlist/{wishlistId}/products
+        
+wishlist_export_selected_to_csv:
+    path: /wishlists/{wishlistId}/export-csv
     methods: [POST]
     defaults:
-        _controller: sylius_wishlist_plugin.controller.action.add_products_to_wishlist
+        _controller: sylius_wishlist_plugin.controller.action.export_selected_to_csv
+        _sylius:
+            csrf_protection: false
 
-wishlist_add_product:
-    path: /wishlist/add/{productId}
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.add_product_to_wishlist
-
-wishlist_remove_product:
-    path: /wishlist/remove/{productId}
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.remove_product_from_wishlist
-
-wishlist_remove_selected_products:
-    path: /wishlist/{wishlistId}/products/delete
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.remove_selected_products_from_wishlist
-
-wishlist_add_selected_products:
-    path: /wishlist/{wishlistId}/products/add
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.add_selected_products_to_cart
-
-wishlist_save_products:
-    path: /wishlist/{wishlistId}/products/save
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.update_wishlist_products_quantity
-        
-wishlsit_export_selected_products_to_csv:
-    path: /wishlist/{wishlistId}/csv/export
+wishlist_export_selected_products_to_csv:
+    path: /wishlists/{wishlistId}/export-selected-csv
+    methods: [POST]
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.export_selected_products_to_csv
+        _sylius:
+            csrf_protection: false
+
+wishlist_export_to_pdf:
+    path: /wishlists/{wishlistId}/export-pdf
+    methods: [POST]
+    defaults:
+        _controller: sylius_wishlist_plugin.controller.action.export_wishlist_to_pdf
+        _sylius:
+            csrf_protection: false
 
 wishlist_import_from_csv:
-    path: /wishlist/csv/import
+    path: /wishlists/import-from-csv
+    methods: [GET, POST]
     defaults:
-        _controller: sylius_wishlist_plugin.controller.action.import_from_csv
+        _controller: sylius_wishlist_plugin.controller.action.import_wishlist_from_csv
 
-wishlist_remove_product_variant:
-    path: /wishlist/{wishlistId}/remove/variant/{variantId}
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.remove_product_variant_from_wishlist
 
 wishlist_render_header_template:
     path: /wishlist/header-template
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.render_header_template
 
-wishlist_export_to_pdf:
-    path: /wishlist/{wishlistId}/export/pdf
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.export_wishlist_to_pdf_action
-
-wishlist_clean:
-    path: /wishlist/clear/{wishlistId}
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.clean_wishlist
 
 wishlist_list_wishlists:
     path: /wishlists
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.list_wishlists
 
-wishlist_create_new_wishlist:
-    path: /wishlists/create
-    methods: [GET, POST, DELETE]
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.create_new_wishlist
 
 wishlist_remove_wishlist:
     path: /wishlists/{id}/remove
@@ -87,30 +59,8 @@ wishlist_remove_wishlist:
             redirect:
                 route: wishlist_list_wishlists
 
-wishlist_edit_wishlist_name:
-    path: /wishlists/{id}/edit
-    methods: [GET, PUT, POST]
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.update_wishlist_name_action
 
 wishlist_show_chosen_wishlist:
     path: /wishlists/{wishlistId}
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.show_chosen_wishlist
-
-wishlist_add_product_to_selected_wishlist:
-    path: /wishlist/{wishlistId}/add/{productId}
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.add_product_to_selected_wishlist
-
-wishlist_copy_selected_products_to_other_wishlist:
-    path: /wishlists/{wishlistId}/copy/{destinedWishlistId}
-    methods: [ POST ]
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.copy_selected_products_to_other_wishlist
-
-wishlist_add_wishlist_to_user:
-    path: /wishlists/{id}/save-wishlist
-    methods: [GET, PUT, POST]
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.add_wishlists_to_user

@@ -53,13 +53,26 @@ final readonly class ExportWishlistToCsvHandler
     {
         $file->fputcsv(self::CSV_HEADERS);
 
-        /** @var WishlistItemInterface $wishlistProduct */
-        foreach ($wishlistProducts as $wishlistProduct) {
-            $csvWishlistProduct = $this->createCsvWishlistProduct($wishlistProduct);
-            $csvData = $this->csvSerializerFactory->createNew()->normalize($csvWishlistProduct, 'csv');
-            Assert::isArray($csvData);
+        /** @var WishlistItemInterface $wishlistItem */
+        foreach ($wishlistProducts as $wishlistItem) {
+            /** @var ?AddToCartCommandInterface $addToCartCommand */
+            $addToCartCommand = $wishlistItem->getCartItem();
+            Assert::notNull($addToCartCommand);
+            /** @var OrderItemInterface $cartItem */
+            $cartItem = $addToCartCommand->getCartItem();
+            /** @var ?ProductVariantInterface $variant */
+            $variant = $cartItem->getVariant();
+            Assert::notNull($variant);
+            /** @var ?WishlistProductInterface $wishlistProduct */
+            $wishlistProduct = $wishlistItem->getWishlistProduct();
+            Assert::notNull($wishlistProduct);
 
-            $file->fputcsv($csvData);
+            $row = [
+                $variant->getId(),
+                $wishlistProduct->getProduct()->getId(),
+                (string) $variant->getCode(),
+            ];
+            $file->fputcsv($row);
         }
 
         return $file;

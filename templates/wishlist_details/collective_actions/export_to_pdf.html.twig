@@ -1,11 +1,12 @@
 {% set wishlist = hookable_metadata.context.wishlist %}
-{% set wishlists = hookable_metadata.context.wishlists %}
 {% set btn_class = 'btn btn-icon btn-outline-secondary text-nowrap w-100 justify-content-start' %}
 
-<li>
-    <button type="submit"
+<li {{ attributes }}>
+    <input type="hidden" data-model="selection" id="export_pdf_selection_holder" />
+    <button type="button"
             class="{{ btn_class }}" {{ sylius_test_html_attribute('wishlist-export-to-pdf-from-wishlist') }}
-            formaction="{{ path('sylius_wishlist_plugin_shop_locale_wishlist_export_to_pdf', { wishlistId: wishlist.id }) }}">
+            onmousedown="(function(root){try{var json=(document.getElementById('wishlist_selected_indices')||{value:'[]'}).value; var el=root.querySelector('#export_pdf_selection_holder'); el.value=json; el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true}));}catch(e){console.error(e);}})(this.closest('[data-controller]'))"
+            data-action="live#action:prevent" data-live-action-param="exportPdf">
         {{ ux_icon('material-symbols:download', {'class': 'icon icon-sm'}) }}
         {{ 'sylius_wishlist_plugin.ui.export_wishlist_to_pdf'|trans }}
     </button>
