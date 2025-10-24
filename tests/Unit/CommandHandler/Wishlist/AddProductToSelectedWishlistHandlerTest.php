@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\CommandHandler\Wishlist;
@@ -44,28 +53,12 @@ final class AddProductToSelectedWishlistHandlerTest extends TestCase
         $wishlist = $this->createMock(WishlistInterface::class);
         $wishlistProduct = $this->createMock(WishlistProductInterface::class);
 
-        $command
-            ->expects($this->once())
-            ->method('getProduct')
-            ->willReturn($product);
-        $command
-            ->expects($this->once())
-            ->method('getWishlist')
-            ->willReturn($wishlist);
-        $this->wishlistProductFactory
-            ->expects($this->once())
-            ->method('createForWishlistAndProduct')
-            ->with($wishlist, $product)
-            ->willReturn($wishlistProduct);
-        $wishlist
-            ->expects($this->once())
-            ->method('addWishlistProduct')
-            ->with($wishlistProduct);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('add')
-            ->with($wishlist);
+        $command->expects($this->once())->method('getProduct')->willReturn($product);
+        $command->expects($this->once())->method('getWishlist')->willReturn($wishlist);
+        $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndProduct')->with($wishlist, $product)->willReturn($wishlistProduct);
+        $wishlist->expects($this->once())->method('addWishlistProduct')->with($wishlistProduct);
+        $this->wishlistRepository->expects($this->once())->method('add')->with($wishlist);
 
-        $this->handler->__invoke($command);
+        ($this->handler)($command);
     }
 }

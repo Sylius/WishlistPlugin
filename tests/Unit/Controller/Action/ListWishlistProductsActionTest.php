@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\Controller\Action;
@@ -76,47 +85,17 @@ final class ListWishlistProductsActionTest extends TestCase
         $form = $this->createMock(FormInterface::class);
         $formView = $this->createMock(FormView::class);
 
-        $this->wishlistsResolver
-            ->expects($this->once())
-            ->method('resolveAndCreate')
-            ->willReturn([
-                $firstWishlist,
-                $secondWishlist,
-            ]);
-        $this->cartContext
-            ->expects($this->once())
-            ->method('getCart')
-            ->willReturn($cart);
-        $firstWishlist
-            ->expects($this->once())
-            ->method('getWishlistProducts')
-            ->willReturn($wishlistProducts);
-        $this->wishlistCommandProcessor
-            ->expects($this->once())
-            ->method('createWishlistItemsCollection')
-            ->with($wishlistProducts)
-            ->willReturn($commands);
-        $this->formFactory
-            ->expects($this->once())
-            ->method('create')
-            ->with(WishlistCollectionType::class, ['items' => $commands], ['cart' => $cart])
-            ->willReturn($form);
-        $form
-            ->expects($this->once())
-            ->method('createView')
-            ->willReturn($formView);
-        $this->twigEnvironment
-            ->expects($this->once())
-            ->method('render')
-            ->with('@SyliusWishlistPlugin/wishlist_details/index.html.twig', [
-                'wishlist' => $firstWishlist,
-                'form' => $formView,
-            ])
-            ->willReturn('CONTENT');
+        $this->wishlistsResolver->expects($this->once())->method('resolveAndCreate')->willReturn([$firstWishlist, $secondWishlist]);
+        $this->cartContext->expects($this->once())->method('getCart')->willReturn($cart);
+        $firstWishlist->expects($this->once())->method('getWishlistProducts')->willReturn($wishlistProducts);
+        $this->wishlistCommandProcessor->expects($this->once())->method('createWishlistItemsCollection')->with($wishlistProducts)->willReturn($commands);
+        $this->formFactory->expects($this->once())->method('create')->with(WishlistCollectionType::class, ['items' => $commands], ['cart' => $cart])->willReturn($form);
+        $form->expects($this->once())->method('createView')->willReturn($formView);
+        $this->twigEnvironment->expects($this->once())->method('render')->with('@SyliusWishlistPlugin/wishlist_details/index.html.twig', ['wishlist' => $firstWishlist, 'form' => $formView])->willReturn('CONTENT');
 
         $this->assertInstanceOf(
             Response::class,
-            $this->action->__invoke($this->createMock(Request::class)),
+            ($this->action)($this->createMock(Request::class)),
         );
     }
 }

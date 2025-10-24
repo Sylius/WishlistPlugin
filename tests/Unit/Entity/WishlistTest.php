@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\Entity;
@@ -55,14 +64,8 @@ final class WishlistTest extends TestCase
     {
         $wishlistProduct = $this->createMock(WishlistProductInterface::class);
         $productVariant = $this->createMock(ProductVariantInterface::class);
-        $wishlistProduct
-            ->expects($this->once())
-            ->method('getVariant')
-            ->willReturn($productVariant);
-        $wishlistProduct
-            ->expects($this->once())
-            ->method('setWishlist')
-            ->with($this->wishlist);
+        $wishlistProduct->expects($this->once())->method('getVariant')->willReturn($productVariant);
+        $wishlistProduct->expects($this->once())->method('setWishlist')->with($this->wishlist);
 
         $this->wishlist->addWishlistProduct($wishlistProduct);
 

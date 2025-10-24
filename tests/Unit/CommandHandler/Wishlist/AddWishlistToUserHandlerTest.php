@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\CommandHandler\Wishlist;
@@ -51,66 +60,28 @@ final class AddWishlistToUserHandlerTest extends TestCase
 
     public function testShouldAddWishlistToUser(): void
     {
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('token');
-        $this->wishlist
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn('token');
-        $this->wishlist
-            ->expects($this->exactly(2))
-            ->method('getName')
-            ->willReturn('Testing wishlist');
-        $this->wishlist
-            ->expects($this->once())
-            ->method('getId')
-            ->willReturn(1);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findOneByShopUserAndName')
-            ->with($this->shopUser, 'Testing wishlist')
-            ->willReturn($this->wishlist);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('setShopUser')
-            ->with($this->shopUser);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('add')
-            ->with($this->wishlist);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('token');
+        $this->wishlist->expects($this->once())->method('getToken')->willReturn('token');
+        $this->wishlist->expects($this->exactly(2))->method('getName')->willReturn('Testing wishlist');
+        $this->wishlist->expects($this->once())->method('getId')->willReturn(1);
+        $this->wishlistRepository->expects($this->once())->method('findOneByShopUserAndName')->with($this->shopUser, 'Testing wishlist')->willReturn($this->wishlist);
+        $this->wishlist->expects($this->once())->method('setShopUser')->with($this->shopUser);
+        $this->wishlistRepository->expects($this->once())->method('add')->with($this->wishlist);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowExceptionIfTokensAreDifferent(): void
     {
         $this->expectException(WishlistHasAnotherShopUserException::class);
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('token');
-        $this->wishlist
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn('differentToken');
-        $this->wishlist
-            ->expects($this->never())
-            ->method('getName');
-        $this->wishlist
-            ->expects($this->never())
-            ->method('getId');
-        $this->wishlistRepository
-            ->expects($this->never())
-            ->method('findOneByShopUserAndName');
-        $this->wishlist
-            ->expects($this->never())
-            ->method('setShopUser');
-        $this->wishlistRepository
-            ->expects($this->never())
-            ->method('add');
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('token');
+        $this->wishlist->expects($this->once())->method('getToken')->willReturn('differentToken');
+        $this->wishlist->expects($this->never())->method('getName');
+        $this->wishlist->expects($this->never())->method('getId');
+        $this->wishlistRepository->expects($this->never())->method('findOneByShopUserAndName');
+        $this->wishlist->expects($this->never())->method('setShopUser');
+        $this->wishlistRepository->expects($this->never())->method('add');
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }

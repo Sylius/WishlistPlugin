@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\Resolver;
@@ -39,10 +48,7 @@ final class TokenUserResolverTest extends TestCase
         $token = $this->createMock(TokenInterface::class);
         $user = $this->createMock(UserInterface::class);
 
-        $token
-            ->expects($this->once())
-            ->method('getUser')
-            ->willReturn($user);
+        $token->expects($this->once())->method('getUser')->willReturn($user);
 
         $this->assertSame(
             $user,

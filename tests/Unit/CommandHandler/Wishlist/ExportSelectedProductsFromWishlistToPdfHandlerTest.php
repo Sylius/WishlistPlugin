@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\CommandHandler\Wishlist;
@@ -35,15 +44,9 @@ final class ExportSelectedProductsFromWishlistToPdfHandlerTest extends TestCase
         $command = $this->createMock(ExportSelectedProductsFromWishlistToPdfInterface::class);
         $wishlistProducts = $this->createMock(ArrayCollection::class);
 
-        $command
-            ->expects($this->once())
-            ->method('getWishlistProducts')
-            ->willReturn($wishlistProducts);
-        $this->exporterWishlistToPdf
-            ->expects($this->once())
-            ->method('createModelToPdfAndExportToPdf')
-            ->with($wishlistProducts);
+        $command->expects($this->once())->method('getWishlistProducts')->willReturn($wishlistProducts);
+        $this->exporterWishlistToPdf->expects($this->once())->method('createModelToPdfAndExportToPdf')->with($wishlistProducts);
 
-        $this->handler->__invoke($command);
+        ($this->handler)($command);
     }
 }

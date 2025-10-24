@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\Factory;
@@ -42,24 +51,15 @@ final class DomPdfFactoryTest extends TestCase
     public function testShouldCreateNewDomPdfWithDefaultOptions(): void
     {
         $pdfOptions = $this->createMock(Options::class);
-        $this->domPdfOptionsFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($pdfOptions);
+        $this->domPdfOptionsFactory->expects($this->once())->method('createNew')->willReturn($pdfOptions);
         $setInvokeCount = $this->exactly(2);
-        $pdfOptions
-            ->expects($setInvokeCount)
-            ->method('set')
-            ->willReturnCallback(function (string $key, mixed $value) use ($setInvokeCount) {
-                match ($setInvokeCount->numberOfInvocations()) {
-                    1 => $this->assertSame('isRemoteEnabled', $key) && $this->assertTrue($value),
-                    2 => $this->assertSame('defaultFont', $key) && $this->assertSame('Arial', $value),
-                };
-            });
-        $pdfOptions
-            ->expects($this->once())
-            ->method('getHttpContext')
-            ->willReturn(['http' => []]);
+        $pdfOptions->expects($setInvokeCount)->method('set')->willReturnCallback(function (string $key, mixed $value) use ($setInvokeCount) {
+            match ($setInvokeCount->numberOfInvocations()) {
+                1 => $this->assertSame('isRemoteEnabled', $key) && $this->assertTrue($value),
+                2 => $this->assertSame('defaultFont', $key) && $this->assertSame('Arial', $value),
+            };
+        });
+        $pdfOptions->expects($this->once())->method('getHttpContext')->willReturn(['http' => []]);
 
         $this->assertSame(
             $pdfOptions,

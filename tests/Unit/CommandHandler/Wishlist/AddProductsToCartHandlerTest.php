@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\CommandHandler\Wishlist;
@@ -66,110 +75,44 @@ final class AddProductsToCartHandlerTest extends TestCase
     {
         $order = $this->createMock(OrderInterface::class);
 
-        $this->wishlistItem
-            ->expects($this->exactly(2))
-            ->method('getCartItem')
-            ->willReturn($this->addToCartCommand);
-        $this->addToCartCommand
-            ->expects($this->exactly(2))
-            ->method('getCartItem')
-            ->willReturn($this->orderItem);
-        $this->orderItem
-            ->expects($this->once())
-            ->method('getVariant')
-            ->willReturn($this->productVariant);
-        $this->orderItem
-            ->expects($this->exactly(2))
-            ->method('getQuantity')
-            ->willReturn(1);
-        $this->addToCartCommand
-            ->expects($this->once())
-            ->method('getCart')
-            ->willReturn($order);
-        $this->orderModifier
-            ->expects($this->once())
-            ->method('addToOrder')
-            ->with($order, $this->orderItem);
-        $this->orderRepository
-            ->expects($this->once())
-            ->method('add')
-            ->with($order);
-        $this->availabilityChecker
-            ->expects($this->once())
-            ->method('isStockSufficient')
-            ->with($this->productVariant, 1)
-            ->willReturn(true);
-        $this->command
-            ->expects($this->once())
-            ->method('getWishlistProducts')
-            ->willReturn(new ArrayCollection([$this->wishlistItem]));
+        $this->wishlistItem->expects($this->exactly(2))->method('getCartItem')->willReturn($this->addToCartCommand);
+        $this->addToCartCommand->expects($this->exactly(2))->method('getCartItem')->willReturn($this->orderItem);
+        $this->orderItem->expects($this->once())->method('getVariant')->willReturn($this->productVariant);
+        $this->orderItem->expects($this->exactly(2))->method('getQuantity')->willReturn(1);
+        $this->addToCartCommand->expects($this->once())->method('getCart')->willReturn($order);
+        $this->orderModifier->expects($this->once())->method('addToOrder')->with($order, $this->orderItem);
+        $this->orderRepository->expects($this->once())->method('add')->with($order);
+        $this->availabilityChecker->expects($this->once())->method('isStockSufficient')->with($this->productVariant, 1)->willReturn(true);
+        $this->command->expects($this->once())->method('getWishlistProducts')->willReturn(new ArrayCollection([$this->wishlistItem]));
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowExceptionWhenStockIsInsufficient(): void
     {
         $this->expectException(InsufficientProductStockException::class);
 
-        $this->wishlistItem
-            ->expects($this->once())
-            ->method('getCartItem')
-            ->willReturn($this->addToCartCommand);
-        $this->addToCartCommand
-            ->expects($this->once())
-            ->method('getCartItem')
-            ->willReturn($this->orderItem);
-        $this->orderItem
-            ->expects($this->once())
-            ->method('getVariant')
-            ->willReturn($this->productVariant);
-        $this->orderItem
-            ->expects($this->once())
-            ->method('getQuantity')
-            ->willReturn(1);
-        $this->availabilityChecker
-            ->expects($this->once())
-            ->method('isStockSufficient')
-            ->with($this->productVariant, 1)
-            ->willReturn(false);
-        $this->command
-            ->expects($this->once())
-            ->method('getWishlistProducts')
-            ->willReturn(new ArrayCollection([$this->wishlistItem]));
+        $this->wishlistItem->expects($this->once())->method('getCartItem')->willReturn($this->addToCartCommand);
+        $this->addToCartCommand->expects($this->once())->method('getCartItem')->willReturn($this->orderItem);
+        $this->orderItem->expects($this->once())->method('getVariant')->willReturn($this->productVariant);
+        $this->orderItem->expects($this->once())->method('getQuantity')->willReturn(1);
+        $this->availabilityChecker->expects($this->once())->method('isStockSufficient')->with($this->productVariant, 1)->willReturn(false);
+        $this->command->expects($this->once())->method('getWishlistProducts')->willReturn(new ArrayCollection([$this->wishlistItem]));
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowExceptionWhenQuantityIsNotPositive(): void
     {
         $this->expectException(InvalidProductQuantityException::class);
 
-        $this->wishlistItem
-            ->expects($this->once())
-            ->method('getCartItem')
-            ->willReturn($this->addToCartCommand);
-        $this->addToCartCommand
-            ->expects($this->once())
-            ->method('getCartItem')
-            ->willReturn($this->orderItem);
-        $this->orderItem
-            ->expects($this->once())
-            ->method('getVariant')
-            ->willReturn($this->productVariant);
-        $this->orderItem
-            ->expects($this->exactly(2))
-            ->method('getQuantity')
-            ->willReturn(0);
-        $this->availabilityChecker
-            ->expects($this->once())
-            ->method('isStockSufficient')
-            ->with($this->productVariant, 0)
-            ->willReturn(true);
-        $this->command
-            ->expects($this->once())
-            ->method('getWishlistProducts')
-            ->willReturn(new ArrayCollection([$this->wishlistItem]));
+        $this->wishlistItem->expects($this->once())->method('getCartItem')->willReturn($this->addToCartCommand);
+        $this->addToCartCommand->expects($this->once())->method('getCartItem')->willReturn($this->orderItem);
+        $this->orderItem->expects($this->once())->method('getVariant')->willReturn($this->productVariant);
+        $this->orderItem->expects($this->exactly(2))->method('getQuantity')->willReturn(0);
+        $this->availabilityChecker->expects($this->once())->method('isStockSufficient')->with($this->productVariant, 0)->willReturn(true);
+        $this->command->expects($this->once())->method('getWishlistProducts')->willReturn(new ArrayCollection([$this->wishlistItem]));
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }

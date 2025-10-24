@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\Factory;
@@ -51,10 +60,7 @@ final class WishlistProductFactoryTest extends TestCase
 
     public function testShouldCreateWishlistProduct(): void
     {
-        $this->innerFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->wishlistProduct);
+        $this->innerFactory->expects($this->once())->method('createNew')->willReturn($this->wishlistProduct);
 
         $this->assertSame(
             $this->wishlistProduct,
@@ -65,30 +71,12 @@ final class WishlistProductFactoryTest extends TestCase
     public function testShouldCreateWishlistProductForWishlistAndProduct(): void
     {
         $productVariants = $this->createMock(Collection::class);
-        $this->product
-            ->expects($this->once())
-            ->method('getVariants')
-            ->willReturn($productVariants);
-        $productVariants
-            ->expects($this->once())
-            ->method('first')
-            ->willReturn($this->productVariant);
-        $this->innerFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->wishlistProduct);
-        $this->wishlistProduct
-            ->expects($this->once())
-            ->method('setWishlist')
-            ->with($this->wishlist);
-        $this->wishlistProduct
-            ->expects($this->once())
-            ->method('setProduct')
-            ->with($this->product);
-        $this->wishlistProduct
-            ->expects($this->once())
-            ->method('setVariant')
-            ->with($this->productVariant);
+        $this->product->expects($this->once())->method('getVariants')->willReturn($productVariants);
+        $productVariants->expects($this->once())->method('first')->willReturn($this->productVariant);
+        $this->innerFactory->expects($this->once())->method('createNew')->willReturn($this->wishlistProduct);
+        $this->wishlistProduct->expects($this->once())->method('setWishlist')->with($this->wishlist);
+        $this->wishlistProduct->expects($this->once())->method('setProduct')->with($this->product);
+        $this->wishlistProduct->expects($this->once())->method('setVariant')->with($this->productVariant);
 
         $this->assertSame(
             $this->wishlistProduct,
@@ -98,26 +86,11 @@ final class WishlistProductFactoryTest extends TestCase
 
     public function testShouldCreateWishlistProductForWishlistAndVariant(): void
     {
-        $this->productVariant
-            ->expects($this->once())
-            ->method('getProduct')
-            ->willReturn($this->product);
-        $this->innerFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->wishlistProduct);
-        $this->wishlistProduct
-            ->expects($this->once())
-            ->method('setWishlist')
-            ->with($this->wishlist);
-        $this->wishlistProduct
-            ->expects($this->once())
-            ->method('setProduct')
-            ->with($this->product);
-        $this->wishlistProduct
-            ->expects($this->once())
-            ->method('setVariant')
-            ->with($this->productVariant);
+        $this->productVariant->expects($this->once())->method('getProduct')->willReturn($this->product);
+        $this->innerFactory->expects($this->once())->method('createNew')->willReturn($this->wishlistProduct);
+        $this->wishlistProduct->expects($this->once())->method('setWishlist')->with($this->wishlist);
+        $this->wishlistProduct->expects($this->once())->method('setProduct')->with($this->product);
+        $this->wishlistProduct->expects($this->once())->method('setVariant')->with($this->productVariant);
 
         $this->assertSame(
             $this->wishlistProduct,

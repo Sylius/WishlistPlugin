@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\Processor;
@@ -43,13 +52,7 @@ final class VariantPdfModelProcessorTest extends TestCase
         $secondWishlistItem = $this->createMock(WishlistItemInterface::class);
         $firstPdfModel = $this->createMock(VariantPdfModelInterface::class);
         $secondPdfModel = $this->createMock(VariantPdfModelInterface::class);
-        $this->pdfModelCreator
-            ->expects($this->exactly(2))
-            ->method('createWishlistItemToPdf')
-            ->willReturnMap([
-                [$firstWishlistItem, $firstPdfModel],
-                [$secondWishlistItem, $secondPdfModel],
-            ]);
+        $this->pdfModelCreator->expects($this->exactly(2))->method('createWishlistItemToPdf')->willReturnMap([[$firstWishlistItem, $firstPdfModel], [$secondWishlistItem, $secondPdfModel]]);
 
         $this->assertSame(
             $firstPdfModel,

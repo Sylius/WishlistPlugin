@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\CommandHandler\Wishlist;
@@ -91,105 +100,37 @@ final class CreateWishlistHandlerTest extends TestCase
     public function testShouldCreateNewWishlistForUser(): void
     {
         $token = $this->createMock(TokenInterface::class);
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($token)
-            ->willReturn($this->user);
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->wishlist);
-        $this->shopUserWishlistResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->user)
-            ->willReturn($this->wishlist);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('setName')
-            ->with('Wishlist');
-        $this->wishlist
-            ->expects($this->once())
-            ->method('setToken')
-            ->with('test_token_value');
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getMainRequest')
-            ->willReturn($this->request);
-        $this->channelRepository
-            ->expects($this->once())
-            ->method('findOneByCode')
-            ->with('test_channel_code')
-            ->willReturn($this->channel);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('setChannel')
-            ->with($this->channel);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('persist')
-            ->with($this->wishlist);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('flush');
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($token)->willReturn($this->user);
+        $this->wishlistFactory->expects($this->once())->method('createNew')->willReturn($this->wishlist);
+        $this->shopUserWishlistResolver->expects($this->once())->method('resolve')->with($this->user)->willReturn($this->wishlist);
+        $this->wishlist->expects($this->once())->method('setName')->with('Wishlist');
+        $this->wishlist->expects($this->once())->method('setToken')->with('test_token_value');
+        $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn($this->request);
+        $this->channelRepository->expects($this->once())->method('findOneByCode')->with('test_channel_code')->willReturn($this->channel);
+        $this->wishlist->expects($this->once())->method('setChannel')->with($this->channel);
+        $this->wishlistManager->expects($this->once())->method('persist')->with($this->wishlist);
+        $this->wishlistManager->expects($this->once())->method('flush');
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldCreateNewWishlistForGuestWithMissingChannel(): void
     {
         $this->command->channelCode = null;
 
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn(null);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with(null)
-            ->willReturn(null);
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->wishlist);
-        $this->shopUserWishlistResolver
-            ->expects($this->never())
-            ->method('resolve')
-            ->with($this->user);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('setName')
-            ->with('Wishlist');
-        $this->wishlist
-            ->expects($this->once())
-            ->method('setToken')
-            ->with('test_token_value');
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getMainRequest')
-            ->willReturn($this->request);
-        $this->channelRepository
-            ->expects($this->never())
-            ->method('findOneByCode')
-            ->with('test');
-        $this->wishlist
-            ->expects($this->never())
-            ->method('setChannel')
-            ->with($this->channel);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('persist')
-            ->with($this->wishlist);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('flush');
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn(null);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with(null)->willReturn(null);
+        $this->wishlistFactory->expects($this->once())->method('createNew')->willReturn($this->wishlist);
+        $this->shopUserWishlistResolver->expects($this->never())->method('resolve')->with($this->user);
+        $this->wishlist->expects($this->once())->method('setName')->with('Wishlist');
+        $this->wishlist->expects($this->once())->method('setToken')->with('test_token_value');
+        $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn($this->request);
+        $this->channelRepository->expects($this->never())->method('findOneByCode')->with('test');
+        $this->wishlist->expects($this->never())->method('setChannel')->with($this->channel);
+        $this->wishlistManager->expects($this->once())->method('persist')->with($this->wishlist);
+        $this->wishlistManager->expects($this->once())->method('flush');
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }

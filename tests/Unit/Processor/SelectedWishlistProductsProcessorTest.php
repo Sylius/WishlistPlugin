@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\Processor;
@@ -33,14 +42,8 @@ final class SelectedWishlistProductsProcessorTest extends TestCase
     {
         $firstWishlistItem = $this->createMock(WishlistItemInterface::class);
         $secondWishlistItem = $this->createMock(WishlistItemInterface::class);
-        $firstWishlistItem
-            ->expects($this->once())
-            ->method('isSelected')
-            ->willReturn(false);
-        $secondWishlistItem
-            ->expects($this->once())
-            ->method('isSelected')
-            ->willReturn(true);
+        $firstWishlistItem->expects($this->once())->method('isSelected')->willReturn(false);
+        $secondWishlistItem->expects($this->once())->method('isSelected')->willReturn(true);
 
         $this->assertSame(
             $secondWishlistItem,

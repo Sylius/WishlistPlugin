@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\Resolver;
@@ -44,10 +53,7 @@ final class WishlistCookieTokenResolverTest extends TestCase
         $request = new Request();
         $request->cookies = new InputBag(['token' => 'cookie_token']);
 
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getMainRequest')
-            ->willReturn($request);
+        $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn($request);
 
         $this->assertSame(
             'cookie_token',
@@ -61,10 +67,7 @@ final class WishlistCookieTokenResolverTest extends TestCase
         $request->cookies = new InputBag();
         $request->attributes = new InputBag(['token' => 'attribute_token']);
 
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getMainRequest')
-            ->willReturn($request);
+        $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn($request);
 
         $this->assertSame(
             'attribute_token',
@@ -78,10 +81,7 @@ final class WishlistCookieTokenResolverTest extends TestCase
         $request->cookies = new InputBag();
         $request->attributes = new InputBag();
 
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getMainRequest')
-            ->willReturn($request);
+        $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn($request);
 
         $this->assertMatchesRegularExpression(
             "/^([a-f0-9\-]{36})$/",

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\CommandHandler\Wishlist;
@@ -58,56 +67,24 @@ final class AddProductVariantToWishlistHandlerTest extends TestCase
 
     public function testShouldAddProductVariantToWishlist(): void
     {
-        $this->productVariantRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn($this->productVariant);
-        $this->wishlistProductFactory
-            ->expects($this->once())
-            ->method('createForWishlistAndVariant')
-            ->with($this->wishlist, $this->productVariant)
-            ->willReturn($this->wishlistProduct);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('addWishlistProduct')
-            ->with($this->wishlistProduct);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('persist')
-            ->with($this->wishlist);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('flush');
+        $this->productVariantRepository->expects($this->once())->method('find')->with(1)->willReturn($this->productVariant);
+        $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndVariant')->with($this->wishlist, $this->productVariant)->willReturn($this->wishlistProduct);
+        $this->wishlist->expects($this->once())->method('addWishlistProduct')->with($this->wishlistProduct);
+        $this->wishlistManager->expects($this->once())->method('persist')->with($this->wishlist);
+        $this->wishlistManager->expects($this->once())->method('flush');
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowExceptionIfProductVariantIsNotFound(): void
     {
         $this->expectException(ProductVariantNotFoundException::class);
-        $this->productVariantRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn(null);
-        $this->wishlistProductFactory
-            ->expects($this->never())
-            ->method('createForWishlistAndVariant')
-            ->with($this->wishlist, $this->productVariant)
-            ->willReturn($this->wishlistProduct);
-        $this->wishlist
-            ->expects($this->never())
-            ->method('addWishlistProduct')
-            ->with($this->wishlistProduct);
-        $this->wishlistManager
-            ->expects($this->never())
-            ->method('persist')
-            ->with($this->wishlist);
-        $this->wishlistManager
-            ->expects($this->never())
-            ->method('flush');
+        $this->productVariantRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
+        $this->wishlistProductFactory->expects($this->never())->method('createForWishlistAndVariant')->with($this->wishlist, $this->productVariant)->willReturn($this->wishlistProduct);
+        $this->wishlist->expects($this->never())->method('addWishlistProduct')->with($this->wishlistProduct);
+        $this->wishlistManager->expects($this->never())->method('persist')->with($this->wishlist);
+        $this->wishlistManager->expects($this->never())->method('flush');
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }
