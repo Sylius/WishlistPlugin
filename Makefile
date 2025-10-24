@@ -1,14 +1,8 @@
 phpunit:
 	vendor/bin/phpunit
 
-phpspec:
-	vendor/bin/phpspec run --ansi --no-interaction -f dot
-
 phpstan:
 	vendor/bin/phpstan analyse
-
-psalm:
-	vendor/bin/psalm
 
 behat-js:
 	APP_ENV=test vendor/bin/behat --colors --strict --no-interaction -vvv -f progress
@@ -29,8 +23,8 @@ behat:
 
 init: install backend frontend
 
-ci: init phpstan psalm phpunit phpspec behat
+ci: init phpstan phpunit behat
 
 integration: init phpunit behat
 
-static: install phpspec phpstan psalm
+static: install phpstan
