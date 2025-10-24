@@ -71,35 +71,19 @@ final class AddProductVariantToWishlistActionTest extends TestCase
     public function testShouldThrow404WhenWishlistIsNotFound(): void
     {
         $this->expectException(ResourceNotFoundException::class);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn(null);
+        $this->wishlistRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
 
-        $this->action->__invoke(1, $this->request);
+        ($this->action)(1, $this->request);
     }
 
     public function testShouldThrow404WhenProductIsNotFound(): void
     {
         $this->expectException(NotFoundHttpException::class);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn($this->wishlist);
-        $this->request
-            ->expects($this->once())
-            ->method('get')
-            ->with('variantId')
-            ->willReturn(1);
-        $this->productVariantRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn(null);
+        $this->wishlistRepository->expects($this->once())->method('find')->with(1)->willReturn($this->wishlist);
+        $this->request->expects($this->once())->method('get')->with('variantId')->willReturn(1);
+        $this->productVariantRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
 
-        $this->action->__invoke(1, $this->request);
+        ($this->action)(1, $this->request);
     }
 
     public function testShouldHandleTheRequestAndPersistNewWishlistForLoggedShopUser(): void
@@ -109,65 +93,22 @@ final class AddProductVariantToWishlistActionTest extends TestCase
         $session = $this->createMock(Session::class);
         $flashBag = $this->createMock(FlashBagInterface::class);
 
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn($this->wishlist);
-        $this->request
-            ->expects($this->once())
-            ->method('get')
-            ->with('variantId')
-            ->willReturn(1);
-        $this->productVariantRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn($productVariant);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('hasProductVariant')
-            ->with($productVariant)
-            ->willReturn(false);
-        $this->wishlistProductFactory
-            ->expects($this->once())
-            ->method('createForWishlistAndVariant')
-            ->with($this->wishlist, $productVariant)
-            ->willReturn($wishlistProduct);
-        $this->translator
-            ->expects($this->once())
-            ->method('trans')
-            ->with('sylius_wishlist_plugin.ui.added_wishlist_item')
-            ->willReturn('Product has been added to your wishlist.');
-        $this->urlGenerator
-            ->expects($this->once())
-            ->method('generate')
-            ->with('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', ['wishlistId' => 1])
-            ->willReturn('/wishlist/1');
-        $this->wishlist
-            ->expects($this->once())
-            ->method('addWishlistProduct')
-            ->with($wishlistProduct);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('add')
-            ->with($this->wishlist);
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getSession')
-            ->willReturn($session);
-        $session
-            ->expects($this->once())
-            ->method('getFlashBag')
-            ->willReturn($flashBag);
-        $flashBag
-            ->expects($this->once())
-            ->method('add')
-            ->with('success', 'Product has been added to your wishlist.');
+        $this->wishlistRepository->expects($this->once())->method('find')->with(1)->willReturn($this->wishlist);
+        $this->request->expects($this->once())->method('get')->with('variantId')->willReturn(1);
+        $this->productVariantRepository->expects($this->once())->method('find')->with(1)->willReturn($productVariant);
+        $this->wishlist->expects($this->once())->method('hasProductVariant')->with($productVariant)->willReturn(false);
+        $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndVariant')->with($this->wishlist, $productVariant)->willReturn($wishlistProduct);
+        $this->translator->expects($this->once())->method('trans')->with('sylius_wishlist_plugin.ui.added_wishlist_item')->willReturn('Product has been added to your wishlist.');
+        $this->urlGenerator->expects($this->once())->method('generate')->with('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', ['wishlistId' => 1])->willReturn('/wishlist/1');
+        $this->wishlist->expects($this->once())->method('addWishlistProduct')->with($wishlistProduct);
+        $this->wishlistRepository->expects($this->once())->method('add')->with($this->wishlist);
+        $this->requestStack->expects($this->once())->method('getSession')->willReturn($session);
+        $session->expects($this->once())->method('getFlashBag')->willReturn($flashBag);
+        $flashBag->expects($this->once())->method('add')->with('success', 'Product has been added to your wishlist.');
 
         $this->assertInstanceOf(
             RedirectResponse::class,
-            $this->action->__invoke(1, $this->request),
+            ($this->action)(1, $this->request),
         );
     }
 }

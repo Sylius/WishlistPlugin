@@ -81,24 +81,11 @@ final class WishlistContextTest extends TestCase
 
     public function testShouldCreateNewWishlistIfNoCookieAndUser(): void
     {
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('nonexistent-token');
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($this->token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->token)
-            ->willReturn(null);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('nonexistent-token');
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($this->token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($this->token)->willReturn(null);
 
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->wishlist);
+        $this->wishlistFactory->expects($this->once())->method('createNew')->willReturn($this->wishlist);
 
         $this->assertSame(
             $this->wishlist,
@@ -108,24 +95,10 @@ final class WishlistContextTest extends TestCase
 
     public function testShouldReturnCookieWishlistIfCookieAndNoUser(): void
     {
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('Fq8N4W6mk12i9J2HX0U60POGG5UEzSgGW37OWd6sv2dd8FlBId');
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($this->token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->token)
-            ->willReturn(null);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findByToken')
-            ->with('Fq8N4W6mk12i9J2HX0U60POGG5UEzSgGW37OWd6sv2dd8FlBId')
-            ->willReturn($this->wishlist);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('Fq8N4W6mk12i9J2HX0U60POGG5UEzSgGW37OWd6sv2dd8FlBId');
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($this->token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($this->token)->willReturn(null);
+        $this->wishlistRepository->expects($this->once())->method('findByToken')->with('Fq8N4W6mk12i9J2HX0U60POGG5UEzSgGW37OWd6sv2dd8FlBId')->willReturn($this->wishlist);
 
         $this->assertSame(
             $this->wishlist,
@@ -135,28 +108,11 @@ final class WishlistContextTest extends TestCase
 
     public function testShouldReturnNewWishlistIfCookieNotFoundAndNoUser(): void
     {
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('Fq8N4W6mk12i9J2HX0U60POGG5UEzSgGW37OWd6sv2dd8FlBId');
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($this->token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->token)
-            ->willReturn(null);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findByToken')
-            ->with('Fq8N4W6mk12i9J2HX0U60POGG5UEzSgGW37OWd6sv2dd8FlBId')
-            ->willReturn(null);
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->wishlist);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('Fq8N4W6mk12i9J2HX0U60POGG5UEzSgGW37OWd6sv2dd8FlBId');
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($this->token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($this->token)->willReturn(null);
+        $this->wishlistRepository->expects($this->once())->method('findByToken')->with('Fq8N4W6mk12i9J2HX0U60POGG5UEzSgGW37OWd6sv2dd8FlBId')->willReturn(null);
+        $this->wishlistFactory->expects($this->once())->method('createNew')->willReturn($this->wishlist);
 
         $this->assertSame(
             $this->wishlist,
@@ -166,28 +122,11 @@ final class WishlistContextTest extends TestCase
 
     public function testShouldReturnUserWishlistIfFoundAndUserIsLoggedIn(): void
     {
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('nonexistent-token');
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($this->token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->token)
-            ->willReturn($this->shopUser);
-        $this->channelContext
-            ->expects($this->once())
-            ->method('getChannel')
-            ->willReturn($this->channel);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findOneByShopUserAndChannel')
-            ->with($this->shopUser, $this->channel)
-            ->willReturn($this->wishlist);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('nonexistent-token');
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($this->token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($this->token)->willReturn($this->shopUser);
+        $this->channelContext->expects($this->once())->method('getChannel')->willReturn($this->channel);
+        $this->wishlistRepository->expects($this->once())->method('findOneByShopUserAndChannel')->with($this->shopUser, $this->channel)->willReturn($this->wishlist);
 
         $this->assertSame(
             $this->wishlist,
@@ -197,37 +136,13 @@ final class WishlistContextTest extends TestCase
 
     public function testShouldReturnNewWishlistIfNotFoundAndUserIsLoggedIn(): void
     {
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('nonexistent-token');
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->wishlist);
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($this->token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->token)
-            ->willReturn($this->shopUser);
-        $this->channelContext
-            ->expects($this->once())
-            ->method('getChannel')
-            ->willReturn($this->channel);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findOneByShopUserAndChannel')
-            ->with($this->shopUser, $this->channel)
-            ->willReturn(null);
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createForUserAndChannel')
-            ->with($this->shopUser, $this->channel)
-            ->willReturn($this->wishlist);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('nonexistent-token');
+        $this->wishlistFactory->expects($this->once())->method('createNew')->willReturn($this->wishlist);
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($this->token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($this->token)->willReturn($this->shopUser);
+        $this->channelContext->expects($this->once())->method('getChannel')->willReturn($this->channel);
+        $this->wishlistRepository->expects($this->once())->method('findOneByShopUserAndChannel')->with($this->shopUser, $this->channel)->willReturn(null);
+        $this->wishlistFactory->expects($this->once())->method('createForUserAndChannel')->with($this->shopUser, $this->channel)->willReturn($this->wishlist);
 
         $this->assertSame(
             $this->wishlist,

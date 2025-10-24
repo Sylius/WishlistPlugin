@@ -77,32 +77,12 @@ final class WishlistsResolverTest extends TestCase
         $wishlistToken = 'wishlist_token';
         $user = $this->createMock(ShopUserInterface::class);
 
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($this->token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->token)
-            ->willReturn($user);
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn($wishlistToken);
-        $this->channelContext
-            ->expects($this->once())
-            ->method('getChannel')
-            ->willReturn($this->channel);
-        $user
-            ->expects($this->once())
-            ->method('getId')
-            ->willReturn(1);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findAllByShopUserAndToken')
-            ->with(1, $wishlistToken)
-            ->willReturn([$this->wishlist]);
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($this->token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($this->token)->willReturn($user);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn($wishlistToken);
+        $this->channelContext->expects($this->once())->method('getChannel')->willReturn($this->channel);
+        $user->expects($this->once())->method('getId')->willReturn(1);
+        $this->wishlistRepository->expects($this->once())->method('findAllByShopUserAndToken')->with(1, $wishlistToken)->willReturn([$this->wishlist]);
 
         $this->assertSame(
             [$this->wishlist],
@@ -114,28 +94,11 @@ final class WishlistsResolverTest extends TestCase
     {
         $wishlistToken = 'wishlist_token';
 
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($this->token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->token)
-            ->willReturn(null);
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn($wishlistToken);
-        $this->channelContext
-            ->expects($this->once())
-            ->method('getChannel')
-            ->willReturn($this->channel);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findAllByAnonymousAndChannel')
-            ->with($wishlistToken, $this->channel)
-            ->willReturn([$this->wishlist]);
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($this->token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($this->token)->willReturn(null);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn($wishlistToken);
+        $this->channelContext->expects($this->once())->method('getChannel')->willReturn($this->channel);
+        $this->wishlistRepository->expects($this->once())->method('findAllByAnonymousAndChannel')->with($wishlistToken, $this->channel)->willReturn([$this->wishlist]);
 
         $this->assertSame(
             [$this->wishlist],
@@ -146,27 +109,11 @@ final class WishlistsResolverTest extends TestCase
     public function testShouldResolveWishlistsByToken(): void
     {
         $wishlistToken = 'wishlist_token';
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($this->token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->token)
-            ->willReturn(null);
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn($wishlistToken);
-        $this->channelContext
-            ->expects($this->once())
-            ->method('getChannel');
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findAllByAnonymous')
-            ->with($wishlistToken)
-            ->willReturn([$this->wishlist]);
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($this->token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($this->token)->willReturn(null);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn($wishlistToken);
+        $this->channelContext->expects($this->once())->method('getChannel');
+        $this->wishlistRepository->expects($this->once())->method('findAllByAnonymous')->with($wishlistToken)->willReturn([$this->wishlist]);
 
         $this->assertSame(
             [$this->wishlist],

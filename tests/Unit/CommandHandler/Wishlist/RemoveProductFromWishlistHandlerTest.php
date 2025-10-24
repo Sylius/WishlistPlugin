@@ -66,37 +66,16 @@ final class RemoveProductFromWishlistHandlerTest extends TestCase
         $wishlist = $this->createMock(WishlistInterface::class);
         $wishlistProduct = $this->createMock(WishlistProductInterface::class);
 
-        $this->productRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn($this->product);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findByToken')
-            ->with('wishlist_token')
-            ->willReturn($wishlist);
-        $this->wishlistProductRepository
-            ->expects($this->once())
-            ->method('findOneBy')
-            ->with(['product' => $this->product, 'wishlist' => $wishlist])
-            ->willReturn($wishlistProduct);
-        $this->authorizationChecker
-            ->expects($this->once())
-            ->method('isGranted')
-            ->with(ResourceActions::DELETE, $wishlist)
-            ->willReturn(true);
-        $wishlist
-            ->expects($this->once())
-            ->method('removeProduct')
-            ->with($wishlistProduct);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('flush');
+        $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn($this->product);
+        $this->wishlistRepository->expects($this->once())->method('findByToken')->with('wishlist_token')->willReturn($wishlist);
+        $this->wishlistProductRepository->expects($this->once())->method('findOneBy')->with(['product' => $this->product, 'wishlist' => $wishlist])->willReturn($wishlistProduct);
+        $this->authorizationChecker->expects($this->once())->method('isGranted')->with(ResourceActions::DELETE, $wishlist)->willReturn(true);
+        $wishlist->expects($this->once())->method('removeProduct')->with($wishlistProduct);
+        $this->wishlistManager->expects($this->once())->method('flush');
 
         $this->assertSame(
             $wishlist,
-            $this->handler->__invoke($this->command),
+            ($this->handler)($this->command),
         );
     }
 
@@ -104,30 +83,18 @@ final class RemoveProductFromWishlistHandlerTest extends TestCase
     {
         $this->expectException(ProductNotFoundException::class);
 
-        $this->productRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn(null);
+        $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowExceptionWhenWishlistNotFound(): void
     {
         $this->expectException(WishlistNotFoundException::class);
 
-        $this->productRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn($this->product);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findByToken')
-            ->with('wishlist_token')
-            ->willReturn(null);
+        $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn($this->product);
+        $this->wishlistRepository->expects($this->once())->method('findByToken')->with('wishlist_token')->willReturn(null);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }

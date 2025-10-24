@@ -44,10 +44,7 @@ final class WishlistCookieTokenResolverTest extends TestCase
         $request = new Request();
         $request->cookies = new InputBag(['token' => 'cookie_token']);
 
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getMainRequest')
-            ->willReturn($request);
+        $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn($request);
 
         $this->assertSame(
             'cookie_token',
@@ -61,10 +58,7 @@ final class WishlistCookieTokenResolverTest extends TestCase
         $request->cookies = new InputBag();
         $request->attributes = new InputBag(['token' => 'attribute_token']);
 
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getMainRequest')
-            ->willReturn($request);
+        $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn($request);
 
         $this->assertSame(
             'attribute_token',
@@ -78,10 +72,7 @@ final class WishlistCookieTokenResolverTest extends TestCase
         $request->cookies = new InputBag();
         $request->attributes = new InputBag();
 
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getMainRequest')
-            ->willReturn($request);
+        $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn($request);
 
         $this->assertMatchesRegularExpression(
             "/^([a-f0-9\-]{36})$/",

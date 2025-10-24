@@ -45,15 +45,8 @@ final class WishlistProductFactoryFacadeTest extends TestCase
     public function testShouldCreateWishlistProductVariantAndAddItToWishlist(): void
     {
         $productVariant = $this->createMock(ProductVariantInterface::class);
-        $this->wishlistProductFactory
-            ->expects($this->once())
-            ->method('createForWishlistAndVariant')
-            ->with($this->wishlist, $productVariant)
-            ->willReturn($this->wishlistProduct);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('addWishlistProduct')
-            ->with($this->wishlistProduct);
+        $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndVariant')->with($this->wishlist, $productVariant)->willReturn($this->wishlistProduct);
+        $this->wishlist->expects($this->once())->method('addWishlistProduct')->with($this->wishlistProduct);
 
         $this->facade->createWithProductVariant($this->wishlist, $productVariant);
     }
@@ -61,15 +54,8 @@ final class WishlistProductFactoryFacadeTest extends TestCase
     public function testShouldCreateWishlistProductAndAddItToWishlist(): void
     {
         $product = $this->createMock(ProductInterface::class);
-        $this->wishlistProductFactory
-            ->expects($this->once())
-            ->method('createForWishlistAndProduct')
-            ->with($this->wishlist, $product)
-            ->willReturn($this->wishlistProduct);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('addWishlistProduct')
-            ->with($this->wishlistProduct);
+        $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndProduct')->with($this->wishlist, $product)->willReturn($this->wishlistProduct);
+        $this->wishlist->expects($this->once())->method('addWishlistProduct')->with($this->wishlistProduct);
 
         $this->facade->createWithProduct($this->wishlist, $product);
     }

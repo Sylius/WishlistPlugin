@@ -39,10 +39,7 @@ final class TokenUserResolverTest extends TestCase
         $token = $this->createMock(TokenInterface::class);
         $user = $this->createMock(UserInterface::class);
 
-        $token
-            ->expects($this->once())
-            ->method('getUser')
-            ->willReturn($user);
+        $token->expects($this->once())->method('getUser')->willReturn($user);
 
         $this->assertSame(
             $user,

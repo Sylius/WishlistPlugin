@@ -48,48 +48,22 @@ final class UpdateWishlistNameHandlerTest extends TestCase
 
     public function testShouldRenameFoundWishlist(): void
     {
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('token');
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findOneByTokenAndName')
-            ->with('token', 'newName')
-            ->willReturn(null);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('setName')
-            ->with('newName');
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('add')
-            ->with($this->wishlist);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('token');
+        $this->wishlistRepository->expects($this->once())->method('findOneByTokenAndName')->with('token', 'newName')->willReturn(null);
+        $this->wishlist->expects($this->once())->method('setName')->with('newName');
+        $this->wishlistRepository->expects($this->once())->method('add')->with($this->wishlist);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowExceptionWhenWishlistNameIsAlreadyTaken(): void
     {
         $this->expectException(WishlistNameIsTakenException::class);
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('token');
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findOneByTokenAndName')
-            ->with('token', 'newName')
-            ->willReturn($this->createMock(WishlistInterface::class));
-        $this->wishlist
-            ->expects($this->never())
-            ->method('setName')
-            ->with('newName');
-        $this->wishlistRepository
-            ->expects($this->never())
-            ->method('add')
-            ->with($this->wishlist);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('token');
+        $this->wishlistRepository->expects($this->once())->method('findOneByTokenAndName')->with('token', 'newName')->willReturn($this->createMock(WishlistInterface::class));
+        $this->wishlist->expects($this->never())->method('setName')->with('newName');
+        $this->wishlistRepository->expects($this->never())->method('add')->with($this->wishlist);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }

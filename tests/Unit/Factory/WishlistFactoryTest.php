@@ -39,10 +39,7 @@ final class WishlistFactoryTest extends TestCase
 
     public function testShouldCreateNewWishlist(): void
     {
-        $this->innerFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->wishlist);
+        $this->innerFactory->expects($this->once())->method('createNew')->willReturn($this->wishlist);
 
         $this->assertSame(
             $this->wishlist,
@@ -54,18 +51,9 @@ final class WishlistFactoryTest extends TestCase
     {
         $shopUser = $this->createMock(ShopUserInterface::class);
 
-        $this->innerFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->wishlist);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('setName')
-            ->with();
-        $this->wishlist
-            ->expects($this->once())
-            ->method('setShopUser')
-            ->with($shopUser);
+        $this->innerFactory->expects($this->once())->method('createNew')->willReturn($this->wishlist);
+        $this->wishlist->expects($this->once())->method('setName')->with();
+        $this->wishlist->expects($this->once())->method('setShopUser')->with($shopUser);
 
         $this->assertSame(
             $this->wishlist,

@@ -55,14 +55,8 @@ final class WishlistTest extends TestCase
     {
         $wishlistProduct = $this->createMock(WishlistProductInterface::class);
         $productVariant = $this->createMock(ProductVariantInterface::class);
-        $wishlistProduct
-            ->expects($this->once())
-            ->method('getVariant')
-            ->willReturn($productVariant);
-        $wishlistProduct
-            ->expects($this->once())
-            ->method('setWishlist')
-            ->with($this->wishlist);
+        $wishlistProduct->expects($this->once())->method('getVariant')->willReturn($productVariant);
+        $wishlistProduct->expects($this->once())->method('setWishlist')->with($this->wishlist);
 
         $this->wishlist->addWishlistProduct($wishlistProduct);
 

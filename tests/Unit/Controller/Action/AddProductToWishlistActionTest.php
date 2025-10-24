@@ -78,17 +78,10 @@ final class AddProductToWishlistActionTest extends TestCase
     public function testShouldThrow404WhenProductIsNotFound(): void
     {
         $this->expectException(NotFoundHttpException::class);
-        $this->request
-            ->expects($this->once())
-            ->method('get')
-            ->willReturn(1);
-        $this->productRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn(null);
+        $this->request->expects($this->once())->method('get')->willReturn(1);
+        $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
 
-        $this->action->__invoke($this->request);
+        ($this->action)($this->request);
     }
 
     public function testShouldHandleTheRequestAndPersistNewWishlistForLoggedShopUser(): void
@@ -103,73 +96,24 @@ final class AddProductToWishlistActionTest extends TestCase
         $headers = $this->createMock(HeaderBag::class);
         $this->request->headers = $headers;
 
-        $this->request
-            ->expects($this->once())
-            ->method('get')
-            ->with('productId')
-            ->willReturn(1);
-        $this->productRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn($product);
-        $this->wishlistsResolver
-            ->expects($this->once())
-            ->method('resolveAndCreate')
-            ->willReturn([
-                $firstWishlist,
-                $secondWishlist,
-            ]);
-        $this->wishlistProductFactory
-            ->expects($this->once())
-            ->method('createForWishlistAndProduct')
-            ->with($firstWishlist, $product)
-            ->willReturn($wishlistProduct);
-        $this->translator
-            ->expects($this->once())
-            ->method('trans')
-            ->with('sylius_wishlist_plugin.ui.added_wishlist_item')
-            ->willReturn('Product has been added to your wishlist.');
-        $this->channelContext
-            ->expects($this->once())
-            ->method('getChannel')
-            ->willReturn($channel);
-        $channel
-            ->expects($this->exactly(2))
-            ->method('getId')
-            ->willReturn(1);
-        $firstWishlist
-            ->expects($this->once())
-            ->method('getChannel')
-            ->willReturn($channel);
-        $firstWishlist
-            ->expects($this->once())
-            ->method('addWishlistProduct')
-            ->with($wishlistProduct);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('flush');
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getSession')
-            ->willReturn($session);
-        $session
-            ->expects($this->once())
-            ->method('getFlashBag')
-            ->willReturn($flashBag);
-        $flashBag
-            ->expects($this->once())
-            ->method('add')
-            ->with('success', 'Product has been added to your wishlist.');
-        $headers
-            ->expects($this->once())
-            ->method('get')
-            ->with('referer')
-            ->willReturn('value');
+        $this->request->expects($this->once())->method('get')->with('productId')->willReturn(1);
+        $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn($product);
+        $this->wishlistsResolver->expects($this->once())->method('resolveAndCreate')->willReturn([$firstWishlist, $secondWishlist]);
+        $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndProduct')->with($firstWishlist, $product)->willReturn($wishlistProduct);
+        $this->translator->expects($this->once())->method('trans')->with('sylius_wishlist_plugin.ui.added_wishlist_item')->willReturn('Product has been added to your wishlist.');
+        $this->channelContext->expects($this->once())->method('getChannel')->willReturn($channel);
+        $channel->expects($this->exactly(2))->method('getId')->willReturn(1);
+        $firstWishlist->expects($this->once())->method('getChannel')->willReturn($channel);
+        $firstWishlist->expects($this->once())->method('addWishlistProduct')->with($wishlistProduct);
+        $this->wishlistManager->expects($this->once())->method('flush');
+        $this->requestStack->expects($this->once())->method('getSession')->willReturn($session);
+        $session->expects($this->once())->method('getFlashBag')->willReturn($flashBag);
+        $flashBag->expects($this->once())->method('add')->with('success', 'Product has been added to your wishlist.');
+        $headers->expects($this->once())->method('get')->with('referer')->willReturn('value');
 
         $this->assertInstanceOf(
             RedirectResponse::class,
-            $this->action->__invoke($this->request),
+            ($this->action)($this->request),
         );
     }
 }

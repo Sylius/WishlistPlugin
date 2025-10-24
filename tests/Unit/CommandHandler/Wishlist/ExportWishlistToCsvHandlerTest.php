@@ -58,64 +58,29 @@ final class ExportWishlistToCsvHandlerTest extends TestCase
         $serializer = $this->createMock(Serializer::class);
 
         $fputcsvInvokeCount = $this->exactly(2);
-        $file
-            ->expects($fputcsvInvokeCount)
-            ->method('fputcsv')
-            ->willReturnCallback(function ($value) use ($fputcsvInvokeCount) {
-                if (1 === $fputcsvInvokeCount->numberOfInvocations()) {
-                    $this->assertSame(ExportWishlistToCsvHandler::CSV_HEADERS, $value);
-                }
-                if (2 === $fputcsvInvokeCount->numberOfInvocations()) {
-                    $this->assertSame(['serializer_result'], $value);
-                }
+        $file->expects($fputcsvInvokeCount)->method('fputcsv')->willReturnCallback(function ($value) use ($fputcsvInvokeCount) {
+            if (1 === $fputcsvInvokeCount->numberOfInvocations()) {
+                $this->assertSame(ExportWishlistToCsvHandler::CSV_HEADERS, $value);
+            }
+            if (2 === $fputcsvInvokeCount->numberOfInvocations()) {
+                $this->assertSame(['serializer_result'], $value);
+            }
 
-                return 0;
-            });
-        $wishlistItem
-            ->method('getCartItem')
-            ->willReturn($addToCartCommand);
-        $addToCartCommand
-            ->expects($this->once())
-            ->method('getCartItem')
-            ->willReturn($orderItem);
-        $wishlistItem
-            ->method('getWishlistProduct')
-            ->willReturn($wishlistProduct);
-        $orderItem
-            ->method('getVariant')
-            ->willReturn($productVariant);
-        $productVariant
-            ->expects($this->once())
-            ->method('getId')
-            ->willReturn(1);
-        $productVariant
-            ->expects($this->once())
-            ->method('getCode')
-            ->willReturn('test_product_variant');
-        $wishlistProduct
-            ->expects($this->once())
-            ->method('getProduct')
-            ->willReturn($product);
-        $product
-            ->expects($this->once())
-            ->method('getId')
-            ->willReturn(1);
-        $this->csvWishlistProductFactory
-            ->expects($this->once())
-            ->method('createWithProperties')
-            ->with(1, 1, 'test_product_variant')
-            ->willReturn($csvWishlistProduct);
-        $this->csvSerializerFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($serializer);
-        $serializer
-            ->expects($this->once())
-            ->method('normalize')
-            ->with($csvWishlistProduct, 'csv')
-            ->willReturn(['serializer_result']);
+            return 0;
+        });
+        $wishlistItem->method('getCartItem')->willReturn($addToCartCommand);
+        $addToCartCommand->expects($this->once())->method('getCartItem')->willReturn($orderItem);
+        $wishlistItem->method('getWishlistProduct')->willReturn($wishlistProduct);
+        $orderItem->method('getVariant')->willReturn($productVariant);
+        $productVariant->expects($this->once())->method('getId')->willReturn(1);
+        $productVariant->expects($this->once())->method('getCode')->willReturn('test_product_variant');
+        $wishlistProduct->expects($this->once())->method('getProduct')->willReturn($product);
+        $product->expects($this->once())->method('getId')->willReturn(1);
+        $this->csvWishlistProductFactory->expects($this->once())->method('createWithProperties')->with(1, 1, 'test_product_variant')->willReturn($csvWishlistProduct);
+        $this->csvSerializerFactory->expects($this->once())->method('createNew')->willReturn($serializer);
+        $serializer->expects($this->once())->method('normalize')->with($csvWishlistProduct, 'csv')->willReturn(['serializer_result']);
 
-        $this->handler->__invoke(
+        ($this->handler)(
             new ExportWishlistToCsv(new ArrayCollection([$wishlistItem]), $file),
         );
     }

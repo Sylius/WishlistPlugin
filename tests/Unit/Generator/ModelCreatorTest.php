@@ -59,44 +59,15 @@ final class ModelCreatorTest extends TestCase
         $request = $this->createMock(Request::class);
         $pdfModel = $this->createMock(VariantPdfModelInterface::class);
 
-        $wishlistItem
-            ->expects($this->once())
-            ->method('getCartItem')
-            ->willReturn($addToCartCommand);
-        $addToCartCommand
-            ->expects($this->once())
-            ->method('getCartItem')
-            ->willReturn($orderItem);
-        $orderItem
-            ->expects($this->once())
-            ->method('getVariant')
-            ->willReturn($variant);
-        $orderItem
-            ->expects($this->once())
-            ->method('getQuantity')
-            ->willReturn(1);
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getCurrentRequest')
-            ->willReturn($request);
-        $request
-            ->expects($this->once())
-            ->method('getSchemeAndHttpHost')
-            ->willReturn('host');
-        $this->variantImageToDataUriResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($variant, 'host')
-            ->willReturn('url');
-        $variant
-            ->expects($this->once())
-            ->method('getCode')
-            ->willReturn('code');
-        $this->variantPdfModelFactory
-            ->expects($this->once())
-            ->method('createWithVariantAndImagePath')
-            ->with($variant, 'url', 1, 'code')
-            ->willReturn($pdfModel);
+        $wishlistItem->expects($this->once())->method('getCartItem')->willReturn($addToCartCommand);
+        $addToCartCommand->expects($this->once())->method('getCartItem')->willReturn($orderItem);
+        $orderItem->expects($this->once())->method('getVariant')->willReturn($variant);
+        $orderItem->expects($this->once())->method('getQuantity')->willReturn(1);
+        $this->requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
+        $request->expects($this->once())->method('getSchemeAndHttpHost')->willReturn('host');
+        $this->variantImageToDataUriResolver->expects($this->once())->method('resolve')->with($variant, 'host')->willReturn('url');
+        $variant->expects($this->once())->method('getCode')->willReturn('code');
+        $this->variantPdfModelFactory->expects($this->once())->method('createWithVariantAndImagePath')->with($variant, 'url', 1, 'code')->willReturn($pdfModel);
 
         $this->assertSame(
             $pdfModel,

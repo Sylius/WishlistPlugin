@@ -51,22 +51,10 @@ final class VariantImageToDataUriResolverTest extends TestCase
 
     public function testShouldResolveEmptyImagePath(): void
     {
-        $this->variant
-            ->expects($this->once())
-            ->method('getProduct')
-            ->willReturn($this->product);
-        $this->product
-            ->expects($this->once())
-            ->method('getImages')
-            ->willReturn($this->productImages);
-        $this->productImages
-            ->expects($this->once())
-            ->method('first')
-            ->willReturn(false);
-        $this->generateDataUriForImageResolver
-            ->expects($this->once())
-            ->method('resolveWithNoImage')
-            ->willReturn(self::TEST_BASE_URL);
+        $this->variant->expects($this->once())->method('getProduct')->willReturn($this->product);
+        $this->product->expects($this->once())->method('getImages')->willReturn($this->productImages);
+        $this->productImages->expects($this->once())->method('first')->willReturn(false);
+        $this->generateDataUriForImageResolver->expects($this->once())->method('resolveWithNoImage')->willReturn(self::TEST_BASE_URL);
 
         $this->assertSame(
             self::TEST_BASE_URL,
@@ -77,27 +65,11 @@ final class VariantImageToDataUriResolverTest extends TestCase
     public function testShouldResolveImagePath(): void
     {
         $productImage = $this->createMock(ProductImageInterface::class);
-        $this->variant
-            ->expects($this->once())
-            ->method('getProduct')
-            ->willReturn($this->product);
-        $this->product
-            ->expects($this->once())
-            ->method('getImages')
-            ->willReturn($this->productImages);
-        $this->productImages
-            ->expects($this->once())
-            ->method('first')
-            ->willReturn($productImage);
-        $productImage
-            ->expects($this->once())
-            ->method('getPath')
-            ->willReturn('test.jpg');
-        $this->generateDataUriForImageResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($productImage)
-            ->willReturn(self::TEST_BASE_URL);
+        $this->variant->expects($this->once())->method('getProduct')->willReturn($this->product);
+        $this->product->expects($this->once())->method('getImages')->willReturn($this->productImages);
+        $this->productImages->expects($this->once())->method('first')->willReturn($productImage);
+        $productImage->expects($this->once())->method('getPath')->willReturn('test.jpg');
+        $this->generateDataUriForImageResolver->expects($this->once())->method('resolve')->with($productImage)->willReturn(self::TEST_BASE_URL);
 
         $this->assertSame(
             self::TEST_BASE_URL,

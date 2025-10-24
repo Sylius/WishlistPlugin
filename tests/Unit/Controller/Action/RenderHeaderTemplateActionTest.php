@@ -43,21 +43,12 @@ final class RenderHeaderTemplateActionTest extends TestCase
 
     public function testShouldRenderHeaderTemplate(): void
     {
-        $this->wishlistsResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn([]);
-        $this->twigEnvironment
-            ->expects($this->once())
-            ->method('render')
-            ->with('@SyliusWishlistPlugin/common/widget.html.twig', [
-                'wishlists' => [],
-            ])
-            ->willReturn('TEMPLATE');
+        $this->wishlistsResolver->expects($this->once())->method('resolve')->willReturn([]);
+        $this->twigEnvironment->expects($this->once())->method('render')->with('@SyliusWishlistPlugin/common/widget.html.twig', ['wishlists' => []])->willReturn('TEMPLATE');
 
         $this->assertInstanceOf(
             Response::class,
-            $this->action->__invoke($this->createMock(Request::class)),
+            ($this->action)($this->createMock(Request::class)),
         );
     }
 }

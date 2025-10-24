@@ -44,28 +44,12 @@ final class AddProductToSelectedWishlistHandlerTest extends TestCase
         $wishlist = $this->createMock(WishlistInterface::class);
         $wishlistProduct = $this->createMock(WishlistProductInterface::class);
 
-        $command
-            ->expects($this->once())
-            ->method('getProduct')
-            ->willReturn($product);
-        $command
-            ->expects($this->once())
-            ->method('getWishlist')
-            ->willReturn($wishlist);
-        $this->wishlistProductFactory
-            ->expects($this->once())
-            ->method('createForWishlistAndProduct')
-            ->with($wishlist, $product)
-            ->willReturn($wishlistProduct);
-        $wishlist
-            ->expects($this->once())
-            ->method('addWishlistProduct')
-            ->with($wishlistProduct);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('add')
-            ->with($wishlist);
+        $command->expects($this->once())->method('getProduct')->willReturn($product);
+        $command->expects($this->once())->method('getWishlist')->willReturn($wishlist);
+        $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndProduct')->with($wishlist, $product)->willReturn($wishlistProduct);
+        $wishlist->expects($this->once())->method('addWishlistProduct')->with($wishlistProduct);
+        $this->wishlistRepository->expects($this->once())->method('add')->with($wishlist);
 
-        $this->handler->__invoke($command);
+        ($this->handler)($command);
     }
 }

@@ -82,117 +82,38 @@ final class CreateNewWishlistHandlerTest extends TestCase
 
     public function testShouldCreateNewWishlistForUser(): void
     {
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($this->token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->token)
-            ->willReturn($this->shopUser);
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('token');
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createForUser')
-            ->with($this->shopUser)
-            ->willReturn($this->firstWishlist);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('getShopUser')
-            ->willReturn($this->shopUser);
-        $this->shopUser
-            ->expects($this->once())
-            ->method('getId')
-            ->willReturn(1);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findAllByShopUser')
-            ->with(1)
-            ->willReturn([$this->firstWishlist]);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('setToken')
-            ->with('token');
-        $this->channelRepository
-            ->expects($this->once())
-            ->method('findOneByCode')
-            ->with('test_channel_code')
-            ->willReturn($this->channel);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('setChannel')
-            ->with($this->channel);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('setName')
-            ->with('New wishlist');
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('add')
-            ->with($this->firstWishlist);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('getId')
-            ->willReturn(1);
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($this->token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($this->token)->willReturn($this->shopUser);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('token');
+        $this->wishlistFactory->expects($this->once())->method('createForUser')->with($this->shopUser)->willReturn($this->firstWishlist);
+        $this->firstWishlist->expects($this->once())->method('getShopUser')->willReturn($this->shopUser);
+        $this->shopUser->expects($this->once())->method('getId')->willReturn(1);
+        $this->wishlistRepository->expects($this->once())->method('findAllByShopUser')->with(1)->willReturn([$this->firstWishlist]);
+        $this->firstWishlist->expects($this->once())->method('setToken')->with('token');
+        $this->channelRepository->expects($this->once())->method('findOneByCode')->with('test_channel_code')->willReturn($this->channel);
+        $this->firstWishlist->expects($this->once())->method('setChannel')->with($this->channel);
+        $this->firstWishlist->expects($this->once())->method('setName')->with('New wishlist');
+        $this->wishlistRepository->expects($this->once())->method('add')->with($this->firstWishlist);
+        $this->firstWishlist->expects($this->once())->method('getId')->willReturn(1);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldCreateNewWishlistForGuest(): void
     {
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn(null);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with(null)
-            ->willReturn(null);
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('token');
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createNew')
-            ->willReturn($this->firstWishlist);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findAllByAnonymous')
-            ->with('token')
-            ->willReturn([]);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('setToken')
-            ->with('token');
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('setName')
-            ->with('New wishlist');
-        $this->channelRepository
-            ->expects($this->once())
-            ->method('findOneByCode')
-            ->with('test_channel_code')
-            ->willReturn($this->channel);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('setChannel')
-            ->with($this->channel);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('add')
-            ->with($this->firstWishlist);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('getId')
-            ->willReturn(1);
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn(null);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with(null)->willReturn(null);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('token');
+        $this->wishlistFactory->expects($this->once())->method('createNew')->willReturn($this->firstWishlist);
+        $this->wishlistRepository->expects($this->once())->method('findAllByAnonymous')->with('token')->willReturn([]);
+        $this->firstWishlist->expects($this->once())->method('setToken')->with('token');
+        $this->firstWishlist->expects($this->once())->method('setName')->with('New wishlist');
+        $this->channelRepository->expects($this->once())->method('findOneByCode')->with('test_channel_code')->willReturn($this->channel);
+        $this->firstWishlist->expects($this->once())->method('setChannel')->with($this->channel);
+        $this->wishlistRepository->expects($this->once())->method('add')->with($this->firstWishlist);
+        $this->firstWishlist->expects($this->once())->method('getId')->willReturn(1);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowWishlistNameIsTakenExceptionIfWishlistNameIsDuplicatedForUser(): void
@@ -200,63 +121,20 @@ final class CreateNewWishlistHandlerTest extends TestCase
         $this->expectException(WishlistNameIsTakenException::class);
         $this->command->name = 'existing';
 
-        $this->tokenStorage
-            ->expects($this->once())
-            ->method('getToken')
-            ->willReturn($this->token);
-        $this->tokenUserResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->with($this->token)
-            ->willReturn($this->shopUser);
-        $this->wishlistCookieTokenResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn('token');
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createForUser')
-            ->with($this->shopUser)
-            ->willReturn($this->firstWishlist);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('getShopUser')
-            ->willReturn($this->shopUser);
-        $this->shopUser
-            ->expects($this->once())
-            ->method('getId')
-            ->willReturn(1);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findAllByShopUser')
-            ->with(1)
-            ->willReturn([$this->secondWishlist]);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('setToken')
-            ->with('token');
-        $this->channelRepository
-            ->expects($this->once())
-            ->method('findOneByCode')
-            ->with('test_channel_code')
-            ->willReturn($this->channel);
-        $this->firstWishlist
-            ->expects($this->once())
-            ->method('setChannel')
-            ->with($this->channel);
-        $this->secondWishlist
-            ->expects($this->once())
-            ->method('getName')
-            ->willReturn('existing');
-        $this->firstWishlist
-            ->expects($this->never())
-            ->method('setName')
-            ->with('existing');
-        $this->wishlistRepository
-            ->expects($this->never())
-            ->method('add')
-            ->with($this->firstWishlist);
+        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($this->token);
+        $this->tokenUserResolver->expects($this->once())->method('resolve')->with($this->token)->willReturn($this->shopUser);
+        $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn('token');
+        $this->wishlistFactory->expects($this->once())->method('createForUser')->with($this->shopUser)->willReturn($this->firstWishlist);
+        $this->firstWishlist->expects($this->once())->method('getShopUser')->willReturn($this->shopUser);
+        $this->shopUser->expects($this->once())->method('getId')->willReturn(1);
+        $this->wishlistRepository->expects($this->once())->method('findAllByShopUser')->with(1)->willReturn([$this->secondWishlist]);
+        $this->firstWishlist->expects($this->once())->method('setToken')->with('token');
+        $this->channelRepository->expects($this->once())->method('findOneByCode')->with('test_channel_code')->willReturn($this->channel);
+        $this->firstWishlist->expects($this->once())->method('setChannel')->with($this->channel);
+        $this->secondWishlist->expects($this->once())->method('getName')->willReturn('existing');
+        $this->firstWishlist->expects($this->never())->method('setName')->with('existing');
+        $this->wishlistRepository->expects($this->never())->method('add')->with($this->firstWishlist);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }

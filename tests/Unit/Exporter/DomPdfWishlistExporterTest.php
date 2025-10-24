@@ -48,37 +48,12 @@ final class DomPdfWishlistExporterTest extends TestCase
         $data = new ArrayCollection([
             $this->createMock(VariantPdfModelInterface::class),
         ]);
-        $this->factory
-            ->expects($this->once())
-            ->method('createNewWithDefaultOptions')
-            ->willReturn($domPdf);
-        $this->environment
-            ->expects($this->once())
-            ->method('render')
-            ->with(
-                '@SyliusWishlistPlugin/wishlist_pdf.html.twig',
-                [
-                    'title' => 'My wishlist products',
-                    'date' => date('d.m.Y'),
-                    'products' => $data,
-                ],
-            )
-            ->willReturn('');
-        $domPdf
-            ->expects($this->once())
-            ->method('loadHtml')
-            ->with('');
-        $domPdf
-            ->expects($this->once())
-            ->method('setPaper')
-            ->with('A4', 'portrait');
-        $domPdf
-            ->expects($this->once())
-            ->method('render');
-        $domPdf
-            ->expects($this->once())
-            ->method('stream')
-            ->with('Wishlist', ['Attachment' => true]);
+        $this->factory->expects($this->once())->method('createNewWithDefaultOptions')->willReturn($domPdf);
+        $this->environment->expects($this->once())->method('render')->with('@SyliusWishlistPlugin/wishlist_pdf.html.twig', ['title' => 'My wishlist products', 'date' => date('d.m.Y'), 'products' => $data])->willReturn('');
+        $domPdf->expects($this->once())->method('loadHtml')->with('');
+        $domPdf->expects($this->once())->method('setPaper')->with('A4', 'portrait');
+        $domPdf->expects($this->once())->method('render');
+        $domPdf->expects($this->once())->method('stream')->with('Wishlist', ['Attachment' => true]);
 
         $this->exporter->export($data);
     }

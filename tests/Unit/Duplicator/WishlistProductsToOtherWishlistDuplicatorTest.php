@@ -65,34 +65,11 @@ final class WishlistProductsToOtherWishlistDuplicatorTest extends TestCase
         $firstWishlistProduct = $this->createMock(WishlistProductInterface::class);
         $secondWishlistProduct = $this->createMock(WishlistProductInterface::class);
         $destinedWishlist = $this->createMock(WishlistInterface::class);
-        $this->productVariantRepository
-            ->expects($this->exactly(2))
-            ->method('find')
-            ->willReturnMap([
-                ['1', $firstVariant],
-                ['24', $secondVariant],
-            ]);
-        $destinedWishlist
-            ->expects($this->exactly(2))
-            ->method('hasProductVariant')
-            ->willReturnMap([
-                [$firstVariant, false],
-                [$secondVariant, false],
-            ]);
-        $this->wishlistProductFactory
-            ->expects($this->exactly(2))
-            ->method('createForWishlistAndVariant')
-            ->willReturnMap([
-                [$destinedWishlist, $firstVariant, $firstWishlistProduct],
-                [$destinedWishlist, $secondVariant, $secondWishlistProduct],
-            ]);
-        $destinedWishlist
-            ->expects($this->exactly(2))
-            ->method('addWishlistProduct');
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('add')
-            ->with($destinedWishlist);
+        $this->productVariantRepository->expects($this->exactly(2))->method('find')->willReturnMap([['1', $firstVariant], ['24', $secondVariant]]);
+        $destinedWishlist->expects($this->exactly(2))->method('hasProductVariant')->willReturnMap([[$firstVariant, false], [$secondVariant, false]]);
+        $this->wishlistProductFactory->expects($this->exactly(2))->method('createForWishlistAndVariant')->willReturnMap([[$destinedWishlist, $firstVariant, $firstWishlistProduct], [$destinedWishlist, $secondVariant, $secondWishlistProduct]]);
+        $destinedWishlist->expects($this->exactly(2))->method('addWishlistProduct');
+        $this->wishlistRepository->expects($this->once())->method('add')->with($destinedWishlist);
 
         $this->duplicator->copyWishlistProductsToOtherWishlist(new ArrayCollection([
             ['variant' => '1'],

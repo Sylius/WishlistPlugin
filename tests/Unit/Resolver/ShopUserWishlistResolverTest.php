@@ -59,20 +59,9 @@ final class ShopUserWishlistResolverTest extends TestCase
 
     public function testShouldCreateNewWishlistForShopUserIfCannotResolveWithChannel(): void
     {
-        $this->channelContext
-            ->expects($this->once())
-            ->method('getChannel')
-            ->willReturn($this->channel);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findOneByShopUserAndChannel')
-            ->with($this->user, $this->channel)
-            ->willReturn(null);
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createForUserAndChannel')
-            ->with($this->user, $this->channel)
-            ->willReturn($this->wishlist);
+        $this->channelContext->expects($this->once())->method('getChannel')->willReturn($this->channel);
+        $this->wishlistRepository->expects($this->once())->method('findOneByShopUserAndChannel')->with($this->user, $this->channel)->willReturn(null);
+        $this->wishlistFactory->expects($this->once())->method('createForUserAndChannel')->with($this->user, $this->channel)->willReturn($this->wishlist);
 
         $this->assertSame(
             $this->wishlist,
@@ -82,20 +71,9 @@ final class ShopUserWishlistResolverTest extends TestCase
 
     public function testShouldResolveWishlistForShopUserWithChannel(): void
     {
-        $this->channelContext
-            ->expects($this->once())
-            ->method('getChannel')
-            ->willReturn($this->channel);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findOneByShopUserAndChannel')
-            ->with($this->user, $this->channel)
-            ->willReturn($this->wishlist);
-        $this->wishlistFactory
-            ->expects($this->never())
-            ->method('createForUserAndChannel')
-            ->with($this->user, $this->channel)
-            ->willReturn($this->wishlist);
+        $this->channelContext->expects($this->once())->method('getChannel')->willReturn($this->channel);
+        $this->wishlistRepository->expects($this->once())->method('findOneByShopUserAndChannel')->with($this->user, $this->channel)->willReturn($this->wishlist);
+        $this->wishlistFactory->expects($this->never())->method('createForUserAndChannel')->with($this->user, $this->channel)->willReturn($this->wishlist);
 
         $this->assertSame(
             $this->wishlist,
@@ -105,20 +83,9 @@ final class ShopUserWishlistResolverTest extends TestCase
 
     public function testShouldCreateNewWishlistForShopUserIfCannotResolveWithoutChannel(): void
     {
-        $this->channelContext
-            ->expects($this->once())
-            ->method('getChannel')
-            ->willThrowException(new ChannelNotFoundException());
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findOneByShopUser')
-            ->with($this->user)
-            ->willReturn(null);
-        $this->wishlistFactory
-            ->expects($this->once())
-            ->method('createForUser')
-            ->with($this->user)
-            ->willReturn($this->wishlist);
+        $this->channelContext->expects($this->once())->method('getChannel')->willThrowException(new ChannelNotFoundException());
+        $this->wishlistRepository->expects($this->once())->method('findOneByShopUser')->with($this->user)->willReturn(null);
+        $this->wishlistFactory->expects($this->once())->method('createForUser')->with($this->user)->willReturn($this->wishlist);
 
         $this->assertSame(
             $this->wishlist,
@@ -128,20 +95,9 @@ final class ShopUserWishlistResolverTest extends TestCase
 
     public function testShouldResolveWishlistForShopUserWihtoutChannel(): void
     {
-        $this->channelContext
-            ->expects($this->once())
-            ->method('getChannel')
-            ->willThrowException(new ChannelNotFoundException());
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findOneByShopUser')
-            ->with($this->user)
-            ->willReturn($this->wishlist);
-        $this->wishlistFactory
-            ->expects($this->never())
-            ->method('createForUser')
-            ->with($this->user)
-            ->willReturn($this->wishlist);
+        $this->channelContext->expects($this->once())->method('getChannel')->willThrowException(new ChannelNotFoundException());
+        $this->wishlistRepository->expects($this->once())->method('findOneByShopUser')->with($this->user)->willReturn($this->wishlist);
+        $this->wishlistFactory->expects($this->never())->method('createForUser')->with($this->user)->willReturn($this->wishlist);
 
         $this->assertSame(
             $this->wishlist,

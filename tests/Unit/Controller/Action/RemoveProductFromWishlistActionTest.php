@@ -68,17 +68,10 @@ final class RemoveProductFromWishlistActionTest extends TestCase
     public function testShouldThrow404IfProductWasNotFound(): void
     {
         $this->expectException(NotFoundHttpException::class);
-        $this->request
-            ->expects($this->once())
-            ->method('get')
-            ->with('productId')
-            ->willReturn(1);
-        $this->productRepository
-            ->expects($this->once())
-            ->method('find')
-            ->willReturn(null);
+        $this->request->expects($this->once())->method('get')->with('productId')->willReturn(1);
+        $this->productRepository->expects($this->once())->method('find')->willReturn(null);
 
-        $this->action->__invoke($this->request);
+        ($this->action)($this->request);
     }
 
     public function testShouldHandleRequestAndRedirectToWishlist(): void
@@ -90,58 +83,19 @@ final class RemoveProductFromWishlistActionTest extends TestCase
         $session = $this->createMock(Session::class);
         $flashBag = $this->createMock(FlashBagInterface::class);
 
-        $this->request
-            ->expects($this->once())
-            ->method('get')
-            ->with('productId')
-            ->willReturn(1);
-        $this->productRepository
-            ->expects($this->once())
-            ->method('find')
-            ->willReturn($product);
-        $this->wishlistContext
-            ->expects($this->once())
-            ->method('getWishlist')
-            ->with($this->request)
-            ->willReturn($wishlist);
-        $wishlist
-            ->expects($this->once())
-            ->method('getWishlistProducts')
-            ->willReturn(new ArrayCollection([$wishlistProduct]));
-        $wishlistProduct
-            ->expects($this->once())
-            ->method('getProduct')
-            ->willReturn($product);
-        $this->translator
-            ->expects($this->once())
-            ->method('trans')
-            ->with('sylius_wishlist_plugin.ui.removed_wishlist_item')
-            ->willReturn('Product has been removed from your wishlist.');
-        $this->urlGenerator
-            ->expects($this->once())
-            ->method('generate')
-            ->with('sylius_wishlist_plugin_shop_locale_wishlist_list_products')
-            ->willReturn('/wishlist');
-        $this->wishlistProductManager
-            ->expects($this->once())
-            ->method('remove')
-            ->with($wishlistProduct);
-        $this->wishlistProductManager
-            ->expects($this->once())
-            ->method('flush');
-        $this->requestStack
-            ->expects($this->once())
-            ->method('getSession')
-            ->willReturn($session);
-        $session
-            ->expects($this->once())
-            ->method('getFlashBag')
-            ->willReturn($flashBag);
-        $flashBag
-            ->expects($this->once())
-            ->method('add')
-            ->with('success', 'Product has been removed from your wishlist.');
+        $this->request->expects($this->once())->method('get')->with('productId')->willReturn(1);
+        $this->productRepository->expects($this->once())->method('find')->willReturn($product);
+        $this->wishlistContext->expects($this->once())->method('getWishlist')->with($this->request)->willReturn($wishlist);
+        $wishlist->expects($this->once())->method('getWishlistProducts')->willReturn(new ArrayCollection([$wishlistProduct]));
+        $wishlistProduct->expects($this->once())->method('getProduct')->willReturn($product);
+        $this->translator->expects($this->once())->method('trans')->with('sylius_wishlist_plugin.ui.removed_wishlist_item')->willReturn('Product has been removed from your wishlist.');
+        $this->urlGenerator->expects($this->once())->method('generate')->with('sylius_wishlist_plugin_shop_locale_wishlist_list_products')->willReturn('/wishlist');
+        $this->wishlistProductManager->expects($this->once())->method('remove')->with($wishlistProduct);
+        $this->wishlistProductManager->expects($this->once())->method('flush');
+        $this->requestStack->expects($this->once())->method('getSession')->willReturn($session);
+        $session->expects($this->once())->method('getFlashBag')->willReturn($flashBag);
+        $flashBag->expects($this->once())->method('add')->with('success', 'Product has been removed from your wishlist.');
 
-        $this->action->__invoke($this->request);
+        ($this->action)($this->request);
     }
 }

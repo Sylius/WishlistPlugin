@@ -58,30 +58,17 @@ final class LoggedUserWishlistSubscriberTest extends TestCase
 
     public function testShouldReturnIfSectionIsInvalidOnImplicitLogin(): void
     {
-        $this->uriBasedSectionContext
-            ->expects($this->once())
-            ->method('getSection')
-            ->willReturn($this->createMock(AdminSection::class));
-        $this->event
-            ->expects($this->never())
-            ->method('getUser');
+        $this->uriBasedSectionContext->expects($this->once())->method('getSection')->willReturn($this->createMock(AdminSection::class));
+        $this->event->expects($this->never())->method('getUser');
 
         $this->subscriber->onImplicitLogin($this->event);
     }
 
     public function testShouldReturnIfUserIsInvalidOnImplicitLogin(): void
     {
-        $this->uriBasedSectionContext
-            ->expects($this->once())
-            ->method('getSection')
-            ->willReturn($this->shopSection);
-        $this->event
-            ->expects($this->once())
-            ->method('getUser')
-            ->willReturn($this->createMock(AdminUserInterface::class));
-        $this->wishlistsResolver
-            ->expects($this->never())
-            ->method('resolve');
+        $this->uriBasedSectionContext->expects($this->once())->method('getSection')->willReturn($this->shopSection);
+        $this->event->expects($this->once())->method('getUser')->willReturn($this->createMock(AdminUserInterface::class));
+        $this->wishlistsResolver->expects($this->never())->method('resolve');
 
         $this->subscriber->onImplicitLogin($this->event);
     }
@@ -93,48 +80,16 @@ final class LoggedUserWishlistSubscriberTest extends TestCase
         $firstShopUser = $this->createMock(ShopUserInterface::class);
         $secondShopUser = $this->createMock(ShopUserInterface::class);
 
-        $this->uriBasedSectionContext
-            ->expects($this->once())
-            ->method('getSection')
-            ->willReturn($this->shopSection);
-        $this->event
-            ->expects($this->once())
-            ->method('getUser')
-            ->willReturn($firstShopUser);
-        $this->wishlistsResolver
-            ->expects($this->once())
-            ->method('resolve')
-            ->willReturn([
-                $firstWishlist,
-                $secondWishlist,
-            ]);
-        $firstShopUser
-            ->expects($this->once())
-            ->method('getId')
-            ->willReturn(1);
-        $firstWishlist
-            ->expects($this->once())
-            ->method('getShopUser')
-            ->willReturn($secondShopUser);
-        $secondShopUser
-            ->expects($this->once())
-            ->method('getId')
-            ->willReturn(15);
-        $firstWishlist
-            ->expects($this->never())
-            ->method('setShopUser')
-            ->with($firstShopUser);
-        $secondWishlist
-            ->expects($this->once())
-            ->method('getShopUser')
-            ->willReturn(null);
-        $secondWishlist
-            ->expects($this->once())
-            ->method('setShopUser')
-            ->with($firstShopUser);
-        $this->entityManager
-            ->expects($this->once())
-            ->method('flush');
+        $this->uriBasedSectionContext->expects($this->once())->method('getSection')->willReturn($this->shopSection);
+        $this->event->expects($this->once())->method('getUser')->willReturn($firstShopUser);
+        $this->wishlistsResolver->expects($this->once())->method('resolve')->willReturn([$firstWishlist, $secondWishlist]);
+        $firstShopUser->expects($this->once())->method('getId')->willReturn(1);
+        $firstWishlist->expects($this->once())->method('getShopUser')->willReturn($secondShopUser);
+        $secondShopUser->expects($this->once())->method('getId')->willReturn(15);
+        $firstWishlist->expects($this->never())->method('setShopUser')->with($firstShopUser);
+        $secondWishlist->expects($this->once())->method('getShopUser')->willReturn(null);
+        $secondWishlist->expects($this->once())->method('setShopUser')->with($firstShopUser);
+        $this->entityManager->expects($this->once())->method('flush');
 
         $this->subscriber->onImplicitLogin($this->event);
     }

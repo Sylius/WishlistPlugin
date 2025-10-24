@@ -44,38 +44,20 @@ final class RemoveWishlistHandlerTest extends TestCase
 
     public function testShouldRemoveMatchingWishlist(): void
     {
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findByToken')
-            ->with('token')
-            ->willReturn($this->wishlist);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('remove')
-            ->with($this->wishlist);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('flush');
+        $this->wishlistRepository->expects($this->once())->method('findByToken')->with('token')->willReturn($this->wishlist);
+        $this->wishlistManager->expects($this->once())->method('remove')->with($this->wishlist);
+        $this->wishlistManager->expects($this->once())->method('flush');
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowExceptionWhenWishlistIsNotFound(): void
     {
         $this->expectException(WishlistNotFoundException::class);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('findByToken')
-            ->with('token')
-            ->willReturn(null);
-        $this->wishlistManager
-            ->expects($this->never())
-            ->method('remove')
-            ->with($this->wishlist);
-        $this->wishlistManager
-            ->expects($this->never())
-            ->method('flush');
+        $this->wishlistRepository->expects($this->once())->method('findByToken')->with('token')->willReturn(null);
+        $this->wishlistManager->expects($this->never())->method('remove')->with($this->wishlist);
+        $this->wishlistManager->expects($this->never())->method('flush');
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }

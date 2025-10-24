@@ -73,76 +73,29 @@ final class AddSelectedProductsToCartHandlerTest extends TestCase
 
     public function testShouldAddSelectedProductsToCart(): void
     {
-        $this->wishlistProduct
-            ->expects($this->exactly(2))
-            ->method('getCartItem')
-            ->willReturn($this->addToCartCommand);
-        $this->addToCartCommand
-            ->expects($this->once())
-            ->method('getCart')
-            ->willReturn($this->order);
-        $this->addToCartCommand
-            ->expects($this->exactly(2))
-            ->method('getCartItem')
-            ->willReturn($this->orderItem);
-        $this->orderItem
-            ->expects($this->once())
-            ->method('getVariant')
-            ->willReturn($this->productVariant);
-        $this->orderItem
-            ->expects($this->exactly(3))
-            ->method('getQuantity')
-            ->willReturn(1);
-        $this->orderModifier
-            ->expects($this->once())
-            ->method('addToOrder')
-            ->with($this->order, $this->orderItem);
-        $this->orderRepository
-            ->expects($this->once())
-            ->method('add')
-            ->with($this->order);
-        $this->availabilityChecker
-            ->expects($this->once())
-            ->method('isStockSufficient')
-            ->with($this->productVariant, 1)
-            ->willReturn(true);
+        $this->wishlistProduct->expects($this->exactly(2))->method('getCartItem')->willReturn($this->addToCartCommand);
+        $this->addToCartCommand->expects($this->once())->method('getCart')->willReturn($this->order);
+        $this->addToCartCommand->expects($this->exactly(2))->method('getCartItem')->willReturn($this->orderItem);
+        $this->orderItem->expects($this->once())->method('getVariant')->willReturn($this->productVariant);
+        $this->orderItem->expects($this->exactly(3))->method('getQuantity')->willReturn(1);
+        $this->orderModifier->expects($this->once())->method('addToOrder')->with($this->order, $this->orderItem);
+        $this->orderRepository->expects($this->once())->method('add')->with($this->order);
+        $this->availabilityChecker->expects($this->once())->method('isStockSufficient')->with($this->productVariant, 1)->willReturn(true);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldNotAddSelectedProductsToCartIfProductCannotBeProcessedButThrowsException(): void
     {
         $this->expectException(InvalidProductQuantityException::class);
-        $this->wishlistProduct
-            ->expects($this->once())
-            ->method('getCartItem')
-            ->willReturn($this->addToCartCommand);
-        $this->addToCartCommand
-            ->expects($this->once())
-            ->method('getCartItem')
-            ->willReturn($this->orderItem);
-        $this->orderItem
-            ->expects($this->once())
-            ->method('getVariant')
-            ->willReturn($this->productVariant);
-        $this->orderItem
-            ->expects($this->exactly(2))
-            ->method('getQuantity')
-            ->willReturn(0);
-        $this->availabilityChecker
-            ->expects($this->once())
-            ->method('isStockSufficient')
-            ->with($this->productVariant, 0)
-            ->willReturn(true);
-        $this->orderModifier
-            ->expects($this->never())
-            ->method('addToOrder')
-            ->with($this->order, $this->orderItem);
-        $this->orderRepository
-            ->expects($this->never())
-            ->method('add')
-            ->with($this->order);
+        $this->wishlistProduct->expects($this->once())->method('getCartItem')->willReturn($this->addToCartCommand);
+        $this->addToCartCommand->expects($this->once())->method('getCartItem')->willReturn($this->orderItem);
+        $this->orderItem->expects($this->once())->method('getVariant')->willReturn($this->productVariant);
+        $this->orderItem->expects($this->exactly(2))->method('getQuantity')->willReturn(0);
+        $this->availabilityChecker->expects($this->once())->method('isStockSufficient')->with($this->productVariant, 0)->willReturn(true);
+        $this->orderModifier->expects($this->never())->method('addToOrder')->with($this->order, $this->orderItem);
+        $this->orderRepository->expects($this->never())->method('add')->with($this->order);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }

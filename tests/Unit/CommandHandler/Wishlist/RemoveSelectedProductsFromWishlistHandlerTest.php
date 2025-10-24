@@ -55,53 +55,30 @@ final class RemoveSelectedProductsFromWishlistHandlerTest extends TestCase
     {
         $productVariant = $this->createMock(ProductVariantInterface::class);
 
-        $this->wishlistItem
-            ->expects($this->once())
-            ->method('getWishlistProduct')
-            ->willReturn($this->wishlistProduct);
-        $this->wishlistProduct
-            ->expects($this->once())
-            ->method('getVariant')
-            ->willReturn($productVariant);
-        $this->productVariantRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with($productVariant)
-            ->willReturn($productVariant);
+        $this->wishlistItem->expects($this->once())->method('getWishlistProduct')->willReturn($this->wishlistProduct);
+        $this->wishlistProduct->expects($this->once())->method('getVariant')->willReturn($productVariant);
+        $this->productVariantRepository->expects($this->once())->method('find')->with($productVariant)->willReturn($productVariant);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowExceptionWhenVariantNotFound(): void
     {
         $this->expectException(ProductNotFoundException::class);
 
-        $this->wishlistItem
-            ->expects($this->once())
-            ->method('getWishlistProduct')
-            ->willReturn($this->wishlistProduct);
-        $this->wishlistProduct
-            ->expects($this->once())
-            ->method('getVariant')
-            ->willReturn(null);
-        $this->productVariantRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(null)
-            ->willReturn(null);
+        $this->wishlistItem->expects($this->once())->method('getWishlistProduct')->willReturn($this->wishlistProduct);
+        $this->wishlistProduct->expects($this->once())->method('getVariant')->willReturn(null);
+        $this->productVariantRepository->expects($this->once())->method('find')->with(null)->willReturn(null);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowExceptionWhenWishlistProductNotFound(): void
     {
         $this->expectException(WishlistProductNotFoundException::class);
 
-        $this->wishlistItem
-            ->expects($this->once())
-            ->method('getWishlistProduct')
-            ->willReturn(null);
+        $this->wishlistItem->expects($this->once())->method('getWishlistProduct')->willReturn(null);
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }

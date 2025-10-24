@@ -33,14 +33,8 @@ final class SelectedWishlistProductsProcessorTest extends TestCase
     {
         $firstWishlistItem = $this->createMock(WishlistItemInterface::class);
         $secondWishlistItem = $this->createMock(WishlistItemInterface::class);
-        $firstWishlistItem
-            ->expects($this->once())
-            ->method('isSelected')
-            ->willReturn(false);
-        $secondWishlistItem
-            ->expects($this->once())
-            ->method('isSelected')
-            ->willReturn(true);
+        $firstWishlistItem->expects($this->once())->method('isSelected')->willReturn(false);
+        $secondWishlistItem->expects($this->once())->method('isSelected')->willReturn(true);
 
         $this->assertSame(
             $secondWishlistItem,

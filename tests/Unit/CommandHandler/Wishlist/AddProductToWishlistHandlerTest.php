@@ -58,56 +58,24 @@ final class AddProductToWishlistHandlerTest extends TestCase
 
     public function testShouldAddProductToWishlist(): void
     {
-        $this->productRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn($this->product);
-        $this->wishlistProductFactory
-            ->expects($this->once())
-            ->method('createForWishlistAndProduct')
-            ->with($this->wishlist, $this->product)
-            ->willReturn($this->wishlistProduct);
-        $this->wishlist
-            ->expects($this->once())
-            ->method('addWishlistProduct')
-            ->with($this->wishlistProduct);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('persist')
-            ->with($this->wishlistProduct);
-        $this->wishlistManager
-            ->expects($this->once())
-            ->method('flush');
+        $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn($this->product);
+        $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndProduct')->with($this->wishlist, $this->product)->willReturn($this->wishlistProduct);
+        $this->wishlist->expects($this->once())->method('addWishlistProduct')->with($this->wishlistProduct);
+        $this->wishlistManager->expects($this->once())->method('persist')->with($this->wishlistProduct);
+        $this->wishlistManager->expects($this->once())->method('flush');
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 
     public function testShouldThrowExceptionIfProductIsNotFound(): void
     {
         $this->expectException(ProductNotFoundException::class);
-        $this->productRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(1)
-            ->willReturn(null);
-        $this->wishlistProductFactory
-            ->expects($this->never())
-            ->method('createForWishlistAndProduct')
-            ->with($this->wishlist, $this->product)
-            ->willReturn($this->wishlistProduct);
-        $this->wishlist
-            ->expects($this->never())
-            ->method('addWishlistProduct')
-            ->with($this->wishlistProduct);
-        $this->wishlistManager
-            ->expects($this->never())
-            ->method('persist')
-            ->with($this->wishlistProduct);
-        $this->wishlistManager
-            ->expects($this->never())
-            ->method('flush');
+        $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
+        $this->wishlistProductFactory->expects($this->never())->method('createForWishlistAndProduct')->with($this->wishlist, $this->product)->willReturn($this->wishlistProduct);
+        $this->wishlist->expects($this->never())->method('addWishlistProduct')->with($this->wishlistProduct);
+        $this->wishlistManager->expects($this->never())->method('persist')->with($this->wishlistProduct);
+        $this->wishlistManager->expects($this->never())->method('flush');
 
-        $this->handler->__invoke($this->command);
+        ($this->handler)($this->command);
     }
 }

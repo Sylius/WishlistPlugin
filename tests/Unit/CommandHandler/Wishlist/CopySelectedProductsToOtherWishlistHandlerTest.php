@@ -41,24 +41,11 @@ final class CopySelectedProductsToOtherWishlistHandlerTest extends TestCase
         $command = $this->createMock(CopySelectedProductsToOtherWishlistInterface::class);
         $wishlistProducts = $this->createMock(ArrayCollection::class);
         $wishlist = $this->createMock(WishlistInterface::class);
-        $command
-            ->expects($this->once())
-            ->method('getWishlistProducts')
-            ->willReturn($wishlistProducts);
-        $command
-            ->expects($this->once())
-            ->method('getDestinedWishlistId')
-            ->willReturn(2);
-        $this->wishlistRepository
-            ->expects($this->once())
-            ->method('find')
-            ->with(2)
-            ->willReturn($wishlist);
-        $this->copyistProductsToWishlist
-            ->expects($this->once())
-            ->method('copyWishlistProductsToOtherWishlist')
-            ->with($wishlistProducts, $wishlist);
+        $command->expects($this->once())->method('getWishlistProducts')->willReturn($wishlistProducts);
+        $command->expects($this->once())->method('getDestinedWishlistId')->willReturn(2);
+        $this->wishlistRepository->expects($this->once())->method('find')->with(2)->willReturn($wishlist);
+        $this->copyistProductsToWishlist->expects($this->once())->method('copyWishlistProductsToOtherWishlist')->with($wishlistProducts, $wishlist);
 
-        $this->handler->__invoke($command);
+        ($this->handler)($command);
     }
 }
