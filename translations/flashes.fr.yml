@@ -1,0 +1,3 @@
+sylius_wishlist_plugin:
+    ui:
+        remove_wishlist: La liste de favoris a été supprimée.
