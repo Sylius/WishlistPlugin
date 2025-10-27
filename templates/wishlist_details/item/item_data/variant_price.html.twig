@@ -1,0 +1,9 @@
+{% set product = hookable_metadata.context.product %}
+{% set variant = hookable_metadata.context.variant %}
+{% set itemId = hookable_metadata.context.itemId %}
+
+<div class="bb-wishlist-item-price">
+    {% if not product.variants.empty() %}
+        {% hook 'variant_price' with { variant: variant, itemId: itemId } %}
+    {% endif %}
+</div>
