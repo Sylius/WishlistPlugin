@@ -212,6 +212,8 @@ final class AddProductVariantToWishlistProcessorTest extends TestCase
         $wishlistId = 123;
         $product = $this->createMock(ProductInterface::class);
         $productName = 'Awesome T-Shirt';
+        $translatedMessage = sprintf('Product "%s" is already in wishlist.', $productName);
+
         $this->firstWishlist->expects($this->once())->method('getId')->willReturn($wishlistId);
         $this->wishlistProduct->expects($this->once())->method('getProduct')->willReturn($product);
         $product->expects($this->once())->method('getName')->willReturn($productName);
@@ -221,8 +223,14 @@ final class AddProductVariantToWishlistProcessorTest extends TestCase
         $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndVariant')->with($this->firstWishlist, $this->productVariant)->willReturn($this->wishlistProduct);
         $this->requestStack->expects($this->once())->method('getSession')->willReturn($this->session);
         $this->session->expects($this->once())->method('getFlashBag')->willReturn($this->flashBag);
-        $this->translator->expects($this->once())->method('trans')->with('sylius_wishlist_plugin.ui.wishlist_has_product_variant')->willReturn('Product already in wishlist.');
-        $this->flashBag->expects($this->once())->method('add')->with('error', 'Product already in wishlist.');
+        $this->translator->expects($this->once())
+            ->method('trans')
+            ->with(
+                'sylius_wishlist_plugin.ui.wishlist_has_product_variant',
+                ['%productName%' => $productName],
+            )
+            ->willReturn($translatedMessage);
+        $this->flashBag->expects($this->once())->method('add')->with('error', $translatedMessage);
         $this->firstWishlist->expects($this->never())->method('addWishlistProduct');
         $this->urlGenerator->expects($this->once())->method('generate')->with('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', ['wishlistId' => $wishlistId])->willReturn('/wishlist/' . $wishlistId);
 
