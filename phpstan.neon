@@ -9,6 +9,7 @@ parameters:
     	- src/Exception
     	- tests/Integration
     	- tests/Functional
+    	- tests/Unit
     paths:
         - src
         - tests

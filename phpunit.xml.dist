@@ -15,9 +15,10 @@
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
+        <testsuite name="sylius_wishlist_plugin_test_suite">
             <directory>tests/Functional</directory>
             <directory>tests/Integration</directory>
+            <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
 </phpunit>
