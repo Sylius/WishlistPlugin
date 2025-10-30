@@ -17,3 +17,23 @@ The new granular hooks are defined in:
 - `config/twig_hooks/wishlist_group.yaml` - for wishlist group-related hooks
 - `config/twig_hooks/common/` - for common hooks used across multiple pages
 - `config/twig_hooks/product/` - for product-related hooks
+
+## Template Variable Changes
+
+### `templates/wishlist_details/collective_actions.html.twig`
+
+The `wishlist` variable is now sourced from `hookable_metadata.context.wishlist` instead of being passed directly to the template.
+
+**Before (1.0):**
+```twig
+{# wishlist was available directly as a template variable #}
+{{ wishlist.id }}
+```
+
+**After (1.1):**
+```twig
+{% set wishlist = hookable_metadata.context.wishlist %}
+{{ wishlist.id }}
+```
+
+**Action required:** If you have overridden this template or use it directly in your application, update your override to use `hookable_metadata.context.wishlist` to access the wishlist variable.
