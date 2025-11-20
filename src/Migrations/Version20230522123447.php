@@ -25,6 +25,10 @@ final class Version20230522123447 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        if ($schema->getTable('bitbag_wishlist')->hasColumn('channel_id')) {
+            return;
+        }
+
         // Missing fields
         $this->addSql('ALTER TABLE bitbag_wishlist ADD channel_id INT DEFAULT NULL, ADD name VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE bitbag_wishlist ADD CONSTRAINT FK_578D4E7772F5A1AA FOREIGN KEY (channel_id) REFERENCES sylius_channel (id) ON DELETE CASCADE');
