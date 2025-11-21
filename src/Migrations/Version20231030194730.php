@@ -25,6 +25,10 @@ final class Version20231030194730 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        if ($schema->getTable('bitbag_wishlist')->hasIndex('token_idx')) {
+            return;
+        }
+
         $this->addSql('CREATE INDEX token_idx ON bitbag_wishlist (token)');
         $this->addSql('CREATE INDEX channel_shop_user_token_idx ON bitbag_wishlist (channel_id, shop_user_id, token)');
     }
