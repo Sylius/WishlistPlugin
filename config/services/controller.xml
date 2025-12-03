@@ -79,6 +79,8 @@
             <argument type="service" id="sylius_wishlist_plugin.factory.wishlist_product"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="translator"/>
+            <argument type="service" id="sylius_wishlist_plugin.resolver.wishlists_resolver"/>
+            <argument type="service" id="sylius_wishlist_plugin.manager.wishlist"/>
             <argument type="service" id="router"/>
             <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
             <tag name="controller.service_arguments"/>

@@ -47,6 +47,7 @@ final readonly class ImportWishlistFromCsvHandler
         $fileInfo = $importWishlistFromCsv->getFileInfo();
         $request = $importWishlistFromCsv->getRequest();
         $wishlistId = $importWishlistFromCsv->getWishlistId();
+        $request->attributes->set('wishlistId', $wishlistId);
 
         $this->getDataFromFile($fileInfo, $request);
 
