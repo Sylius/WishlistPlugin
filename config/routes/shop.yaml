@@ -45,6 +45,11 @@ wishlist_import_from_csv:
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.import_from_csv
 
+wishlist_add_product_variant:
+    path: /wishlist/add/variant/{variantId}
+    defaults:
+        _controller: sylius_wishlist_plugin.controller.action.add_product_variant_to_wishlist
+
 wishlist_remove_product_variant:
     path: /wishlist/{wishlistId}/remove/variant/{variantId}
     defaults:
