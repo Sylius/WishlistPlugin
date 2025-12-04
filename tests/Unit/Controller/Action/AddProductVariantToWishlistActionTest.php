@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Unit\Controller\Action;
 
+use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ProductVariantInterface;
@@ -20,16 +21,18 @@ use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
 use Sylius\WishlistPlugin\Controller\Action\AddProductVariantToWishlistAction;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Entity\WishlistProductInterface;
+use Sylius\WishlistPlugin\Exception\WishlistNotFoundException;
 use Sylius\WishlistPlugin\Factory\WishlistProductFactoryInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
+use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AddProductVariantToWishlistActionTest extends TestCase
@@ -42,7 +45,11 @@ final class AddProductVariantToWishlistActionTest extends TestCase
 
     private MockObject&TranslatorInterface $translator;
 
-    private MockObject&UrlGeneratorInterface $urlGenerator;
+    private MockObject&UrlGeneratorInterface $router;
+
+    private MockObject&ObjectManager $wishlistManager;
+
+    private MockObject&WishlistsResolverInterface $wishlistsResolver;
 
     private MockObject&WishlistRepositoryInterface $wishlistRepository;
 
@@ -58,16 +65,20 @@ final class AddProductVariantToWishlistActionTest extends TestCase
         $this->wishlistProductFactory = $this->createMock(WishlistProductFactoryInterface::class);
         $this->requestStack = $this->createMock(RequestStack::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
-        $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $this->router = $this->createMock(RouterInterface::class);
         $this->wishlistRepository = $this->createMock(WishlistRepositoryInterface::class);
+        $this->wishlistsResolver = $this->createMock(WishlistsResolverInterface::class);
         $this->request = $this->createMock(Request::class);
         $this->wishlist = $this->createMock(WishlistInterface::class);
+        $this->wishlistManager = $this->createMock(ObjectManager::class);
         $this->action = new AddProductVariantToWishlistAction(
             $this->productVariantRepository,
             $this->wishlistProductFactory,
             $this->requestStack,
             $this->translator,
-            $this->urlGenerator,
+            $this->wishlistsResolver,
+            $this->wishlistManager,
+            $this->router,
             $this->wishlistRepository,
         );
     }
@@ -79,10 +90,10 @@ final class AddProductVariantToWishlistActionTest extends TestCase
 
     public function testShouldThrow404WhenWishlistIsNotFound(): void
     {
-        $this->expectException(ResourceNotFoundException::class);
+        $this->expectException(WishlistNotFoundException::class);
         $this->wishlistRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
-
-        ($this->action)(1, $this->request);
+        $this->request->expects($this->once())->method('get')->with('wishListId')->willReturn(1);
+        ($this->action)($this->request);
     }
 
     public function testShouldThrow404WhenProductIsNotFound(): void
@@ -90,9 +101,10 @@ final class AddProductVariantToWishlistActionTest extends TestCase
         $this->expectException(NotFoundHttpException::class);
         $this->wishlistRepository->expects($this->once())->method('find')->with(1)->willReturn($this->wishlist);
         $this->request->expects($this->once())->method('get')->with('variantId')->willReturn(1);
+        $this->request->expects($this->once())->method('get')->with('wishListId')->willReturn(1);
         $this->productVariantRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
 
-        ($this->action)(1, $this->request);
+        ($this->action)($this->request);
     }
 
     public function testShouldHandleTheRequestAndPersistNewWishlistForLoggedShopUser(): void
@@ -108,7 +120,7 @@ final class AddProductVariantToWishlistActionTest extends TestCase
         $this->wishlist->expects($this->once())->method('hasProductVariant')->with($productVariant)->willReturn(false);
         $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndVariant')->with($this->wishlist, $productVariant)->willReturn($wishlistProduct);
         $this->translator->expects($this->once())->method('trans')->with('sylius_wishlist_plugin.ui.added_wishlist_item')->willReturn('Product has been added to your wishlist.');
-        $this->urlGenerator->expects($this->once())->method('generate')->with('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', ['wishlistId' => 1])->willReturn('/wishlist/1');
+        $this->router->expects($this->once())->method('generate')->with('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', ['wishlistId' => 1])->willReturn('/wishlist/1');
         $this->wishlist->expects($this->once())->method('addWishlistProduct')->with($wishlistProduct);
         $this->wishlistRepository->expects($this->once())->method('add')->with($this->wishlist);
         $this->requestStack->expects($this->once())->method('getSession')->willReturn($session);
@@ -117,7 +129,7 @@ final class AddProductVariantToWishlistActionTest extends TestCase
 
         $this->assertInstanceOf(
             RedirectResponse::class,
-            ($this->action)(1, $this->request),
+            ($this->action)($this->request),
         );
     }
 }
