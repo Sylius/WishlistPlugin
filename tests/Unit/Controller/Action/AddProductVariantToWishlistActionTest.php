@@ -81,8 +81,8 @@ final class AddProductVariantToWishlistActionTest extends TestCase
     {
         $this->expectException(ResourceNotFoundException::class);
         $this->wishlistRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
-
-        ($this->action)(1, $this->request);
+        $this->request->expects($this->once())->method('get')->with('wishListId')->willReturn(1);
+        ($this->action)($this->request);
     }
 
     public function testShouldThrow404WhenProductIsNotFound(): void
@@ -92,7 +92,7 @@ final class AddProductVariantToWishlistActionTest extends TestCase
         $this->request->expects($this->once())->method('get')->with('variantId')->willReturn(1);
         $this->productVariantRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
 
-        ($this->action)(1, $this->request);
+        ($this->action)($this->request);
     }
 
     public function testShouldHandleTheRequestAndPersistNewWishlistForLoggedShopUser(): void
@@ -117,7 +117,7 @@ final class AddProductVariantToWishlistActionTest extends TestCase
 
         $this->assertInstanceOf(
             RedirectResponse::class,
-            ($this->action)(1, $this->request),
+            ($this->action)($this->request),
         );
     }
 }

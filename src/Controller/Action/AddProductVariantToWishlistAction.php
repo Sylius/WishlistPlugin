@@ -28,8 +28,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -37,13 +35,13 @@ final readonly class AddProductVariantToWishlistAction
 {
     public function __construct(
         private ProductVariantRepositoryInterface $productVariantRepository,
-        private WishlistProductFactoryInterface   $wishlistProductFactory,
-        private RequestStack                      $requestStack,
-        private TranslatorInterface               $translator,
-        private WishlistsResolverInterface        $wishlistsResolver,
-        private ObjectManager                     $wishlistManager,
-        private RouterInterface                   $router,
-        private WishlistRepositoryInterface       $wishlistRepository,
+        private WishlistProductFactoryInterface $wishlistProductFactory,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator,
+        private WishlistsResolverInterface $wishlistsResolver,
+        private ObjectManager $wishlistManager,
+        private RouterInterface $router,
+        private WishlistRepositoryInterface $wishlistRepository,
     ) {
     }
 
@@ -51,7 +49,7 @@ final readonly class AddProductVariantToWishlistAction
     {
         $wishlist = $this->resolveWishlist($request);
 
-        foreach ((array)$request->get('variantId') as $variantId) {
+        foreach ((array) $request->get('variantId') as $variantId) {
             /** @var ProductVariantInterface|null $variant */
             $variant = $this->productVariantRepository->find($variantId);
 
@@ -75,7 +73,6 @@ final readonly class AddProductVariantToWishlistAction
             ]),
         );
     }
-
 
     private function resolveWishlist(Request $request): WishlistInterface
     {
