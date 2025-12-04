@@ -47,10 +47,12 @@ final readonly class ImportWishlistFromCsvHandler
         $fileInfo = $importWishlistFromCsv->getFileInfo();
         $request = $importWishlistFromCsv->getRequest();
         $wishlistId = $importWishlistFromCsv->getWishlistId();
+        $request->attributes->set('wishlistId', $wishlistId);
 
         $this->getDataFromFile($fileInfo, $request);
+        $request->attributes->set('wishlistId', $wishlistId);
 
-        return $this->addProductVariantToWishlistAction->__invoke($wishlistId, $request);
+        return $this->addProductVariantToWishlistAction->__invoke($request);
     }
 
     private function getDataFromFile(\SplFileInfo $fileInfo, Request $request): void
