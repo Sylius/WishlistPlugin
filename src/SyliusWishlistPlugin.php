@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\WishlistPlugin;
 
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
+use Sylius\Telemetry\TelemetryCompilerPass;
 use Sylius\WishlistPlugin\DependencyInjection\SyliusMessageBusPolyfillPass;
 use Sylius\WishlistPlugin\DependencyInjection\TwigHooksProfilerPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -46,5 +47,7 @@ final class SyliusWishlistPlugin extends Bundle
         );
 
         $container->addCompilerPass(new TwigHooksProfilerPass());
+
+        $container->addCompilerPass(new TelemetryCompilerPass());
     }
 }
