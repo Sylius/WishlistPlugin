@@ -56,12 +56,16 @@ abstract class BaseWishlistProductsAction
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->handleCommand($form);
+            $response = $this->handleCommand($form);
+
+            if ($response instanceof Response) {
+                return $response;
+            }
 
             return new RedirectResponse(
                 $this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', [
-                        'wishlistId' => $wishlistId,
-                    ]),
+                    'wishlistId' => $wishlistId,
+                ]),
             );
         }
 
@@ -80,7 +84,7 @@ abstract class BaseWishlistProductsAction
         );
     }
 
-    abstract protected function handleCommand(FormInterface $form): void;
+    abstract protected function handleCommand(FormInterface $form): Response|null;
 
     protected function getFlashBag(): FlashBagInterface
     {
@@ -100,14 +104,22 @@ abstract class BaseWishlistProductsAction
             /** @var Session $session */
             $session = $this->requestStack->getSession();
 
-            $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'));
+            $session->getFlashBag()->add(
+                'error',
+                $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'),
+            );
 
             return null;
         }
-        $commandsArray = $this->wishlistCommandProcessor->createWishlistItemsCollection($wishlist->getWishlistProducts());
 
-        return $this->formFactory->create(WishlistCollectionType::class, ['items' => $commandsArray], [
-                'cart' => $cart,
-        ]);
+        $commandsArray = $this->wishlistCommandProcessor->createWishlistItemsCollection(
+            $wishlist->getWishlistProducts(),
+        );
+
+        return $this->formFactory->create(
+            WishlistCollectionType::class,
+            ['items' => $commandsArray],
+            ['cart' => $cart],
+        );
     }
 }

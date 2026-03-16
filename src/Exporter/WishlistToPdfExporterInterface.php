@@ -17,5 +17,5 @@ use Doctrine\Common\Collections\Collection;
 
 interface WishlistToPdfExporterInterface
 {
-    public function createModelToPdfAndExportToPdf(Collection $wishlistProducts): void;
+    public function createModelToPdfAndExportToPdf(Collection $wishlistProducts): string;
 }

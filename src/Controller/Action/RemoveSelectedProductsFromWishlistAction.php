@@ -15,11 +15,12 @@ namespace Sylius\WishlistPlugin\Controller\Action;
 
 use Sylius\WishlistPlugin\Command\Wishlist\RemoveSelectedProductsFromWishlist;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 
 final class RemoveSelectedProductsFromWishlistAction extends BaseWishlistProductsAction
 {
-    protected function handleCommand(FormInterface $form): void
+    protected function handleCommand(FormInterface $form): Response|null
     {
         $command = new RemoveSelectedProductsFromWishlist($form->getData());
 
@@ -29,5 +30,7 @@ final class RemoveSelectedProductsFromWishlistAction extends BaseWishlistProduct
         } catch (HandlerFailedException) {
             $this->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_product_not_found'));
         }
+
+        return null;
     }
 }

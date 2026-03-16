@@ -17,5 +17,5 @@ use Doctrine\Common\Collections\Collection;
 
 interface DomPdfWishlistExporterInterface
 {
-    public function export(Collection $data): void;
+    public function export(Collection $data): string;
 }

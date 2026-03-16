@@ -20,4 +20,10 @@ return function (ContainerConfigurator $container) {
         $container->import('../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml');
         $container->import('@SyliusWishlistPlugin/tests/Behat/Resources/services.yml');
     }
+
+    if (!filter_var($_ENV['TEST_SYLIUS_WISHLIST_PDF_LEGACY'] ?? 'true', FILTER_VALIDATE_BOOLEAN)) {
+        $container->extension('sylius_wishlist_plugin', [
+            'pdf_generator' => ['legacy' => false],
+        ]);
+    }
 };

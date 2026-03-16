@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Dompdf\Dompdf;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Sylius\PdfGenerationBundle\Core\Renderer\TwigToPdfRendererInterface;
 use Sylius\WishlistPlugin\Exporter\DomPdfWishlistExporter;
 use Sylius\WishlistPlugin\Exporter\DomPdfWishlistExporterInterface;
 use Sylius\WishlistPlugin\Factory\DomPdfFactoryInterface;
@@ -53,7 +54,7 @@ final class DomPdfWishlistExporterTest extends TestCase
 
     public function testShouldReturnPdfAsAttachment(): void
     {
-        $domPdf = $this->createMock(DomPdf::class);
+        $domPdf = $this->createMock(Dompdf::class);
         $data = new ArrayCollection([
             $this->createMock(VariantPdfModelInterface::class),
         ]);
@@ -64,6 +65,37 @@ final class DomPdfWishlistExporterTest extends TestCase
         $domPdf->expects($this->once())->method('render');
         $domPdf->expects($this->once())->method('stream')->with('Wishlist', ['Attachment' => true]);
 
-        $this->exporter->export($data);
+        $result = $this->exporter->export($data);
+
+        $this->assertSame('', $result);
+    }
+
+    public function testShouldRenderPdfViaPdfBundle(): void
+    {
+        $twigToPdfRenderer = $this->createMock(TwigToPdfRendererInterface::class);
+        $exporter = new DomPdfWishlistExporter($twigToPdfRenderer);
+
+        $data = new ArrayCollection([
+            $this->createMock(VariantPdfModelInterface::class),
+        ]);
+
+        $expectedParams = [
+            'title' => 'My wishlist products',
+            'date' => date('d.m.Y'),
+            'products' => $data,
+        ];
+
+        $twigToPdfRenderer->expects($this->once())
+            ->method('render')
+            ->with(
+                '@SyliusWishlistPlugin/wishlist_pdf.html.twig',
+                $expectedParams,
+                'sylius_wishlist',
+            )
+            ->willReturn('%PDF-content%');
+
+        $result = $exporter->export($data);
+
+        $this->assertSame('%PDF-content%', $result);
     }
 }

@@ -21,6 +21,7 @@ use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -50,7 +51,7 @@ final class UpdateWishlistProductsQuantityAction extends BaseWishlistProductsAct
         );
     }
 
-    protected function handleCommand(FormInterface $form): void
+    protected function handleCommand(FormInterface $form): Response|null
     {
         foreach ($form->get('items') as $itemForm) {
             /** @var WishlistItem $wishlistItem */
@@ -68,5 +69,7 @@ final class UpdateWishlistProductsQuantityAction extends BaseWishlistProductsAct
         $this->wishlistProductManager->flush();
 
         $this->getFlashBag()->add('success', $this->translator->trans('sylius_wishlist_plugin.ui.changes_saved'));
+
+        return null;
     }
 }

@@ -17,13 +17,14 @@ use Sylius\WishlistPlugin\Command\Wishlist\WishlistSyncCommandInterface;
 use Sylius\WishlistPlugin\Exception\InsufficientProductStockException;
 use Sylius\WishlistPlugin\Exception\InvalidProductQuantityException;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 
 abstract class BaseAddWishlistProductsAction extends BaseWishlistProductsAction
 {
     abstract protected function getCommand(FormInterface $form): WishlistSyncCommandInterface;
 
-    protected function handleCommand(FormInterface $form): void
+    protected function handleCommand(FormInterface $form): Response|null
     {
         $command = $this->getCommand($form);
 
@@ -35,6 +36,8 @@ abstract class BaseAddWishlistProductsAction extends BaseWishlistProductsAction
         } catch (HandlerFailedException $exception) {
             $this->getFlashBag()->add('error', $this->getExceptionMessage($exception));
         }
+
+        return null;
     }
 
     private function getExceptionMessage(HandlerFailedException $exception): string

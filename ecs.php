@@ -3,11 +3,17 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
+use SlevomatCodingStandard\Sniffs\Commenting\InlineDocCommentDeclarationSniff;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $config): void {
     $config->import('vendor/sylius-labs/coding-standard/ecs.php');
     $config->paths(['src', 'tests/Integration', 'tests/Behat', 'tests/Functional', 'tests/Unit']);
+
+    $config->skip([
+        InlineDocCommentDeclarationSniff::class . '.MissingVariable',
+        InlineDocCommentDeclarationSniff::class . '.NoAssignment',
+    ]);
 
     $config->ruleWithConfiguration(
         HeaderCommentFixer::class,

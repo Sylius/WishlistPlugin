@@ -7,6 +7,7 @@
         "php": "^8.2",
         "sylius/sylius": "^2.0.7",
         "sylius/telemetry": "^1.0",
+        "sylius/pdf-generation-bundle": "^1.0",
         "dompdf/dompdf": "^2.0"
     },
     "require-dev": {
@@ -27,12 +28,12 @@
         "sylius/test-application": "^2.0.0@alpha",
         "sylius-labs/coding-standard": "^4.4",
         "sylius-labs/suite-tags-extension": "~0.2",
-        "symfony/browser-kit": "^6.4 || ^7.1",
-        "symfony/debug-bundle": "^6.4 || ^7.1",
-        "symfony/dotenv": "^6.4 || ^7.1",
-        "symfony/http-client": "^6.4 || ^7.1",
-        "symfony/intl": "^6.4 || ^7.1",
-        "symfony/web-profiler-bundle": "^6.4 || ^7.1",
+        "symfony/browser-kit": "^6.4 || ^7.4",
+        "symfony/debug-bundle": "^6.4 || ^7.4",
+        "symfony/dotenv": "^6.4 || ^7.4",
+        "symfony/http-client": "^6.4 || ^7.4",
+        "symfony/intl": "^6.4 || ^7.4",
+        "symfony/web-profiler-bundle": "^6.4 || ^7.4",
         "lchrusciel/api-test-case": "^5.0",
         "robertfausk/behat-panther-extension": "^1.1",
         "symfony/webpack-encore-bundle": "^2.1",
@@ -69,7 +70,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "^7.1"
+            "require": "^7.4"
         },
         "public-dir": "vendor/sylius/test-application/public"
     }
