@@ -1,0 +1,7 @@
+{% set wishlists = hookable_metadata.context.wishlists %}
+
+<ul class="dropdown-menu w-100">
+    {% for wishlist in wishlists %}
+        {% hook 'items' with { wishlist: wishlist } %}
+    {% endfor %}
+</ul>

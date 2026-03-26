@@ -1,0 +1,21 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.common.wishlist_button.single':
+            button:
+                template: '@SyliusWishlistPlugin/common/wishlist_button/single/button.html.twig'
+                priority: 0
+        'sylius_shop.common.wishlist_button.multiple':
+            dropdown:
+                template: '@SyliusWishlistPlugin/common/wishlist_button/multiple/dropdown.html.twig'
+                priority: 0
+        'sylius_shop.common.wishlist_button.multiple.dropdown':
+            toggle:
+                template: '@SyliusWishlistPlugin/common/wishlist_button/multiple/dropdown/toggle.html.twig'
+                priority: 100
+            items:
+                template: '@SyliusWishlistPlugin/common/wishlist_button/multiple/dropdown/items.html.twig'
+                priority: 0
+        'sylius_shop.common.wishlist_button.multiple.dropdown.items':
+            item:
+                template: '@SyliusWishlistPlugin/common/wishlist_button/multiple/dropdown/items/item.html.twig'
+                priority: 0

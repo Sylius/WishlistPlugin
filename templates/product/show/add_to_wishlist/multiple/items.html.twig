@@ -1,8 +1,0 @@
-{% set wishlists = hookable_metadata.context.wishlists %}
-{% set product = hookable_metadata.context.product %}
-
-<ul class="dropdown-menu w-100" data-bb-wishlist-hrefs="hrefs-adding-variant">
-    {% for wishlist in wishlists %}
-        {% hook 'item' with { wishlist: wishlist, product: product } %}
-    {% endfor %}
-</ul>

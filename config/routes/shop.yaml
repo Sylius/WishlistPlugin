@@ -10,11 +10,6 @@ wishlist_add_products:
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.add_products_to_wishlist
 
-wishlist_add_product:
-    path: /wishlist/add/{productId}
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.add_product_to_wishlist
-
 wishlist_remove_product:
     path: /wishlist/remove/{productId}
     defaults:
@@ -98,10 +93,6 @@ wishlist_show_chosen_wishlist:
     defaults:
         _controller: sylius_wishlist_plugin.controller.action.show_chosen_wishlist
 
-wishlist_add_product_to_selected_wishlist:
-    path: /wishlist/{wishlistId}/add/{productId}
-    defaults:
-        _controller: sylius_wishlist_plugin.controller.action.add_product_to_selected_wishlist
 
 wishlist_copy_selected_products_to_other_wishlist:
     path: /wishlists/{wishlistId}/copy/{destinedWishlistId}

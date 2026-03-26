@@ -48,17 +48,6 @@
             <tag name="controller.service_arguments"/>
         </service>
 
-        <service id="sylius_wishlist_plugin.controller.action.add_product_to_wishlist" class="Sylius\WishlistPlugin\Controller\Action\AddProductToWishlistAction">
-            <argument type="service" id="sylius.repository.product"/>
-            <argument type="service" id="sylius_wishlist_plugin.factory.wishlist_product"/>
-            <argument type="service" id="request_stack"/>
-            <argument type="service" id="translator"/>
-            <argument type="service" id="sylius_wishlist_plugin.resolver.wishlists_resolver"/>
-            <argument type="service" id="sylius_wishlist_plugin.manager.wishlist"/>
-            <argument type="service" id="sylius.context.channel"/>
-            <tag name="controller.service_arguments"/>
-        </service>
-
         <service id="sylius_wishlist_plugin.controller.action.remove_product_from_wishlist" class="Sylius\WishlistPlugin\Controller\Action\RemoveProductFromWishlistAction">
             <argument type="service" id="sylius_wishlist_plugin.context.wishlist"/>
             <argument type="service" id="sylius.repository.product"/>
@@ -165,16 +154,6 @@
             <argument type="service" id="sylius_wishlist_plugin.resolver.wishlist_cookie_token_resolver"/>
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="sylius_wishlist_plugin.resolver.token_user_resolver"/>
-            <tag name="controller.service_arguments"/>
-        </service>
-
-        <service id="sylius_wishlist_plugin.controller.action.add_product_to_selected_wishlist" class="Sylius\WishlistPlugin\Controller\Action\AddProductToSelectedWishlistAction">
-            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
-            <argument type="service" id="sylius.repository.product"/>
-            <argument type="service" id="request_stack"/>
-            <argument type="service" id="translator"/>
-            <argument type="service" id="router"/>
-            <argument type="service" id="sylius.command_bus"/>
             <tag name="controller.service_arguments"/>
         </service>
 

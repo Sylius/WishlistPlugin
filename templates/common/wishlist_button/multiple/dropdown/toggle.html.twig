@@ -1,0 +1,14 @@
+{% set isInWishlist = hookable_metadata.context.isInWishlist %}
+
+<button
+    class="btn btn-icon btn-outline-secondary w-100 dropdown-toggle"
+    type="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+    {{ sylius_test_html_attribute('wishlist-add-product') }}
+>
+    {{ ux_icon(isInWishlist ? 'tabler:heart-filled' : 'tabler:heart', {
+        'class': 'icon icon-sm' ~ (isInWishlist ? ' text-danger' : '')
+    }) }}
+    {{ 'sylius_wishlist_plugin.ui.wishlists'|trans }}
+</button>

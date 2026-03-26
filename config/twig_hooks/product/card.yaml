@@ -2,5 +2,8 @@ sylius_twig_hooks:
     hooks:
         'sylius_shop.shared.product.card':
             add_to_wishlist:
-                template: "@SyliusWishlistPlugin/common/add_to_wishlist.html.twig"
+                component: 'sylius_shop:wishlist:button'
+                props:
+                    template: '@SyliusWishlistPlugin/common/wishlist_button.html.twig'
+                    productId: '@=_context.product.getId()'
                 priority: 50

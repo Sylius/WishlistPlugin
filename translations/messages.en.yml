@@ -1,6 +1,7 @@
 sylius_wishlist_plugin:
     ui:
         wishlist: Wishlist
+        wishlists: Wishlists
         go_to_wishlist_failure: There was a problem with the redirection. Try again
         add_to_wishlist: Add to wishlist
         remove_from_wishlist: Remove from wishlist
