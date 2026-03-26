@@ -40,19 +40,13 @@
 
         <service id="sylius_wishlist_plugin.command_handler.wishlist.remove_product_from_wishlist_handler" class="Sylius\WishlistPlugin\CommandHandler\Wishlist\RemoveProductFromWishlistHandler">
             <argument type="service" id="sylius.repository.product"/>
-            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
-            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist_product"/>
             <argument type="service" id="sylius_wishlist_plugin.manager.wishlist"/>
-            <argument type="service" id="security.authorization_checker"/>
             <tag name="messenger.message_handler"/>
         </service>
 
         <service id="sylius_wishlist_plugin.command_handler.wishlist.remove_product_variant_from_wishlist_handler" class="Sylius\WishlistPlugin\CommandHandler\Wishlist\RemoveProductVariantFromWishlistHandler">
-            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
             <argument type="service" id="sylius.repository.product_variant"/>
-            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist_product"/>
             <argument type="service" id="sylius_wishlist_plugin.manager.wishlist"/>
-            <argument type="service" id="security.authorization_checker"/>
             <tag name="messenger.message_handler"/>
         </service>
 

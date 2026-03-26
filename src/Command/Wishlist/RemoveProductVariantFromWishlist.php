@@ -13,21 +13,23 @@ declare(strict_types=1);
 
 namespace Sylius\WishlistPlugin\Command\Wishlist;
 
-final readonly class RemoveProductVariantFromWishlist implements WishlistSyncCommandInterface
+use Sylius\WishlistPlugin\Entity\WishlistInterface;
+
+final class RemoveProductVariantFromWishlist implements WishlistTokenValueAwareInterface
 {
-    public function __construct(
-        private int $productVariantId,
-        private string $wishlistToken,
-    ) {
+    private WishlistInterface $wishlist;
+
+    public function __construct(public readonly int $productVariantId)
+    {
     }
 
-    public function getProductVariantIdValue(): int
+    public function getWishlist(): WishlistInterface
     {
-        return $this->productVariantId;
+        return $this->wishlist;
     }
 
-    public function getWishlistTokenValue(): string
+    public function setWishlist(WishlistInterface $wishlist): void
     {
-        return $this->wishlistToken;
+        $this->wishlist = $wishlist;
     }
 }
