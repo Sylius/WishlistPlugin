@@ -115,11 +115,12 @@ final class WishlistContext extends RawMinkContext implements Context
             $this->getOptions(Request::METHOD_POST, []),
         );
 
-        Assert::eq($response->getStatusCode(), 201);
         $jsonBody = json_decode((string) $response->getBody());
+        Assert::eq($response->getStatusCode(), 201);
 
-        /** @var WishlistInterface $wishlist */
+        /** @var WishlistInterface|null $wishlist */
         $wishlist = $this->wishlistRepository->find((int) $jsonBody->id);
+        Assert::notNull($wishlist);
         $this->wishlist = $wishlist;
     }
 
