@@ -16,8 +16,8 @@ namespace Sylius\WishlistPlugin\Command\Wishlist;
 final class CreateWishlist implements WishlistSyncCommandInterface
 {
     public function __construct(
-        public ?string $tokenValue,
-        public ?string $channelCode,
+        public ?string $tokenValue = null,
+        public ?string $channelCode = null,
     ) {
     }
 
