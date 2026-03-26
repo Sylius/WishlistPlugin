@@ -7,11 +7,15 @@
     <services>
         <service id="sylius_wishlist_plugin.controller.action.api_platform.remove_product_from_wishlist_action" class="Sylius\WishlistPlugin\Controller\Action\ApiPlatform\RemoveProductFromWishlistAction">
             <argument type="service" id="api_platform.message_bus"/>
+            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
+            <argument type="service" id="security.helper"/>
             <tag name="controller.service_arguments"/>
         </service>
 
         <service id="sylius_wishlist_plugin.controller.action.api_platform.remove_product_variant_from_wishlist_action" class="Sylius\WishlistPlugin\Controller\Action\ApiPlatform\RemoveProductVariantFromWishlistAction">
             <argument type="service" id="api_platform.message_bus"/>
+            <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
+            <argument type="service" id="security.helper"/>
             <tag name="controller.service_arguments"/>
         </service>
 
