@@ -12,7 +12,7 @@ Feature: Copying selected products to other wishlists
     And the store has a product "Jack Daniels Gentleman" priced at "$10.00"
     And all store products appear under a main taxonomy
 
-  @ui
+  @ui @javascript
   Scenario: Copy selected products to other wishlist
     And I should have 0 products in selected wishlist "Wishlist1"
     And I add "Jack Daniels Gentleman" to selected wishlist "Wishlist2"

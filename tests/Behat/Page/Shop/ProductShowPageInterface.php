@@ -16,4 +16,6 @@ namespace Tests\Sylius\WishlistPlugin\Behat\Page\Shop;
 interface ProductShowPageInterface
 {
     public function addVariantToWishlist(): void;
+
+    public function hasFilledWishlistHeart(): bool;
 }

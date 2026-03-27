@@ -8,7 +8,7 @@ Feature: Showing chosen wishlist
     Given the store operates on a single channel in "United States"
     Given I am on "/"
 
-  @ui
+  @ui @javascript
   Scenario: Showing chosen wishlist
     And the store has a wishlist named "Wishlist1"
     And the store has a wishlist named "Wishlist2"

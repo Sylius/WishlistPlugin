@@ -11,34 +11,34 @@ Feature: Adding a product to wishlist
     And the store has a product "Leprechaun's Silver" priced at "€10.00" in "Web-EU" channel
     And all store products appear under a main taxonomy
 
-  @ui
+  @ui @javascript
   Scenario: Adding product to wishlist in the first channel checking wishlist on the second channel
     Given I change my current channel to "Web-EU"
     When I add "Leprechaun's Silver" product to my wishlist
-    And I should be notified that the product has been successfully added to my wishlist
+    Then the wishlist button for "Leprechaun's Silver" should show a filled heart
     Then I change my current channel to "Web-US"
     And I go to the wishlist page
     And I should have 0 products in my wishlist
 
-  @ui
+  @ui @javascript
   Scenario: Adding product to wishlisht on both channels
     Given I change my current channel to "Web-EU"
     When I add "Leprechaun's Silver" product to my wishlist
-    And I should be notified that the product has been successfully added to my wishlist
+    Then the wishlist button for "Leprechaun's Silver" should show a filled heart
     And I should have one item in my wishlist
     Then I change my current channel to "Web-US"
     And I add "Leprechaun's Gold" product to my wishlist
-    And I should be notified that the product has been successfully added to my wishlist
+    Then the wishlist button should show a filled heart
     And I should have one item in my wishlist
 
-  @ui
+  @ui @javascript
   Scenario: Adding product to wishlist on both channels and removing from one channel.
     Given I change my current channel to "Web-EU"
     When I add "Leprechaun's Silver" product to my wishlist
-    And I should be notified that the product has been successfully added to my wishlist
+    Then the wishlist button for "Leprechaun's Silver" should show a filled heart
     Then I change my current channel to "Web-US"
     And I add "Leprechaun's Gold" product to my wishlist
-    And I should be notified that the product has been successfully added to my wishlist
+    Then the wishlist button should show a filled heart
     And I should have one item in my wishlist
     And I go to the wishlist page
     Then I check "Leprechaun's Gold"
@@ -48,14 +48,14 @@ Feature: Adding a product to wishlist
     And I go to the wishlist page
     And I should have one item in my wishlist
 
-  @ui
+  @ui @javascript
   Scenario: Adding multiple channels product to wishlist and removing one.
     Given I change my current channel to "Web-EU"
     When I add "Leprechaun's Gold" product to my wishlist
-    And I should be notified that the product has been successfully added to my wishlist
+    Then the wishlist button for "Leprechaun's Gold" should show a filled heart
     Then I change my current channel to "Web-US"
     And I add "Leprechaun's Gold" product to my wishlist
-    And I should be notified that the product has been successfully added to my wishlist
+    Then the wishlist button should show a filled heart
     And I should have one item in my wishlist
     And I go to the wishlist page
     Then I check "Leprechaun's Gold"

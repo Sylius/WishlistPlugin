@@ -85,4 +85,15 @@ final class WishlistsResolver implements WishlistsResolverInterface
 
         return $wishlists;
     }
+
+    public function resolveById(int $wishlistId): ?WishlistInterface
+    {
+        foreach ($this->resolve() as $wishlist) {
+            if ($wishlist->getId() === $wishlistId) {
+                return $wishlist;
+            }
+        }
+
+        return null;
+    }
 }
