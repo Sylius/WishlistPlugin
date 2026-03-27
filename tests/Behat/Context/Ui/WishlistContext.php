@@ -451,6 +451,28 @@ final class WishlistContext extends RawMinkContext implements Context
     }
 
     /**
+     * @Then the wishlist button should show a filled heart
+     */
+    public function theWishlistButtonShouldShowAFilledHeart(): void
+    {
+        Assert::true(
+            $this->productIndexPage->hasFilledWishlistHeart() || $this->productShowPage->hasFilledWishlistHeart(),
+            'The wishlist button does not show a filled heart.',
+        );
+    }
+
+    /**
+     * @Then the wishlist button for :productName should show a filled heart
+     */
+    public function theWishlistButtonForProductShouldShowAFilledHeart(string $productName): void
+    {
+        Assert::true(
+            $this->productIndexPage->hasFilledWishlistHeartForProduct($productName),
+            sprintf('The wishlist button for "%s" does not show a filled heart.', $productName),
+        );
+    }
+
+    /**
      * @Then I should be notified that the product has been removed from my wishlist
      */
     public function iShouldBeNotifiedThatTheProductHasBeenRemovedFromMyWishlist(): void
@@ -463,6 +485,7 @@ final class WishlistContext extends RawMinkContext implements Context
      */
     public function iShouldHaveOnItemInMyWishlist(): void
     {
+        $this->wishlistPage->open();
         Assert::eq(1, $this->wishlistPage->getItemsCount());
     }
 

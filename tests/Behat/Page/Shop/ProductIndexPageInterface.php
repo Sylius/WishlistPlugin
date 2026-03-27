@@ -18,4 +18,8 @@ use Sylius\Behat\Page\Shop\Product\IndexPageInterface;
 interface ProductIndexPageInterface extends IndexPageInterface
 {
     public function addProductToWishlist(string $productName): void;
+
+    public function hasFilledWishlistHeart(): bool;
+
+    public function hasFilledWishlistHeartForProduct(string $productName): bool;
 }

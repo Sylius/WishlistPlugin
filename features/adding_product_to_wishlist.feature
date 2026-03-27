@@ -7,24 +7,24 @@ Feature: Adding a product to wishlist
   Background:
     Given the store operates on a single channel in "United States"
 
-  @ui
+  @ui @javascript
   Scenario: Adding a product to wishlist
     Given the store has a product "Jack Daniels Gentleman" priced at "$10.00"
     And all store products appear under a main taxonomy
     When I add this product to wishlist
-    Then I should be notified that the product has been successfully added to my wishlist
+    Then the wishlist button should show a filled heart
     And I should have one item in my wishlist
 
-  @ui
+  @ui @javascript
   Scenario: Adding a product variant to wishlist
     Given the store has a product "Some other whiskey" priced at "$25.00"
     And all store products appear under a main taxonomy
     When I view product "Some other whiskey"
     And I add this product to wishlist
-    Then I should be notified that the product has been successfully added to my wishlist
+    Then the wishlist button should show a filled heart
     And I should have one item in my wishlist
 
-  @ui
+  @ui @javascript
   Scenario: Adding a product as anon user and signing in
     Given the store has a product "Jimmy Beammy" priced at "$233.00"
     And the store has a product "Ice ball" priced at "$144.00"

@@ -10,6 +10,7 @@
         data-live-action-param="{{ product_in_this_wishlist ? 'remove' : 'add' }}"
         data-live-wishlist-id-param="{{ wishlist.id }}"
         data-loading="addAttribute(disabled)"
+        {{ sylius_test_html_attribute('wishlist-dropdown-item', wishlist.name) }}
     >
         {{ ux_icon(product_in_this_wishlist ? 'tabler:heart-filled' : 'tabler:heart', {
             'class': 'icon icon-xs' ~ (product_in_this_wishlist ? ' text-danger' : '')

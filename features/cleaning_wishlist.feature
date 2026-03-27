@@ -7,7 +7,7 @@ Feature: Cleaning all wishlist
   Background:
     Given the store operates on a single channel in "United States"
 
-  @ui
+  @ui @javascript
   Scenario: Cleaning wishlist
     Given the store has a product "Jimmy Beammy" priced at "$233.00"
     And the store has a product "Ice ball" priced at "$144.00"

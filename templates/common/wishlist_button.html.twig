@@ -1,6 +1,6 @@
 {% set prefixes = ['sylius_shop.common.wishlist_button'] %}
 
-<div {{ attributes }}>
+<div {{ attributes }} {{ sylius_test_html_attribute('wishlist-button', product.name) }}>
     {% if wishlists|length > 1 %}
         {% hook 'multiple' with { _prefixes: prefixes, product: product, wishlists: wishlists, isInWishlist: isInWishlist } %}
     {% else %}

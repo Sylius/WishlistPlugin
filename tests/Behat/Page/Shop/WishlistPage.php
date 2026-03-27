@@ -37,14 +37,13 @@ class WishlistPage extends SymfonyPage implements WishlistPageInterface
 
     public function addProductToSelectedWishlist(string $productName, string $wishlistName): void
     {
-        $productElements = $this->getDocument()->findAll('named', ['link', $wishlistName]);
+        $liveComponent = $this->getElement('wishlist_button', ['%product_name%' => $productName]);
+        $dropdownItem = $liveComponent->find('css', sprintf('[data-test-wishlist-dropdown-item="%s"]', $wishlistName));
 
-        /** @var NodeElement $productElement */
-        foreach ($productElements as $productElement) {
-            if ($productName === $productElement->getAttribute('data-product-name')) {
-                $productElement->click();
-            }
-        }
+        $dropdownItem->click();
+
+        usleep(500000);
+        $liveComponent->waitFor(5000, fn () => !$liveComponent->hasAttribute('busy'));
     }
 
     public function selectedWishlistAction(string $action, string $wishlistName): void
@@ -224,6 +223,7 @@ class WishlistPage extends SymfonyPage implements WishlistPageInterface
             'items_count' => '[data-test-wishlist-primary-items-count]',
             'export_selected_csv' => '[data-test-wishlist-export-to-csv]',
             'export_selected_pdf' => '[data-test-wishlist-export-to-pdf-from-wishlist]',
+            'wishlist_button' => '[data-test-wishlist-button="%product_name%"]',
         ];
     }
 

@@ -8,7 +8,7 @@ Feature: Removing guest wishlists
     Given the store operates on a single channel in "United States"
     And the store has a product "Jack Daniels Gentleman" priced at "$10.00"
     And all store products appear under a main taxonomy
-    And I add this product to wishlist
+    And I have this product in my wishlist
     And there is 1 wishlist in the database
 
   @cli
