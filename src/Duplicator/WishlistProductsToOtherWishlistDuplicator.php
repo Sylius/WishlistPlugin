@@ -52,7 +52,7 @@ final readonly class WishlistProductsToOtherWishlistDuplicator implements Wishli
 
                 $session->getFlashBag()->add(
                     'error',
-                    sprintf('%s' . $message, $variant->getName()),
+                    sprintf('%s %s', $variant->getName(), $message),
                 );
             } else {
                 $wishlistProduct = $this->wishlistProductFactory->createForWishlistAndVariant($destinedWishlist, $variant);
