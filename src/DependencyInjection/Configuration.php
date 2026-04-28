@@ -66,7 +66,14 @@ final class Configuration implements ConfigurationInterface
                 ->arrayNode('pdf_generator')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('legacy')->defaultTrue()->end()
+                        ->booleanNode('legacy')
+                            ->defaultTrue()
+                            ->setDeprecated(
+                                'sylius/wishlist-plugin',
+                                '1.2',
+                                'The "%node%" option is deprecated and will be removed in 2.0. The "sylius/pdf-generation-bundle" integration will become the only supported PDF generation mode.',
+                            )
+                        ->end()
                     ->end()
                 ->end()
                 ->arrayNode('resources')

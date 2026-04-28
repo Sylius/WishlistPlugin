@@ -12,6 +12,10 @@
 
    The bundle is preconfigured with `dompdf` adapter and a `sylius_wishlist` context making it a drop-in replacement.
 
+   The `sylius_wishlist_plugin.pdf_generator.legacy` option itself is deprecated and will be removed in 2.0,
+   together with the entire legacy PDF generation path. The `SyliusPdfGenerationBundle` integration will become
+   the only supported mode.
+
 1. The following service now accepts new argument types from the `SyliusPdfGenerationBundle`. Passing the old types is deprecated and will be removed in 2.0:
 
    - `Sylius\WishlistPlugin\Exporter\DomPdfWishlistExporter`:
@@ -24,6 +28,24 @@
      +   private ?DomPdfFactoryInterface $domPdfFactory = null,
      )
      ```
+
+1. The following interfaces changed their method return type from `void` to `string`. If you have a custom implementation of either interface, update its signature accordingly:
+
+   - `Sylius\WishlistPlugin\Exporter\DomPdfWishlistExporterInterface`:
+
+     ```diff
+     -    public function export(Collection $data): void;
+     +    public function export(Collection $data): string;
+     ```
+
+   - `Sylius\WishlistPlugin\Exporter\WishlistToPdfExporterInterface`:
+
+     ```diff
+     -    public function createModelToPdfAndExportToPdf(Collection $wishlistProducts): void;
+     +    public function createModelToPdfAndExportToPdf(Collection $wishlistProducts): string;
+     ```
+
+   The methods now return the rendered PDF as a binary string instead of writing it directly to the response.
 
 1. The following classes, interfaces, and services have been deprecated and will be removed in 2.0:
 

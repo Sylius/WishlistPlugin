@@ -39,6 +39,7 @@ final class SyliusWishlistExtension extends AbstractResourceExtension implements
         $container->setParameter('sylius_wishlist_plugin.parameters.wishlist_cookie_token', $config['wishlist_cookie_token']);
         $container->setParameter('sylius_wishlist_plugin.parameters.allowed_mime_types', $config['allowed_mime_types']);
 
+        // TODO: Remove in 2.0 — once the legacy PDF generator is dropped, the service should be defined directly with its non-legacy arguments instead of being rewired here.
         if (!$config['pdf_generator']['legacy']) {
             $this->registerPdfOptionsProcessor($container);
 
@@ -58,6 +59,7 @@ final class SyliusWishlistExtension extends AbstractResourceExtension implements
         $config = $this->getCurrentConfiguration($container);
         $this->registerResources('sylius_wishlist_plugin', 'doctrine/orm', $config['resources'], $container);
 
+        // TODO: Remove in 2.0 — once the legacy PDF generator is dropped, the bundle configuration should be prepended unconditionally.
         if (!$config['pdf_generator']['legacy']) {
             $this->prependPdfBundleConfiguration($container);
         }
