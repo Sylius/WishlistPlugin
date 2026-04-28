@@ -56,13 +56,9 @@ abstract class BaseWishlistProductsAction
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $response = $this->handleCommand($form);
+            $this->handleCommand($form);
 
-            if ($response instanceof Response) {
-                return $response;
-            }
-
-            return new RedirectResponse(
+            return $this->getResponseAfterCommand($wishlistId) ?? new RedirectResponse(
                 $this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', [
                     'wishlistId' => $wishlistId,
                 ]),
@@ -84,7 +80,12 @@ abstract class BaseWishlistProductsAction
         );
     }
 
-    abstract protected function handleCommand(FormInterface $form): Response|null;
+    abstract protected function handleCommand(FormInterface $form): void;
+
+    protected function getResponseAfterCommand(int $wishlistId): ?Response
+    {
+        return null;
+    }
 
     protected function getFlashBag(): FlashBagInterface
     {

@@ -20,20 +20,24 @@ use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 final class ExportWishlistToPdfAction extends BaseWishlistProductsAction
 {
-    protected function handleCommand(FormInterface $form): Response|null
+    private ?string $pdfContent = null;
+
+    protected function handleCommand(FormInterface $form): void
     {
         $command = new ExportSelectedProductsFromWishlistToPdf($form->getData());
         $envelope = $this->messageBus->dispatch($command);
 
-        $handledStamp = $envelope->last(HandledStamp::class);
-        $pdfContent = $handledStamp?->getResult() ?? '';
+        $this->pdfContent = $envelope->last(HandledStamp::class)?->getResult();
+    }
 
-        if ('' === $pdfContent) {
+    protected function getResponseAfterCommand(int $wishlistId): ?Response
+    {
+        if (null === $this->pdfContent || '' === $this->pdfContent) {
             // Legacy path — dompdf already streamed, exit to prevent timeout
             exit();
         }
 
-        return new Response($pdfContent, 200, [
+        return new Response($this->pdfContent, 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="Wishlist.pdf"',
         ]);
