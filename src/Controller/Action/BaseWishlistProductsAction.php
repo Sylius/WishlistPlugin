@@ -58,10 +58,10 @@ abstract class BaseWishlistProductsAction
         if ($form->isSubmitted() && $form->isValid()) {
             $this->handleCommand($form);
 
-            return new RedirectResponse(
+            return $this->getResponseAfterCommand($wishlistId) ?? new RedirectResponse(
                 $this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', [
-                        'wishlistId' => $wishlistId,
-                    ]),
+                    'wishlistId' => $wishlistId,
+                ]),
             );
         }
 
@@ -82,6 +82,11 @@ abstract class BaseWishlistProductsAction
 
     abstract protected function handleCommand(FormInterface $form): void;
 
+    protected function getResponseAfterCommand(int $wishlistId): ?Response
+    {
+        return null;
+    }
+
     protected function getFlashBag(): FlashBagInterface
     {
         /** @var Session $session */
@@ -100,14 +105,22 @@ abstract class BaseWishlistProductsAction
             /** @var Session $session */
             $session = $this->requestStack->getSession();
 
-            $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'));
+            $session->getFlashBag()->add(
+                'error',
+                $this->translator->trans('sylius_wishlist_plugin.ui.wishlist_not_exists'),
+            );
 
             return null;
         }
-        $commandsArray = $this->wishlistCommandProcessor->createWishlistItemsCollection($wishlist->getWishlistProducts());
 
-        return $this->formFactory->create(WishlistCollectionType::class, ['items' => $commandsArray], [
-                'cart' => $cart,
-        ]);
+        $commandsArray = $this->wishlistCommandProcessor->createWishlistItemsCollection(
+            $wishlist->getWishlistProducts(),
+        );
+
+        return $this->formFactory->create(
+            WishlistCollectionType::class,
+            ['items' => $commandsArray],
+            ['cart' => $cart],
+        );
     }
 }

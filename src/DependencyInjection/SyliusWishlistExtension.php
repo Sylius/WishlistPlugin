@@ -15,24 +15,40 @@ namespace Sylius\WishlistPlugin\DependencyInjection;
 
 use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
+use Sylius\PdfGenerationBundle\Core\Renderer\TwigToPdfRendererInterface;
+use Sylius\WishlistPlugin\Processor\WishlistDompdfOptionsProcessor;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 
 final class SyliusWishlistExtension extends AbstractResourceExtension implements PrependExtensionInterface
 {
     use PrependDoctrineMigrationsTrait;
 
-    public function load(array $config, ContainerBuilder $container): void
+    public function load(array $configs, ContainerBuilder $container): void
     {
-        $config = $this->processConfiguration($this->getConfiguration([], $container), $config);
+        $config = $this->processConfiguration($this->getConfiguration([], $container), $configs);
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
 
         $loader->load('services.xml');
+
         $container->setParameter('sylius_wishlist_plugin.parameters.wishlist_cookie_token', $config['wishlist_cookie_token']);
         $container->setParameter('sylius_wishlist_plugin.parameters.allowed_mime_types', $config['allowed_mime_types']);
+
+        // TODO: Remove in 2.0 — once the legacy PDF generator is dropped, the service should be defined directly with its non-legacy arguments instead of being rewired here.
+        if (!$config['pdf_generator']['legacy']) {
+            $this->registerPdfOptionsProcessor($container);
+
+            $container
+                ->getDefinition('sylius_wishlist_plugin.services.exporter.dom_pdf_wishlist_exporter')
+                ->replaceArgument(0, new Reference(TwigToPdfRendererInterface::class))
+                ->replaceArgument(1, null)
+            ;
+        }
     }
 
     public function prepend(ContainerBuilder $container): void
@@ -42,6 +58,11 @@ final class SyliusWishlistExtension extends AbstractResourceExtension implements
 
         $config = $this->getCurrentConfiguration($container);
         $this->registerResources('sylius_wishlist_plugin', 'doctrine/orm', $config['resources'], $container);
+
+        // TODO: Remove in 2.0 — once the legacy PDF generator is dropped, the bundle configuration should be prepended unconditionally.
+        if (!$config['pdf_generator']['legacy']) {
+            $this->prependPdfBundleConfiguration($container);
+        }
     }
 
     protected function getMigrationsNamespace(): string
@@ -57,6 +78,28 @@ final class SyliusWishlistExtension extends AbstractResourceExtension implements
     protected function getNamespacesOfMigrationsExecutedBefore(): array
     {
         return ['Sylius\Bundle\CoreBundle\Migrations'];
+    }
+
+    private function prependPdfBundleConfiguration(ContainerBuilder $container): void
+    {
+        $container->prependExtensionConfig('sylius_pdf_generation', [
+            'contexts' => [
+                'sylius_wishlist' => [
+                    'adapter' => 'dompdf',
+                ],
+            ],
+        ]);
+    }
+
+    private function registerPdfOptionsProcessor(ContainerBuilder $container): void
+    {
+        $definition = new Definition(WishlistDompdfOptionsProcessor::class);
+        $definition->addTag('sylius_pdf_generation.options_processor', [
+            'adapter' => 'dompdf',
+            'context' => 'sylius_wishlist',
+        ]);
+
+        $container->setDefinition('sylius_wishlist.options_processor.dompdf.default', $definition);
     }
 
     private function getCurrentConfiguration(ContainerBuilder $container): array

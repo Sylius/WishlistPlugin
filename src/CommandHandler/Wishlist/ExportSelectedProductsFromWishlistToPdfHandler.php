@@ -25,10 +25,10 @@ final readonly class ExportSelectedProductsFromWishlistToPdfHandler
     ) {
     }
 
-    public function __invoke(ExportSelectedProductsFromWishlistToPdfInterface $exportSelectedProductsFromWishlistToPdf): void
+    public function __invoke(ExportSelectedProductsFromWishlistToPdfInterface $exportSelectedProductsFromWishlistToPdf): string
     {
         $wishlistProducts = $exportSelectedProductsFromWishlistToPdf->getWishlistProducts();
-        $this->exporterWishlistToPdf
-            ->createModelToPdfAndExportToPdf($wishlistProducts);
+
+        return $this->exporterWishlistToPdf->createModelToPdfAndExportToPdf($wishlistProducts);
     }
 }

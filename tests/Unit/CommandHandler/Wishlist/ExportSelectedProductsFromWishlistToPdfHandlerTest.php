@@ -45,8 +45,13 @@ final class ExportSelectedProductsFromWishlistToPdfHandlerTest extends TestCase
         $wishlistProducts = $this->createMock(ArrayCollection::class);
 
         $command->expects($this->once())->method('getWishlistProducts')->willReturn($wishlistProducts);
-        $this->exporterWishlistToPdf->expects($this->once())->method('createModelToPdfAndExportToPdf')->with($wishlistProducts);
+        $this->exporterWishlistToPdf->expects($this->once())
+            ->method('createModelToPdfAndExportToPdf')
+            ->with($wishlistProducts)
+            ->willReturn('%PDF-content%');
 
-        ($this->handler)($command);
+        $result = ($this->handler)($command);
+
+        $this->assertSame('%PDF-content%', $result);
     }
 }

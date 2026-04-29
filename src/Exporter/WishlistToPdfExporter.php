@@ -24,10 +24,10 @@ final readonly class WishlistToPdfExporter implements WishlistToPdfExporterInter
     ) {
     }
 
-    public function createModelToPdfAndExportToPdf(Collection $wishlistProducts): void
+    public function createModelToPdfAndExportToPdf(Collection $wishlistProducts): string
     {
         $productsToExport = $this->variantPdfModelProcessor->createVariantPdfModelCollection($wishlistProducts);
 
-        $this->domPdfWishlistExporter->export($productsToExport);
+        return $this->domPdfWishlistExporter->export($productsToExport);
     }
 }
