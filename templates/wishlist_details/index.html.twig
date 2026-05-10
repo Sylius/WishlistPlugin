@@ -7,7 +7,11 @@
 {% block content %}
     <div class="container mt-4 mb-5">
         <h1 class="bb-wishlist-header">
-            {{ wishlist.name }}
+            {% if wishlist.name is not empty %}
+                {{ wishlist.name }}
+            {% else %}
+                {{ 'sylius_wishlist_plugin.ui.wishlist'|trans }}
+            {% endif %}
         </h1>
         {% if sylius.channel is not null %}
             {% set wishlists = findAllByAnonymousAndChannel(sylius.channel) %}
