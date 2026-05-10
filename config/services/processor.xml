@@ -22,6 +22,7 @@
             <argument type="service" id="translator"/>
             <argument type="service" id="router"/>
             <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
+            <argument type="service" id="sylius_wishlist_plugin.resolver.wishlists_resolver"/>
         </service>
     </services>
 </container>

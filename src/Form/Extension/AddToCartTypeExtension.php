@@ -43,7 +43,7 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
                 ])
                 ->add('wishlists', EntityType::class, [
                     'class' => Wishlist::class,
-                    'choices' => $this->wishlistsResolver->resolveAndCreate(),
+                    'choices' => $this->wishlistsResolver->resolve(),
                     'choice_label' => 'name',
                     'mapped' => false,
                 ])
