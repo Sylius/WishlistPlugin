@@ -157,6 +157,45 @@ final class WishlistContext extends RawMinkContext implements Context
     }
 
     /**
+     * @Given the store has a wishlist without a name
+     */
+    public function theStoreHasAWishlistWithoutAName(): void
+    {
+        $cookie = $this->getSession()->getCookie($this->wishlistCookieToken);
+        $wishlist = new Wishlist();
+        $channel = $this->channelRepository->findOneByCode('WEB-US');
+
+        $wishlist->setChannel($channel);
+
+        if (null !== $cookie) {
+            $wishlist->setToken($cookie);
+        }
+
+        $this->wishlistRepository->add($wishlist);
+        $this->sharedStorage->set('wishlist', $wishlist);
+        $this->getSession()->setCookie($this->wishlistCookieToken, $wishlist->getToken());
+        $this->cookieSetter->setCookie($this->wishlistCookieToken, $wishlist->getToken());
+    }
+
+    /**
+     * @When I visit this wishlist
+     */
+    public function iVisitThisWishlist(): void
+    {
+        /** @var WishlistInterface $wishlist */
+        $wishlist = $this->sharedStorage->get('wishlist');
+        $this->visitPath('/wishlists/' . $wishlist->getId());
+    }
+
+    /**
+     * @Then the wishlist title should be :title
+     */
+    public function theWishlistTitleShouldBe(string $title): void
+    {
+        Assert::eq($title, $this->chosenShowPage->getWishlistTitle());
+    }
+
+    /**
      * @Given the store has a wishlist named :name
      */
     public function theStoreHasAWishlist(string $name): void

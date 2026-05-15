@@ -50,7 +50,6 @@ final readonly class CreateWishlistHandler
 
         /** @var WishlistInterface $wishlist */
         $wishlist = $this->wishlistFactory->createNew();
-        $wishlist->setName('Wishlist');
 
         if ($user instanceof ShopUserInterface) {
             $wishlist = $this->shopUserWishlistResolver->resolve($user);

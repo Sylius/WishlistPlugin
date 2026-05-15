@@ -104,7 +104,6 @@ final class CreateWishlistHandlerTest extends TestCase
         $this->tokenUserResolver->expects($this->once())->method('resolve')->with($token)->willReturn($this->user);
         $this->wishlistFactory->expects($this->once())->method('createNew')->willReturn($this->wishlist);
         $this->shopUserWishlistResolver->expects($this->once())->method('resolve')->with($this->user)->willReturn($this->wishlist);
-        $this->wishlist->expects($this->once())->method('setName')->with('Wishlist');
         $this->wishlist->expects($this->once())->method('setToken')->with('test_token_value');
         $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn($this->request);
         $this->channelRepository->expects($this->once())->method('findOneByCode')->with('test_channel_code')->willReturn($this->channel);
@@ -123,7 +122,6 @@ final class CreateWishlistHandlerTest extends TestCase
         $this->tokenUserResolver->expects($this->once())->method('resolve')->with(null)->willReturn(null);
         $this->wishlistFactory->expects($this->once())->method('createNew')->willReturn($this->wishlist);
         $this->shopUserWishlistResolver->expects($this->never())->method('resolve')->with($this->user);
-        $this->wishlist->expects($this->once())->method('setName')->with('Wishlist');
         $this->wishlist->expects($this->once())->method('setToken')->with('test_token_value');
         $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn($this->request);
         $this->channelRepository->expects($this->never())->method('findOneByCode')->with('test');
