@@ -20,3 +20,9 @@ Feature: Showing chosen wishlist
     When I open "Wishlist2"
     Then I should see "Wishlist2"
     And I should have "Jack Daniels Gentleman" in selected wishlists "Wishlist2"
+
+  @ui
+  Scenario: Showing a wishlist without a name displays the default translatable title
+    And the store has a wishlist without a name
+    When I visit this wishlist
+    Then the wishlist title should be "Wishlist"

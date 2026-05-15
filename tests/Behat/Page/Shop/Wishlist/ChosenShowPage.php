@@ -21,4 +21,16 @@ final class ChosenShowPage extends SymfonyPage implements ChosenShowPageInterfac
     {
         return 'sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist';
     }
+
+    public function getWishlistTitle(): string
+    {
+        return trim($this->getElement('wishlist_title')->getText());
+    }
+
+    protected function getDefinedElements(): array
+    {
+        return array_merge(parent::getDefinedElements(), [
+            'wishlist_title' => 'h1.bb-wishlist-header',
+        ]);
+    }
 }

@@ -17,4 +17,5 @@ use FriendsOfBehat\PageObjectExtension\Page\SymfonyPageInterface;
 
 interface ChosenShowPageInterface extends SymfonyPageInterface
 {
+    public function getWishlistTitle(): string;
 }
