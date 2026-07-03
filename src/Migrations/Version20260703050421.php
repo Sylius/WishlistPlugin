@@ -44,7 +44,10 @@ final class Version20260703050421 extends AbstractPostgreSQLMigration
 
     public function down(Schema $schema): void
     {
-        $this->skipIf(!$schema->hasTable('sylius_wishlist'), 'Table "sylius_wishlist" does not exist, nothing to revert.');
+        if (!$schema->hasTable('sylius_wishlist')) {
+            $this->markAsExecuted($this->getVersion());
+            $this->skipIf(true, 'Table "sylius_wishlist" does not exist, nothing to revert.');
+        }
 
         $this->addSql('ALTER TABLE sylius_wishlist_product DROP quantity');
         $this->addSql('ALTER INDEX idx_635a71dea45d93bf RENAME TO idx_578d4e77a45d93bf');
