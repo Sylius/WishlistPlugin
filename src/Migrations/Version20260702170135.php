@@ -54,7 +54,7 @@ final class Version20260702170135 extends AbstractPostgreSQLMigration
             $this->markAsExecuted($this->getVersion());
             $this->skipIf(true, 'Table "sylius_wishlist" does not exist, nothing to revert.');
         }
-        
+
         $this->addSql('DROP SEQUENCE sylius_wishlist_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE sylius_wishlist_product_id_seq CASCADE');
         $this->addSql('ALTER TABLE sylius_wishlist DROP CONSTRAINT FK_635A71DEA45D93BF');
