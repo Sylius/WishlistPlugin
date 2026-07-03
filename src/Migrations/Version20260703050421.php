@@ -25,7 +25,10 @@ final class Version20260703050421 extends AbstractPostgreSQLMigration
 
     public function up(Schema $schema): void
     {
-        $this->skipIf(!$schema->hasTable('bitbag_wishlist'), 'Table "bitbag_wishlist" does not exist, nothing to rename.');
+        if (!$schema->hasTable('bitbag_wishlist')) {
+            $this->markAsExecuted($this->getVersion());
+            $this->skipIf(true, 'Table "bitbag_wishlist" does not exist, nothing to rename.');
+        }
 
         $this->addSql('ALTER TABLE bitbag_wishlist RENAME TO sylius_wishlist');
         $this->addSql('ALTER TABLE bitbag_wishlist_product RENAME TO sylius_wishlist_product');

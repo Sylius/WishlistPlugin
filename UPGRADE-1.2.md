@@ -57,3 +57,16 @@
    | `Sylius\WishlistPlugin\Factory\DomPdfOptionsFactory`              | `sylius/pdf-generation-bundle` option processors                      |
 
    The corresponding services (`sylius_wishlist_plugin.custom_factory.dom_pdf` and `sylius_wishlist_plugin.custom_factory.dom_pdf_options`) are also deprecated.
+
+# UPGRADE FROM 1.2.0 TO 1.2.1
+
+PostgreSQL is now officially supported. A new PostgreSQL-specific migration has been added.
+
+### If you were already using PostgreSQL
+
+The initial PostgreSQL migration will detect existing tables and skip creation automatically.
+Run migrations as usual:
+
+```bash
+bin/console doctrine:migrations:migrate
+```

@@ -25,10 +25,10 @@ final class Version20260702170135 extends AbstractPostgreSQLMigration
 
     public function up(Schema $schema): void
     {
-        $this->skipIf(
-            $schema->hasTable('bitbag_wishlist') || $schema->hasTable('sylius_wishlist'),
-            'Table "bitbag_wishlist" or "sylius_wishlist" already exists, skipping fresh install migration.',
-        );
+        if ($schema->hasTable('bitbag_wishlist') || $schema->hasTable('sylius_wishlist')) {
+            $this->markAsExecuted($this->getVersion());
+            $this->skipIf(true, 'Table "bitbag_wishlist" or "sylius_wishlist" already exists, skipping fresh install migration.');
+        }
 
         $this->addSql('CREATE SEQUENCE sylius_wishlist_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE sylius_wishlist_product_id_seq INCREMENT BY 1 MINVALUE 1 START 1');

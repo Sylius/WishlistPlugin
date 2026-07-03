@@ -26,7 +26,7 @@ jobs:
     tests:
         runs-on: ubuntu-latest
 
-        name: "Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, MySQL ${{ matrix.database_version }}, legacy_pdf_generation: ${{ matrix.legacy_pdf_generation }}"
+        name: "Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, ${{ matrix.database == 'mysql' && format('MySQL {0}', matrix.database_version) || format('PostgreSQL {0}', matrix.database_version) }}, legacy_pdf_generation: ${{ matrix.legacy_pdf_generation }}"
 
         strategy:
             fail-fast: false
@@ -39,9 +39,28 @@ jobs:
                 database_version: ["8.4"]
                 legacy_pdf_generation: [true, false]
 
+                include:
+                    -
+                        php: "8.3"
+                        symfony: "^6.4"
+                        sylius: "~2.1.0"
+                        node: "22.x"
+                        database: "postgres"
+                        database_version: "17.5"
+                        legacy_pdf_generation: true
+
+                    -
+                        php: "8.3"
+                        symfony: "^7.4"
+                        sylius: "~2.2.0"
+                        node: "22.x"
+                        database: "postgres"
+                        database_version: "17.5"
+                        legacy_pdf_generation: false
+
         env:
             APP_ENV: test
-            DATABASE_URL: "mysql://root:root@127.0.0.1/sylius?serverVersion=${{ matrix.database_version }}"
+            DATABASE_URL: ${{ matrix.database == 'mysql' && format('mysql://root:root@127.0.0.1/sylius?serverVersion={0}', matrix.database_version) || format('pgsql://postgres:postgres@127.0.0.1/sylius?serverVersion={0}', matrix.database_version) }}
             TEST_SYLIUS_WISHLIST_PDF_LEGACY: "${{ matrix.legacy_pdf_generation }}"
 
         steps:
@@ -95,7 +114,7 @@ jobs:
                 uses: actions/upload-artifact@v4
                 if: failure()
                 with:
-                    name: "Behat logs - Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}"
+                    name: "Behat logs - Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, ${{ matrix.database }} ${{ matrix.database_version }}"
                     path: etc/build/
                     if-no-files-found: ignore
                     compression-level: 6
@@ -106,7 +125,7 @@ jobs:
                 uses: actions/upload-artifact@v4
                 if: failure()
                 with:
-                    name: "Var logs - Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}"
+                    name: "Var logs - Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, ${{ matrix.database }} ${{ matrix.database_version }}"
                     path: tests/Application/var/log/
                     if-no-files-found: ignore
                     compression-level: 6
