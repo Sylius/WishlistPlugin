@@ -25,11 +25,6 @@ final class Version20260703050421 extends AbstractPostgreSQLMigration
 
     public function up(Schema $schema): void
     {
-        if (!$schema->hasTable('bitbag_wishlist')) {
-            $this->markAsExecuted($this->getVersion());
-            $this->skipIf(true, 'Table "bitbag_wishlist" does not exist, nothing to rename.');
-        }
-
         $this->addSql('ALTER TABLE bitbag_wishlist RENAME TO sylius_wishlist');
         $this->addSql('ALTER TABLE bitbag_wishlist_product RENAME TO sylius_wishlist_product');
         $this->addSql('ALTER SEQUENCE bitbag_wishlist_id_seq RENAME TO sylius_wishlist_id_seq');
@@ -44,11 +39,6 @@ final class Version20260703050421 extends AbstractPostgreSQLMigration
 
     public function down(Schema $schema): void
     {
-        if (!$schema->hasTable('sylius_wishlist')) {
-            $this->markAsExecuted($this->getVersion());
-            $this->skipIf(true, 'Table "sylius_wishlist" does not exist, nothing to revert.');
-        }
-
         $this->addSql('ALTER TABLE sylius_wishlist_product DROP quantity');
         $this->addSql('ALTER INDEX idx_635a71dea45d93bf RENAME TO idx_578d4e77a45d93bf');
         $this->addSql('ALTER INDEX idx_635a71de72f5a1aa RENAME TO idx_578d4e7772f5a1aa');
