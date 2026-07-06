@@ -25,9 +25,8 @@ final class Version20260702170135 extends AbstractPostgreSQLMigration
 
     public function up(Schema $schema): void
     {
-        if ($schema->hasTable('bitbag_wishlist')) {
-            $this->markAsExecuted($this->getVersion());
-            $this->skipIf(true, 'Table "bitbag_wishlist" already exists, skipping fresh install migration.');
+        if ($schema->hasTable('bitbag_wishlist') || $schema->hasTable('sylius_wishlist')) {
+            return;
         }
 
         $this->addSql('CREATE SEQUENCE bitbag_wishlist_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -50,6 +49,10 @@ final class Version20260702170135 extends AbstractPostgreSQLMigration
 
     public function down(Schema $schema): void
     {
+        if (!$schema->hasTable('bitbag_wishlist')) {
+            return;
+        }
+
         $this->addSql('DROP SEQUENCE bitbag_wishlist_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE bitbag_wishlist_product_id_seq CASCADE');
         $this->addSql('ALTER TABLE bitbag_wishlist DROP CONSTRAINT FK_578D4E77A45D93BF');
