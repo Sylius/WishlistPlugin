@@ -14,12 +14,18 @@ declare(strict_types=1);
 namespace Tests\Sylius\WishlistPlugin\Integration\Repository;
 
 use ApiTestCase\JsonApiTestCase;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\ShopUser;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
+use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 
 final class WishlistRepositoryTest extends JsonApiTestCase
 {
+    private EntityManagerInterface $entityManager;
+
+    private WishlistRepositoryInterface $repository;
+
     public function setUp(): void
     {
         parent::setUp();
