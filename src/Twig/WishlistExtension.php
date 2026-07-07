@@ -66,7 +66,7 @@ class WishlistExtension extends AbstractExtension
         return $this->wishlists[self::WISHLIST_ALL_CACHE_KEY];
     }
 
-    public function findAllByShopUser(UserInterface $user = null): ?array
+    public function findAllByShopUser(?UserInterface $user = null): ?array
     {
         if (!$user instanceof ShopUserInterface) {
             throw new UnsupportedUserException();
@@ -108,7 +108,7 @@ class WishlistExtension extends AbstractExtension
         return $this->wishlists[$cacheKey];
     }
 
-    public function findAllByShopUserAndChannel(UserInterface $user = null, ChannelInterface $channel = null): ?array
+    public function findAllByShopUserAndChannel(?UserInterface $user = null, ?ChannelInterface $channel = null): ?array
     {
         if (!$user instanceof ShopUserInterface) {
             throw new UnsupportedUserException();
