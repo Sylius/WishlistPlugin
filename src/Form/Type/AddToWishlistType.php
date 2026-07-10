@@ -28,7 +28,7 @@ final class AddToWishlistType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $wishlists = $this->wishlistsResolver->resolveAndCreate();
+        $wishlists = $this->wishlistsResolver->resolve();
         if (count($wishlists) > 1) {
             $builder
                 ->add('wishlists', EntityType::class, [

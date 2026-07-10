@@ -16,6 +16,9 @@ namespace Sylius\WishlistPlugin\Controller\Action;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\WishlistPlugin\Command\Wishlist\CreateNewWishlist;
+use Sylius\WishlistPlugin\Entity\WishlistInterface;
+use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -35,6 +38,8 @@ final readonly class CreateNewWishlistAction
         private TranslatorInterface $translator,
         private ChannelContextInterface $channelContext,
         private UrlGeneratorInterface $urlGenerator,
+        private WishlistRepositoryInterface $wishlistRepository,
+        private string $wishlistCookieToken,
     ) {
     }
 
@@ -79,14 +84,20 @@ final readonly class CreateNewWishlistAction
             return new JsonResponse([]);
         }
 
-        return new JsonResponse(
-            [
-            'url' => $this
-                ->urlGenerator
-                ->generate(
-                    'sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist',
-                    ['wishlistId' => $result],
-                )],
+        $url = $this->urlGenerator->generate(
+            'sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist',
+            ['wishlistId' => $result],
         );
+
+        $response = new JsonResponse(['url' => $url]);
+
+        /** @var ?WishlistInterface $wishlist */
+        $wishlist = $this->wishlistRepository->find($result);
+        if ($wishlist instanceof WishlistInterface && null === $wishlist->getShopUser()) {
+            $cookie = new Cookie($this->wishlistCookieToken, $wishlist->getToken(), strtotime('+1 year'));
+            $response->headers->setCookie($cookie);
+        }
+
+        return $response;
     }
 }
