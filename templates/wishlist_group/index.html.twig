@@ -17,6 +17,8 @@
         <div class="bb-wishlist-list">
             {% for wishlist in wishlists %}
                 {% hook 'sylius_shop.wishlist_group.item' with { wishlist: wishlist, is_last: loop.last } %}
+            {% else %}
+                {{ messages.info('sylius_wishlist_plugin.ui.your_wishlist_is_empty'|trans) }}
             {% endfor %}
         </div>
         <input type="hidden" name="_csrf_shop_security_token" value="">
