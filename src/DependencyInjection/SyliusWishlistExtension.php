@@ -22,7 +22,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 
 final class SyliusWishlistExtension extends AbstractResourceExtension implements PrependExtensionInterface
@@ -32,9 +32,9 @@ final class SyliusWishlistExtension extends AbstractResourceExtension implements
     public function load(array $configs, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration($this->getConfiguration([], $container), $configs);
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
 
-        $loader->load('services.xml');
+        $loader->load('services.php');
 
         $container->setParameter('sylius_wishlist_plugin.parameters.wishlist_cookie_token', $config['wishlist_cookie_token']);
         $container->setParameter('sylius_wishlist_plugin.parameters.allowed_mime_types', $config['allowed_mime_types']);
