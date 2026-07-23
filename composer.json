@@ -8,7 +8,7 @@
         "sylius/sylius": "^2.0.7",
         "sylius/telemetry": "^1.0",
         "sylius/pdf-generation-bundle": "^1.0",
-        "dompdf/dompdf": "^3.1"
+        "dompdf/dompdf": "^2.0 || ^3.1"
     },
     "require-dev": {
         "behat/behat": "^3.14",
