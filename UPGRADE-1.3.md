@@ -59,3 +59,32 @@
    `Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolverInterface` argument
    is therefore removed. If you instantiate or decorate this service manually, you
    must drop this argument from the constructor call.
+
+4. The following controller no longer requires two arguments:
+
+   - `Sylius\WishlistPlugin\Controller\Action\ListWishlistProductsAction`:
+
+     ```diff
+     public function __construct(
+           private CartContextInterface $cartContext,
+           private FormFactoryInterface $formFactory,
+           private Environment $twigEnvironment,
+           private WishlistCommandProcessorInterface $wishlistCommandProcessor,
+           private WishlistsResolverInterface $wishlistsResolver,
+     -     private TranslatorInterface $translator, 
+     -     private UrlGeneratorInterface $generator,
+     )
+     ```
+
+      ```diff
+      <service id="sylius_wishlist_plugin.controller.action.list_wishlist_products" class="Sylius\WishlistPlugin\Controller\Action\ListWishlistProductsAction">
+          <argument type="service" id="sylius.context.cart"/>
+          <argument type="service" id="form.factory"/>
+          <argument type="service" id="twig"/>
+          <argument type="service" id="sylius_wishlist_plugin.processor.wishlist_command_processor"/>
+          <argument type="service" id="sylius_wishlist_plugin.resolver.wishlists_resolver"/>
+      -   <argument type="service" id="translator"/>
+      -   <argument type="service" id="router"/>
+          <tag name="controller.service_arguments"/>
+      </service>
+      ```
