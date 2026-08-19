@@ -19,6 +19,7 @@ use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Entity\WishlistProductInterface;
 use Sylius\WishlistPlugin\Factory\WishlistProductFactoryInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
+use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Sylius\WishlistPlugin\Twig\WishlistExtension;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -40,6 +41,7 @@ final readonly class AddProductVariantToWishlistProcessor implements AddProductV
         private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
         private WishlistRepositoryInterface $wishlistRepository,
+        private WishlistsResolverInterface $wishlistsResolver,
     ) {
     }
 
@@ -51,6 +53,10 @@ final readonly class AddProductVariantToWishlistProcessor implements AddProductV
         $wishlists = null !== $user
             ? $this->wishlistExtension->findAllByShopUserAndToken($user)
             : $this->wishlistExtension->findAllByAnonymousAndChannel($this->channelContext->getChannel());
+
+        if (0 === count($wishlists)) {
+            $wishlists = $this->wishlistsResolver->resolveAndCreate();
+        }
 
         $isSingleWishlist = count($wishlists) < 2;
 

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sylius\WishlistPlugin\EventSubscriber;
 
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
-use Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolverInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -32,7 +31,6 @@ final readonly class CreateNewWishlistSubscriber implements EventSubscriberInter
     public function __construct(
         private string $wishlistCookieToken,
         private WishlistsResolverInterface $wishlistsResolver,
-        private WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver,
         private RequestStack $requestStack,
     ) {
     }
@@ -64,19 +62,9 @@ final readonly class CreateNewWishlistSubscriber implements EventSubscriberInter
 
         $wishlistCookieToken = $mainRequest->cookies->get($this->wishlistCookieToken);
 
-        if (0 !== count($wishlists)) {
-            if (null === $wishlistCookieToken) {
-                $mainRequest->attributes->set($this->wishlistCookieToken, reset($wishlists)->getToken());
-            }
-
-            return;
+        if (null === $wishlistCookieToken && 0 !== count($wishlists)) {
+            $mainRequest->attributes->set($this->wishlistCookieToken, reset($wishlists)->getToken());
         }
-
-        if (null === $wishlistCookieToken) {
-            $wishlistCookieToken = $this->wishlistCookieTokenResolver->resolve();
-        }
-
-        $mainRequest->attributes->set($this->wishlistCookieToken, $wishlistCookieToken);
     }
 
     public function onKernelResponse(ResponseEvent $event): void

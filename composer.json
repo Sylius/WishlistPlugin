@@ -40,6 +40,9 @@
         "phpstan/phpstan-doctrine": "^1.5",
         "phpstan/phpstan-webmozart-assert": "^1.2"
     },
+   "conflict": {
+        "api-platform/symfony": "4.3.16"
+    },
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
