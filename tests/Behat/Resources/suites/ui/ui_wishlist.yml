@@ -17,5 +17,6 @@ default:
 
                 - sylius_wishlist_plugin.behat.context.setup.wishlist
                 - sylius_wishlist_plugin.behat.context.ui.wishlist
+                - sylius_wishlist_plugin.behat.context.common.wishlist
             filters:
                 tags: "@wishlist&&@ui"

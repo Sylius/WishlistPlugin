@@ -28,8 +28,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 final class ListWishlistProductsActionTest extends TestCase
@@ -44,10 +42,6 @@ final class ListWishlistProductsActionTest extends TestCase
 
     private MockObject&WishlistsResolverInterface $wishlistsResolver;
 
-    private MockObject&TranslatorInterface $translator;
-
-    private MockObject&UrlGeneratorInterface $generator;
-
     private ListWishlistProductsAction $action;
 
     protected function setUp(): void
@@ -57,16 +51,12 @@ final class ListWishlistProductsActionTest extends TestCase
         $this->twigEnvironment = $this->createMock(Environment::class);
         $this->wishlistCommandProcessor = $this->createMock(WishlistCommandProcessorInterface::class);
         $this->wishlistsResolver = $this->createMock(WishlistsResolverInterface::class);
-        $this->translator = $this->createMock(TranslatorInterface::class);
-        $this->generator = $this->createMock(UrlGeneratorInterface::class);
         $this->action = new ListWishlistProductsAction(
             $this->cartContext,
             $this->formFactory,
             $this->twigEnvironment,
             $this->wishlistCommandProcessor,
             $this->wishlistsResolver,
-            $this->translator,
-            $this->generator,
         );
     }
 
@@ -85,13 +75,27 @@ final class ListWishlistProductsActionTest extends TestCase
         $form = $this->createMock(FormInterface::class);
         $formView = $this->createMock(FormView::class);
 
-        $this->wishlistsResolver->expects($this->once())->method('resolveAndCreate')->willReturn([$firstWishlist, $secondWishlist]);
+        $this->wishlistsResolver->expects($this->once())->method('resolve')->willReturn([$firstWishlist, $secondWishlist]);
         $this->cartContext->expects($this->once())->method('getCart')->willReturn($cart);
         $firstWishlist->expects($this->once())->method('getWishlistProducts')->willReturn($wishlistProducts);
         $this->wishlistCommandProcessor->expects($this->once())->method('createWishlistItemsCollection')->with($wishlistProducts)->willReturn($commands);
         $this->formFactory->expects($this->once())->method('create')->with(WishlistCollectionType::class, ['items' => $commands], ['cart' => $cart])->willReturn($form);
         $form->expects($this->once())->method('createView')->willReturn($formView);
         $this->twigEnvironment->expects($this->once())->method('render')->with('@SyliusWishlistPlugin/wishlist_details/index.html.twig', ['wishlist' => $firstWishlist, 'form' => $formView])->willReturn('CONTENT');
+
+        $this->assertInstanceOf(
+            Response::class,
+            ($this->action)($this->createMock(Request::class)),
+        );
+    }
+
+    public function testShouldRenderEmptyStateWithoutCreatingWishlistWhenNoneExists(): void
+    {
+        $this->wishlistsResolver->expects($this->once())->method('resolve')->willReturn([]);
+        $this->wishlistsResolver->expects($this->never())->method('resolveAndCreate');
+        $this->cartContext->expects($this->never())->method('getCart');
+        $this->formFactory->expects($this->never())->method('create');
+        $this->twigEnvironment->expects($this->once())->method('render')->with('@SyliusWishlistPlugin/wishlist_details/index.html.twig', ['wishlist' => null, 'form' => null])->willReturn('EMPTY');
 
         $this->assertInstanceOf(
             Response::class,

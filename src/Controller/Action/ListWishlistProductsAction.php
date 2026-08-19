@@ -20,35 +20,35 @@ use Sylius\WishlistPlugin\Form\Type\WishlistCollectionType;
 use Sylius\WishlistPlugin\Processor\WishlistCommandProcessorInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 final readonly class ListWishlistProductsAction
 {
-    public function __construct(private CartContextInterface $cartContext, private FormFactoryInterface $formFactory, private Environment $twigEnvironment, private WishlistCommandProcessorInterface $wishlistCommandProcessor, private WishlistsResolverInterface $wishlistsResolver, private TranslatorInterface $translator, private UrlGeneratorInterface $generator)
-    {
+    public function __construct(
+        private CartContextInterface $cartContext,
+        private FormFactoryInterface $formFactory,
+        private Environment $twigEnvironment,
+        private WishlistCommandProcessorInterface $wishlistCommandProcessor,
+        private WishlistsResolverInterface $wishlistsResolver,
+    ) {
     }
 
     public function __invoke(Request $request): Response
     {
-        $wishlists = $this->wishlistsResolver->resolveAndCreate();
+        $wishlists = $this->wishlistsResolver->resolve();
 
         /** @var ?WishlistInterface $wishlist */
         $wishlist = array_shift($wishlists);
 
         if (null === $wishlist) {
-            $homepageUrl = $this->generator->generate('sylius_shop_homepage');
-
-            /** @var Session $session */
-            $session = $request->getSession();
-            $session->getFlashBag()->add('error', $this->translator->trans('sylius_wishlist_plugin.ui.go_to_wishlist_failure'));
-
-            return new RedirectResponse($homepageUrl);
+            return new Response(
+                $this->twigEnvironment->render('@SyliusWishlistPlugin/wishlist_details/index.html.twig', [
+                    'wishlist' => null,
+                    'form' => null,
+                ]),
+            );
         }
 
         try {
