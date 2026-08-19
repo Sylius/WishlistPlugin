@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\WishlistPlugin\Functional\Api;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Tests\Api\Utils\AdminUserLoginTrait;
@@ -25,6 +27,12 @@ use Tests\Sylius\WishlistPlugin\Functional\FunctionalTestCase;
 final class WishlistTest extends FunctionalTestCase
 {
     use ShopUserLoginTrait, AdminUserLoginTrait;
+
+    private EntityManagerInterface $entityManager;
+
+    private ObjectRepository $wishlistRepository;
+
+    private array $fixturesData;
 
     protected function setUp(): void
     {
