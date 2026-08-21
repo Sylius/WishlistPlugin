@@ -16,7 +16,9 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return function (ContainerConfigurator $container) {
     $env = $_ENV['APP_ENV'] ?? 'dev';
 
-    if (str_starts_with($env, 'test')) {
+    // Behat's own dependencies are not installed on CI rows that drop the Behat suite
+    // (e.g. Symfony 8, where the behat/behat ecosystem has no compatible release yet).
+    if (str_starts_with($env, 'test') && interface_exists(\Behat\Behat\Context\Context::class)) {
         // Symfony 8 dropped XmlFileLoader from the default kernel loader resolver, so Sylius core
         // ships a services.php equivalent starting with 2.3 — fall back to the .xml for older Sylius versions.
         $behatServicesPhp = __DIR__ . '/../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.php';

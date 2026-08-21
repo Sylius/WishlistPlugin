@@ -59,7 +59,9 @@ jobs:
                         legacy_pdf_generation: false
 
                     -
-                        php: "8.3"
+                        # doctrine/doctrine-bundle only supports symfony/cache ^8.0 starting with 3.2,
+                        # which requires PHP ^8.4 — PHP 8.3 cannot resolve this combination.
+                        php: "8.4"
                         symfony: "^8.0"
                         sylius: "~2.3.0@alpha"
                         node: "22.x"
@@ -80,6 +82,44 @@ jobs:
                 name: Require Sylius TestApplication dev branch (temporary — remove once Sylius/TestApplication#48 is merged)
                 if: matrix.sylius == '~2.3.0@alpha'
                 run: composer require --dev sylius/test-application:dev-sylius-2.3-symfony-8 --no-update
+
+            -
+                # lchrusciel/api-test-case only gained Symfony 8 support in v6. Kept scoped to this row
+                # (rather than widened globally in composer.json) so composer's solver can't pick v6 for the
+                # 2.1/2.2 rows too, where it isn't needed and would needlessly shift other resolved versions.
+                name: Require api-test-case v6 for Symfony 8 support
+                if: matrix.sylius == '~2.3.0@alpha'
+                run: composer require --dev lchrusciel/api-test-case:^6.0 --no-update
+
+            -
+                # phpstan/phpstan 1.12.x fails to analyse this codebase under Symfony 8 (symfony/var-exporter's
+                # LazyGhost check), so PHPStan 2.x is needed here. Kept scoped to this row (rather than widened
+                # globally in composer.json) because PHPStan 2.x's stricter symfony/config stubs flag a false
+                # positive (`NodeDefinition::children()`) in Configuration.php on the 2.1/2.2 rows.
+                name: Require PHPStan 2.x for Symfony 8 support
+                if: matrix.sylius == '~2.3.0@alpha'
+                run: composer require --dev "phpstan/phpstan-doctrine:^2.0" "phpstan/phpstan-webmozart-assert:^2.0" "sylius/sylius-rector:^3.0" --no-update
+
+            -
+                # The behat/behat ecosystem has no Symfony 8-compatible release yet (behat/behat only
+                # has an alpha, and friends-of-behat/suite-settings-extension + dmore/behat-chrome-extension
+                # have none at all), so it's dropped from this row's dependency graph until it catches up.
+                name: Drop the Behat test suite (no Symfony 8 support upstream yet)
+                if: matrix.sylius == '~2.3.0@alpha'
+                run: |
+                    composer remove --dev --no-update \
+                        behat/behat \
+                        dmore/behat-chrome-extension \
+                        friends-of-behat/mink \
+                        friends-of-behat/mink-browserkit-driver \
+                        friends-of-behat/mink-debug-extension \
+                        friends-of-behat/mink-extension \
+                        friends-of-behat/page-object-extension \
+                        friends-of-behat/suite-settings-extension \
+                        friends-of-behat/symfony-extension \
+                        friends-of-behat/variadic-extension \
+                        robertfausk/behat-panther-extension \
+                        sylius-labs/suite-tags-extension
 
             -
                 name: Build Sylius Test Application
@@ -121,6 +161,7 @@ jobs:
 
             -
                 name: Run Behat
+                if: matrix.sylius != '~2.3.0@alpha'
                 run: vendor/bin/behat --colors --strict -vvv -f progress --no-interaction || vendor/bin/behat --colors --strict -vvv -f progress --no-interaction --rerun
 
             -

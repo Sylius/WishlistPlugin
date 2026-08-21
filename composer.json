@@ -24,7 +24,7 @@
         "nelmio/alice": "^3.10",
         "nyholm/psr7": "^1.8",
         "phpunit/phpunit": "^10.5",
-        "sylius/sylius-rector": "^2.0 || ^3.0",
+        "sylius/sylius-rector": "^2.0",
         "sylius/test-application": "^2.0.0@alpha",
         "sylius-labs/coding-standard": "^4.4",
         "sylius-labs/suite-tags-extension": "~0.2",
@@ -37,8 +37,8 @@
         "lchrusciel/api-test-case": "^5.0",
         "robertfausk/behat-panther-extension": "^1.1",
         "symfony/webpack-encore-bundle": "^2.1",
-        "phpstan/phpstan-doctrine": "^1.5 || ^2.0",
-        "phpstan/phpstan-webmozart-assert": "^1.2 || ^2.0"
+        "phpstan/phpstan-doctrine": "^1.5",
+        "phpstan/phpstan-webmozart-assert": "^1.2"
     },
    "conflict": {
         "api-platform/symfony": "4.3.16"
