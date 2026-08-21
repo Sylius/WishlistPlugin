@@ -35,7 +35,7 @@ final readonly class CopySelectedProductsToOtherWishlistAction
     public function __invoke(Request $request): Response
     {
         $destinedWishlist = $request->attributes->getInt('destinedWishlistId');
-        $wishlistProducts = new ArrayCollection((array) $request->get('wishlist_collection')['items']);
+        $wishlistProducts = new ArrayCollection((array) $request->request->all()['wishlist_collection']['items']);
         $selectedProducts = new ArrayCollection();
 
         foreach ($wishlistProducts as $wishlistProduct) {

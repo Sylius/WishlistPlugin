@@ -45,12 +45,8 @@ final class WishlistVoter extends Voter
         return true;
     }
 
-    /** @param string $attribute */
-    protected function voteOnAttribute(
-        $attribute,
-        $subject,
-        TokenInterface $token,
-    ): bool {
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, mixed $vote = null): bool
+    {
         $user = $token->getUser();
 
         if (!$user instanceof ShopUserInterface) {
