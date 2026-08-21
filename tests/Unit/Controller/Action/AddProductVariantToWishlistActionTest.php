@@ -22,6 +22,7 @@ use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Entity\WishlistProductInterface;
 use Sylius\WishlistPlugin\Factory\WishlistProductFactoryInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
+use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -89,7 +90,7 @@ final class AddProductVariantToWishlistActionTest extends TestCase
     {
         $this->expectException(NotFoundHttpException::class);
         $this->wishlistRepository->expects($this->once())->method('find')->with(1)->willReturn($this->wishlist);
-        $this->request->expects($this->once())->method('get')->with('variantId')->willReturn(1);
+        $this->request->request = new InputBag(['variantId' => 1]);
         $this->productVariantRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
 
         ($this->action)(1, $this->request);
@@ -103,7 +104,7 @@ final class AddProductVariantToWishlistActionTest extends TestCase
         $flashBag = $this->createMock(FlashBagInterface::class);
 
         $this->wishlistRepository->expects($this->once())->method('find')->with(1)->willReturn($this->wishlist);
-        $this->request->expects($this->once())->method('get')->with('variantId')->willReturn(1);
+        $this->request->request = new InputBag(['variantId' => 1]);
         $this->productVariantRepository->expects($this->once())->method('find')->with(1)->willReturn($productVariant);
         $this->wishlist->expects($this->once())->method('hasProductVariant')->with($productVariant)->willReturn(false);
         $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndVariant')->with($this->wishlist, $productVariant)->willReturn($wishlistProduct);

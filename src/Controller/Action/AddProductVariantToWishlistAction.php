@@ -50,7 +50,7 @@ final readonly class AddProductVariantToWishlistAction
             throw new ResourceNotFoundException();
         }
 
-        foreach ((array) $request->get('variantId') as $variantId) {
+        foreach ((array) ($request->request->all()['variantId'] ?? null) as $variantId) {
             /** @var ProductVariantInterface|null $variant */
             $variant = $this->productVariantRepository->find($variantId);
 

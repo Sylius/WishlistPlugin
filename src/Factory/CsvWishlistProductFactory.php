@@ -20,10 +20,7 @@ final class CsvWishlistProductFactory implements CsvWishlistProductFactoryInterf
 {
     public function createNew(): CsvWishlistProductInterface
     {
-        /** @var CsvWishlistProductInterface $csvWishlistProduct */
-        $csvWishlistProduct = new CsvWishlistProduct();
-
-        return $csvWishlistProduct;
+        return new CsvWishlistProduct();
     }
 
     public function createWithProperties(
@@ -31,7 +28,6 @@ final class CsvWishlistProductFactory implements CsvWishlistProductFactoryInterf
         int $productId,
         string $variantCode,
     ): CsvWishlistProductInterface {
-        /** @var CsvWishlistProductInterface $csvWishlistProduct */
         $csvWishlistProduct = $this->createNew();
 
         $csvWishlistProduct->setVariantId($variantId);

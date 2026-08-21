@@ -58,6 +58,15 @@ jobs:
                         database_version: "17.5"
                         legacy_pdf_generation: false
 
+                    -
+                        php: "8.3"
+                        symfony: "^8.0"
+                        sylius: "~2.3.0@alpha"
+                        node: "22.x"
+                        database: "mysql"
+                        database_version: "8.4"
+                        legacy_pdf_generation: false
+
         env:
             APP_ENV: test
             DATABASE_URL: ${{ matrix.database == 'mysql' && format('mysql://root:root@127.0.0.1/sylius?serverVersion={0}', matrix.database_version) || format('pgsql://postgres:postgres@127.0.0.1/sylius?serverVersion={0}', matrix.database_version) }}
@@ -66,6 +75,11 @@ jobs:
         steps:
             -
                 uses: actions/checkout@v4
+
+            -
+                name: Require Sylius TestApplication dev branch (temporary — remove once Sylius/TestApplication#48 is merged)
+                if: matrix.sylius == '~2.3.0@alpha'
+                run: composer require --dev sylius/test-application:dev-sylius-2.3-symfony-8 --no-update
 
             -
                 name: Build Sylius Test Application

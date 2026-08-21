@@ -45,7 +45,7 @@ final readonly class CreateNewWishlistAction
 
     public function __invoke(Request $request): Response
     {
-        $wishlistName = $request->get('create_new_wishlist')['name'];
+        $wishlistName = $request->request->all()['create_new_wishlist']['name'];
 
         try {
             $channel = $this->channelContext->getChannel();
