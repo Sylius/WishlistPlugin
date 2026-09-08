@@ -14,7 +14,11 @@ declare(strict_types=1);
 namespace Tests\Sylius\WishlistPlugin\Behat\Context\Api;
 
 use Behat\Behat\Context\Context;
+use Behat\Hook\BeforeScenario;
 use Behat\MinkExtension\Context\RawMinkContext;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use Doctrine\ORM\EntityManager;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -56,10 +60,9 @@ final class WishlistContext extends RawMinkContext implements Context
     }
 
     /**
-     * @Given user :email :password is authenticated
-     *
      * @throws GuzzleException
      */
+    #[Given('user :email :password is authenticated')]
     public function userIsAuthenticated(string $email, string $password): void
     {
         $uri = $this->router->generate('sylius_api_shop_authentication_token');
@@ -92,9 +95,7 @@ final class WishlistContext extends RawMinkContext implements Context
         $this->token = (string) $json->token;
     }
 
-    /**
-     * @Given user is unauthenticated
-     */
+    #[Given('user is unauthenticated')]
     public function userIsUnauthenticated(): void
     {
         $this->user = null;
@@ -102,10 +103,9 @@ final class WishlistContext extends RawMinkContext implements Context
     }
 
     /**
-     * @Given user has a wishlist
-     *
      * @throws GuzzleException
      */
+    #[Given('user has a wishlist')]
     public function userHasAWishlist(): void
     {
         $uri = $this->router->generate('sylius_wishlist_shop_create_wishlist');
@@ -123,9 +123,7 @@ final class WishlistContext extends RawMinkContext implements Context
         $this->wishlist = $wishlist;
     }
 
-    /**
-     * @When user adds product :product to the wishlist
-     */
+    #[When('user adds product :product to the wishlist')]
     public function userAddsProductToTheWishlist(ProductInterface $product): void
     {
         $response = $this->addProductToTheWishlist($this->wishlist, $product);
@@ -133,9 +131,7 @@ final class WishlistContext extends RawMinkContext implements Context
         Assert::eq($response->getStatusCode(), 200);
     }
 
-    /**
-     * @When user adds product :product to the wishlist in :channel
-     */
+    #[When('user adds product :product to the wishlist in :channel')]
     public function userAddsProductToTheWishlistInChannel(ProductInterface $product, ChannelInterface $channel): void
     {
         $response = $this->addProductToTheWishlist($this->wishlist, $product, $channel);
@@ -144,10 +140,9 @@ final class WishlistContext extends RawMinkContext implements Context
     }
 
     /**
-     * @Then user should have product :product in the wishlist
-     *
      * @throws \Exception
      */
+    #[Then('user should have product :product in the wishlist')]
     public function userShouldHaveProductInTheWishlist(ProductInterface $product): bool
     {
         if (isset($this->user)) {
@@ -175,10 +170,9 @@ final class WishlistContext extends RawMinkContext implements Context
     }
 
     /**
-     * @Then user should have product :product in the wishlist on :channel
-     *
      * @throws \Exception
      */
+    #[Then('user should have product :product in the wishlist on :channel')]
     public function userShouldHaveProductInTheWishlistOnChannel(ProductInterface $product, ChannelInterface $channel): bool
     {
         if (isset($this->user)) {
@@ -206,9 +200,7 @@ final class WishlistContext extends RawMinkContext implements Context
         );
     }
 
-    /**
-     * @When user adds :variant product variant to the wishlist
-     */
+    #[When('user adds :variant product variant to the wishlist')]
     public function userAddsProductVariantToTheWishlist(ProductVariantInterface $variant): void
     {
         $response = $this->addProductVariantToTheWishlist($this->wishlist, $variant);
@@ -217,10 +209,9 @@ final class WishlistContext extends RawMinkContext implements Context
     }
 
     /**
-     * @Then user should have :variant product variant in the wishlist
-     *
      * @throws \Exception
      */
+    #[Then('user should have :variant product variant in the wishlist')]
     public function userShouldHaveProductVariantInTheWishlist(ProductVariantInterface $variant): bool
     {
         /** @var WishlistInterface $wishlist */
@@ -247,9 +238,7 @@ final class WishlistContext extends RawMinkContext implements Context
         );
     }
 
-    /**
-     * @When user removes product :product from the wishlist
-     */
+    #[When('user removes product :product from the wishlist')]
     public function userRemovesProductFromTheWishlist(ProductInterface $product): void
     {
         $uri = $this->router->generate('sylius_wishlist_shop_remove_product_from_wishlist', [
@@ -266,9 +255,7 @@ final class WishlistContext extends RawMinkContext implements Context
         Assert::eq($response->getStatusCode(), 204);
     }
 
-    /**
-     * @Then user tries to add product :product to the wishlist
-     */
+    #[Then('user tries to add product :product to the wishlist')]
     public function userTriesToAddProductToTheWishlist(ProductInterface $product): void
     {
         $response = $this->addProductToTheWishlist($this->wishlist, $product);
@@ -276,9 +263,7 @@ final class WishlistContext extends RawMinkContext implements Context
         $this->resolveStatusCodeForUnauthenticatedUser($this->user, $statusCode);
     }
 
-    /**
-     * @Then user tries to add :variant product variant to the wishlist
-     */
+    #[Then('user tries to add :variant product variant to the wishlist')]
     public function userTriesToAddProductVariantToTheWishlist(ProductVariantInterface $variant): void
     {
         $response = $this->addProductVariantToTheWishlist($this->wishlist, $variant);
@@ -287,10 +272,9 @@ final class WishlistContext extends RawMinkContext implements Context
     }
 
     /**
-     * @Then user removes :variant product variant from the wishlist
-     *
      * @throws GuzzleException
      */
+    #[Then('user removes :variant product variant from the wishlist')]
     public function userRemovesProductVariantFromTheWishlist(ProductVariantInterface $variant): void
     {
         $uri = $this->router->generate('sylius_wishlist_shop_remove_product_variant_from_wishlist', [
@@ -307,9 +291,7 @@ final class WishlistContext extends RawMinkContext implements Context
         Assert::eq($response->getStatusCode(), 204);
     }
 
-    /**
-     * @Then user tries to remove product :product from the wishlist
-     */
+    #[Then('user tries to remove product :product from the wishlist')]
     public function userTriesToRemoveProductFromTheWishlist(ProductInterface $product): void
     {
         $response = $this->removeProductFromTheWishlist($this->wishlist, $product);
@@ -318,9 +300,7 @@ final class WishlistContext extends RawMinkContext implements Context
         $this->resolveStatusCodeForUnauthenticatedUser($this->user, $statusCode);
     }
 
-    /**
-     * @Then user should have an empty wishlist
-     */
+    #[Then('user should have an empty wishlist')]
     public function userShouldHaveAnEmptyWishlist(): void
     {
         if (isset($this->user)) {
@@ -337,9 +317,7 @@ final class WishlistContext extends RawMinkContext implements Context
         Assert::eq(count($wishlist->getProducts()), 0);
     }
 
-    /**
-     * @Then user should have an empty wishlist in :channel
-     */
+    #[Then('user should have an empty wishlist in :channel')]
     public function userShouldHaveAnEmptyWishlistInChannel(ChannelInterface $channel): void
     {
         if (isset($this->user)) {
@@ -357,9 +335,7 @@ final class WishlistContext extends RawMinkContext implements Context
         Assert::eq(count($wishlist->getProducts()), 0);
     }
 
-    /**
-     * @BeforeScenario
-     */
+    #[BeforeScenario]
     public function setupDomain(): void
     {
         $domain = (string) $this->getMinkParameter('base_url');
@@ -367,10 +343,9 @@ final class WishlistContext extends RawMinkContext implements Context
     }
 
     /**
-     * @Given user has a wishlist in :channel
-     *
      * @throws GuzzleException
      */
+    #[Given('user has a wishlist in :channel')]
     public function userHasAWishlistInChannel(ChannelInterface $channel): void
     {
         $uri = $this->router->generate('sylius_wishlist_shop_create_wishlist');
@@ -425,7 +400,7 @@ final class WishlistContext extends RawMinkContext implements Context
     private function addProductToTheWishlist(
         WishlistInterface $wishlist,
         ProductInterface $product,
-        ChannelInterface $channel = null,
+        ?ChannelInterface $channel = null,
     ): ResponseInterface {
         $uri = $this->router->generate('sylius_wishlist_shop_add_product_to_wishlist', [
             'token' => $wishlist->getToken(),

@@ -6,7 +6,7 @@
 !/etc/build/.gitignore
 /var/
 
-/behat.yml
+/behat.php
 /phpunit.xml
 
 /tests/TestApplication/.env.local

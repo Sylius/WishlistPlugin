@@ -48,7 +48,7 @@ final readonly class AddProductToWishlistAction
     public function __invoke(Request $request): Response
     {
         /** @var ProductInterface|null $product */
-        $product = $this->productRepository->find($request->get('productId'));
+        $product = $this->productRepository->find($request->attributes->get('productId'));
 
         if (null === $product) {
             throw new NotFoundHttpException();

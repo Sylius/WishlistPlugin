@@ -17,7 +17,7 @@ return function (ContainerConfigurator $container) {
     $env = $_ENV['APP_ENV'] ?? 'dev';
 
     if (str_starts_with($env, 'test')) {
-        $container->import('../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml');
+        $container->import('../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.php');
         $container->import('@SyliusWishlistPlugin/tests/Behat/Resources/services.yml');
     }
 
