@@ -42,7 +42,7 @@ final readonly class RemoveProductFromWishlistAction
     public function __invoke(Request $request): Response
     {
         /** @var ?ProductInterface $product */
-        $product = $this->productRepository->find($request->get('productId'));
+        $product = $this->productRepository->find($request->attributes->get('productId'));
 
         if (null === $product) {
             throw new NotFoundHttpException();

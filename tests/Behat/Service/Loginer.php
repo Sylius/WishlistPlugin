@@ -65,6 +65,7 @@ final class Loginer implements LoginerInterface
         $shopUser = $this->shopUserFactory->createNew();
         $shopUser->setPlainPassword(self::EXAMPLE_USER_PASSWORD);
         $shopUser->setEnabled(true);
+        $shopUser->setVerifiedAt(new \DateTime());
         $shopUser->addRole('ROLE_USER');
         $shopUser->setCustomer($customer);
 

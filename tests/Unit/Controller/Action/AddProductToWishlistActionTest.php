@@ -27,6 +27,7 @@ use Sylius\WishlistPlugin\Factory\WishlistProductFactoryInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolverInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\HttpFoundation\HeaderBag;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -87,7 +88,7 @@ final class AddProductToWishlistActionTest extends TestCase
     public function testShouldThrow404WhenProductIsNotFound(): void
     {
         $this->expectException(NotFoundHttpException::class);
-        $this->request->expects($this->once())->method('get')->willReturn(1);
+        $this->request->attributes = new ParameterBag(['productId' => 1]);
         $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn(null);
 
         ($this->action)($this->request);
@@ -104,8 +105,8 @@ final class AddProductToWishlistActionTest extends TestCase
         $flashBag = $this->createMock(FlashBagInterface::class);
         $headers = $this->createMock(HeaderBag::class);
         $this->request->headers = $headers;
+        $this->request->attributes = new ParameterBag(['productId' => 1]);
 
-        $this->request->expects($this->once())->method('get')->with('productId')->willReturn(1);
         $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn($product);
         $this->wishlistsResolver->expects($this->once())->method('resolveAndCreate')->willReturn([$firstWishlist, $secondWishlist]);
         $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndProduct')->with($firstWishlist, $product)->willReturn($wishlistProduct);

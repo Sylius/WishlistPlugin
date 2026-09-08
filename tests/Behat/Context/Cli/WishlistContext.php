@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\WishlistPlugin\Behat\Context\Cli;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\When;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -33,9 +34,7 @@ final class WishlistContext implements Context
         $this->application = new Application($kernel);
     }
 
-    /**
-     * @When I run delete guest wishlists command
-     */
+    #[When('I run delete guest wishlists command')]
     public function runRemoveGuestWishlistsCommand(): void
     {
         $command = $this->application->find(self::REMOVE_GUEST_WISHLISTS_COMMAND);
@@ -44,9 +43,7 @@ final class WishlistContext implements Context
         $this->commandTester->execute([]);
     }
 
-    /**
-     * @When I run delete guests wishlists command with invalid date
-     */
+    #[When('I run delete guests wishlists command with invalid date')]
     public function runRemoveGuestWishlistsCommandWithInvalidDate(): void
     {
         $command = $this->application->find(self::REMOVE_GUEST_WISHLISTS_COMMAND);
@@ -54,27 +51,21 @@ final class WishlistContext implements Context
         $this->commandTester->execute(['--date' => 'invalidDate']);
     }
 
-    /**
-     * @When the command should succeed
-     */
+    #[When('the command should succeed')]
     public function theCommandShouldSucceed(): void
     {
         Assert::isInstanceOf($this->commandTester, CommandTester::class);
         Assert::same($this->commandTester->getStatusCode(), 0);
     }
 
-    /**
-     * @When the command should fail
-     */
+    #[When('the command should fail')]
     public function theCommandShouldFail(): void
     {
         Assert::isInstanceOf($this->commandTester, CommandTester::class);
         Assert::same($this->commandTester->getStatusCode(), 1);
     }
 
-    /**
-     * @When I run delete guests wishlists command to delete wishlists inactive for more than 5 days
-     */
+    #[When('I run delete guests wishlists command to delete wishlists inactive for more than 5 days')]
     public function runRemoveGuestWishlistsCommandWithDate5DaysAgo(): void
     {
         $date = new \DateTime();
