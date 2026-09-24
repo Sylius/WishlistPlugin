@@ -23,6 +23,7 @@ use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Entity\WishlistProductInterface;
 use Sylius\WishlistPlugin\Exception\WishlistNotFoundException;
 use Sylius\WishlistPlugin\Factory\WishlistProductFactoryInterface;
+use Sylius\WishlistPlugin\Resolver\RefererPathResolverInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +43,17 @@ final readonly class AddProductToWishlistAction
         private WishlistsResolverInterface $wishlistsResolver,
         private ObjectManager $wishlistManager,
         private ChannelContextInterface $channelContext,
+        private ?RefererPathResolverInterface $refererPathResolver = null,
     ) {
+        if (null === $this->refererPathResolver) {
+            trigger_deprecation(
+                'sylius/wishlist-plugin',
+                '1.3',
+                'Not passing an instance of %s to %s is deprecated and it will be required in 2.0.',
+                RefererPathResolverInterface::class,
+                self::class,
+            );
+        }
     }
 
     public function __invoke(Request $request): Response
@@ -96,9 +107,10 @@ final readonly class AddProductToWishlistAction
 
         $session->getFlashBag()->add('success', $this->translator->trans('sylius_wishlist_plugin.ui.added_wishlist_item'));
 
-        $referer = $request->headers->get('referer');
-        $refererPathInfo = Request::create((string) $referer)->getPathInfo();
+        if (null === $this->refererPathResolver) {
+            return new RedirectResponse(Request::create((string) $request->headers->get('referer'))->getPathInfo());
+        }
 
-        return new RedirectResponse($refererPathInfo);
+        return new RedirectResponse($this->refererPathResolver->resolve($request));
     }
 }

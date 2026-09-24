@@ -28,6 +28,7 @@ use Sylius\WishlistPlugin\Processor\AddProductVariantToWishlistProcessorInterfac
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Sylius\WishlistPlugin\Twig\WishlistExtension;
+use Sylius\WishlistPlugin\Voter\WishlistVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -192,6 +193,7 @@ final class AddProductVariantToWishlistProcessorTest extends TestCase
         $this->security->expects($this->once())->method('getUser')->willReturn($this->user);
         $this->wishlistExtension->expects($this->once())->method('findAllByShopUserAndToken')->with($this->user)->willReturn([$this->secondWishlist, $this->firstWishlist]);
         $this->wishlistRepository->expects($this->once())->method('find')->with($wishlistId)->willReturn($this->firstWishlist);
+        $this->security->expects($this->once())->method('isGranted')->with(WishlistVoter::UPDATE, $this->firstWishlist)->willReturn(true);
         $this->firstWishlist->expects($this->once())->method('hasProductVariant')->with($this->productVariant)->willReturn(false);
         $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndVariant')->with($this->firstWishlist, $this->productVariant)->willReturn($this->wishlistProduct);
         $this->requestStack->expects($this->once())->method('getSession')->willReturn($this->session);
@@ -209,6 +211,20 @@ final class AddProductVariantToWishlistProcessorTest extends TestCase
             '/wishlist/' . $wishlistId,
             $response->getTargetUrl(),
         );
+    }
+
+    public function testShouldThrowResourceNotFoundExceptionWhenWishlistBelongsToAnotherUser(): void
+    {
+        $wishlistId = 789;
+        $this->security->expects($this->once())->method('getUser')->willReturn($this->user);
+        $this->wishlistExtension->expects($this->once())->method('findAllByShopUserAndToken')->with($this->user)->willReturn([$this->secondWishlist, $this->firstWishlist]);
+        $this->wishlistRepository->expects($this->once())->method('find')->with($wishlistId)->willReturn($this->firstWishlist);
+        $this->security->expects($this->once())->method('isGranted')->with(WishlistVoter::UPDATE, $this->firstWishlist)->willReturn(false);
+        $this->firstWishlist->expects($this->never())->method('addWishlistProduct');
+
+        $this->expectException(ResourceNotFoundException::class);
+
+        $this->processor->process($this->productVariant, $wishlistId);
     }
 
     public function testShouldAddProductToTheSingleWishlistForAnonymousUser(): void

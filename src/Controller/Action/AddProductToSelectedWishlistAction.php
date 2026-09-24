@@ -20,7 +20,9 @@ use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Exception\ProductNotFoundException;
 use Sylius\WishlistPlugin\Exception\WishlistNotFoundException;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
+use Sylius\WishlistPlugin\Resolver\RefererPathResolverInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -37,10 +39,20 @@ final readonly class AddProductToSelectedWishlistAction
         private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
         private MessageBusInterface $commandBus,
+        private ?RefererPathResolverInterface $refererPathResolver = null,
     ) {
+        if (null === $this->refererPathResolver) {
+            trigger_deprecation(
+                'sylius/wishlist-plugin',
+                '1.3',
+                'Not passing an instance of %s to %s is deprecated and it will be required in 2.0.',
+                RefererPathResolverInterface::class,
+                self::class,
+            );
+        }
     }
 
-    public function __invoke(int $wishlistId, int $productId): Response
+    public function __invoke(int $wishlistId, int $productId, ?Request $request = null): Response
     {
         /** @var ?WishlistInterface $wishlist */
         $wishlist = $this->wishlistRepository->find($wishlistId);
@@ -68,10 +80,14 @@ final readonly class AddProductToSelectedWishlistAction
 
         $session->getFlashBag()->add('success', $this->translator->trans('sylius_wishlist_plugin.ui.added_wishlist_item'));
 
-        return new RedirectResponse(
-            $this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', [
+        if (null === $this->refererPathResolver || null === $request) {
+            return new RedirectResponse(
+                $this->urlGenerator->generate('sylius_wishlist_plugin_shop_locale_wishlist_show_chosen_wishlist', [
                 'wishlistId' => $wishlistId,
             ]),
-        );
+            );
+        }
+
+        return new RedirectResponse($this->refererPathResolver->resolve($request));
     }
 }
