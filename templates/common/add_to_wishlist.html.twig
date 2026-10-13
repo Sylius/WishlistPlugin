@@ -1,6 +1,6 @@
 {% set product = hookable_metadata.context.product %}
 {% set isUser = app.user is not null %}
-{% set wishlists = isUser ? findAllByShopUserAndToken(app.user) : findAllByAnonymousAndChannel(sylius.channel) %}
+{% set wishlists = isUser ? findAllByShopUser(app.user) : findAllByAnonymousAndChannel(sylius.channel) %}
 {% set is_single_wishlist = wishlists|length < 2 %}
 {% set prefixes = ['sylius_shop.common.add_to_wishlist'] %}
 

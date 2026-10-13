@@ -25,15 +25,13 @@ use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\EventSubscriber\LoggedUserWishlistSubscriber;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
-use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final class LoggedUserWishlistSubscriberTest extends TestCase
 {
     private MockObject&SectionProviderInterface $uriBasedSectionContext;
-
-    private MockObject&WishlistsResolverInterface $wishlistsResolver;
 
     private MockObject&EntityManagerInterface $entityManager;
 
@@ -50,7 +48,6 @@ final class LoggedUserWishlistSubscriberTest extends TestCase
     protected function setUp(): void
     {
         $this->uriBasedSectionContext = $this->createMock(SectionProviderInterface::class);
-        $this->wishlistsResolver = $this->createMock(WishlistsResolverInterface::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->wishlistRepository = $this->createMock(WishlistRepositoryInterface::class);
         $this->requestStack = $this->createMock(RequestStack::class);
@@ -58,7 +55,7 @@ final class LoggedUserWishlistSubscriberTest extends TestCase
         $this->shopSection = $this->createMock(ShopSection::class);
         $this->subscriber = new LoggedUserWishlistSubscriber(
             $this->uriBasedSectionContext,
-            $this->wishlistsResolver,
+            null,
             $this->entityManager,
             $this->wishlistRepository,
             $this->requestStack,
@@ -88,7 +85,7 @@ final class LoggedUserWishlistSubscriberTest extends TestCase
     {
         $this->uriBasedSectionContext->expects($this->once())->method('getSection')->willReturn($this->shopSection);
         $this->event->expects($this->once())->method('getUser')->willReturn($this->createMock(AdminUserInterface::class));
-        $this->wishlistsResolver->expects($this->never())->method('resolve');
+        $this->wishlistRepository->expects($this->never())->method('findAllByAnonymous');
 
         $this->subscriber->onImplicitLogin($this->event);
     }
@@ -103,7 +100,11 @@ final class LoggedUserWishlistSubscriberTest extends TestCase
 
         $this->uriBasedSectionContext->expects($this->once())->method('getSection')->willReturn($this->shopSection);
         $this->event->expects($this->once())->method('getUser')->willReturn($firstShopUser);
-        $this->wishlistsResolver->expects($this->once())->method('resolve')->willReturn([$firstWishlist, $secondWishlist]);
+        $this->requestStack->expects($this->exactly(2))->method('getMainRequest')->willReturnOnConsecutiveCalls(
+            new Request(cookies: ['sylius_wishlist_token' => 'guest_token']),
+            null,
+        );
+        $this->wishlistRepository->expects($this->once())->method('findAllByAnonymous')->with('guest_token')->willReturn([$firstWishlist, $secondWishlist]);
         $firstShopUser->expects($this->once())->method('getId')->willReturn(1);
 
         // First wishlist has different user - should be skipped
@@ -118,8 +119,20 @@ final class LoggedUserWishlistSubscriberTest extends TestCase
         $secondWishlist->expects($this->once())->method('getName')->willReturn(null);
         $secondWishlist->expects($this->once())->method('setShopUser')->with($firstShopUser);
 
-        $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn(null);
         $this->entityManager->expects($this->once())->method('flush');
+
+        $this->subscriber->onImplicitLogin($this->event);
+    }
+
+    public function testShouldNotLookUpGuestWishlistsWithoutWishlistCookieOnLogin(): void
+    {
+        $shopUser = $this->createMock(ShopUserInterface::class);
+
+        $this->uriBasedSectionContext->expects($this->once())->method('getSection')->willReturn($this->shopSection);
+        $this->event->expects($this->once())->method('getUser')->willReturn($shopUser);
+        $this->requestStack->expects($this->once())->method('getMainRequest')->willReturn(new Request());
+        $this->wishlistRepository->expects($this->never())->method('findAllByAnonymous');
+        $this->entityManager->expects($this->never())->method('flush');
 
         $this->subscriber->onImplicitLogin($this->event);
     }

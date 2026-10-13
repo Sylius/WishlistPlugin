@@ -119,7 +119,7 @@ final class AddProductVariantToWishlistProcessorTest extends TestCase
         $wishlistIdToFind = 999;
         $this->expectException(ResourceNotFoundException::class);
         $this->security->expects($this->once())->method('getUser')->willReturn($this->user);
-        $this->wishlistExtension->expects($this->once())->method('findAllByShopUserAndToken')->with($this->user)->willReturn([$this->firstWishlist, $this->secondWishlist]);
+        $this->wishlistExtension->expects($this->once())->method('findAllByShopUser')->with($this->user)->willReturn([$this->firstWishlist, $this->secondWishlist]);
         $this->wishlistRepository->expects($this->once())->method('find')->with($wishlistIdToFind)->willReturn(null);
 
         $this->processor->process($this->productVariant, $wishlistIdToFind);
@@ -129,7 +129,7 @@ final class AddProductVariantToWishlistProcessorTest extends TestCase
     {
         $this->expectException(ResourceNotFoundException::class);
         $this->security->expects($this->once())->method('getUser')->willReturn($this->user);
-        $this->wishlistExtension->expects($this->once())->method('findAllByShopUserAndToken')->with($this->user)->willReturn([]);
+        $this->wishlistExtension->expects($this->once())->method('findAllByShopUser')->with($this->user)->willReturn([]);
         $this->wishlistsResolver->expects($this->once())->method('resolveAndCreate')->willReturn([]);
 
         $this->processor->process($this->productVariant);
@@ -165,7 +165,7 @@ final class AddProductVariantToWishlistProcessorTest extends TestCase
         $wishlistId = 123;
         $this->firstWishlist->expects($this->once())->method('getId')->willReturn($wishlistId);
         $this->security->expects($this->once())->method('getUser')->willReturn($this->user);
-        $this->wishlistExtension->expects($this->once())->method('findAllByShopUserAndToken')->with($this->user)->willReturn([$this->firstWishlist]);
+        $this->wishlistExtension->expects($this->once())->method('findAllByShopUser')->with($this->user)->willReturn([$this->firstWishlist]);
         $this->firstWishlist->expects($this->once())->method('hasProductVariant')->with($this->productVariant)->willReturn(false);
         $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndVariant')->with($this->firstWishlist, $this->productVariant)->willReturn($this->wishlistProduct);
         $this->requestStack->expects($this->once())->method('getSession')->willReturn($this->session);
@@ -190,7 +190,7 @@ final class AddProductVariantToWishlistProcessorTest extends TestCase
         $wishlistId = 789;
         $this->firstWishlist->expects($this->once())->method('getId')->willReturn($wishlistId);
         $this->security->expects($this->once())->method('getUser')->willReturn($this->user);
-        $this->wishlistExtension->expects($this->once())->method('findAllByShopUserAndToken')->with($this->user)->willReturn([$this->secondWishlist, $this->firstWishlist]);
+        $this->wishlistExtension->expects($this->once())->method('findAllByShopUser')->with($this->user)->willReturn([$this->secondWishlist, $this->firstWishlist]);
         $this->wishlistRepository->expects($this->once())->method('find')->with($wishlistId)->willReturn($this->firstWishlist);
         $this->firstWishlist->expects($this->once())->method('hasProductVariant')->with($this->productVariant)->willReturn(false);
         $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndVariant')->with($this->firstWishlist, $this->productVariant)->willReturn($this->wishlistProduct);
@@ -249,7 +249,7 @@ final class AddProductVariantToWishlistProcessorTest extends TestCase
         $this->wishlistProduct->expects($this->once())->method('getProduct')->willReturn($product);
         $product->expects($this->once())->method('getName')->willReturn($productName);
         $this->security->expects($this->once())->method('getUser')->willReturn($this->user);
-        $this->wishlistExtension->expects($this->once())->method('findAllByShopUserAndToken')->with($this->user)->willReturn([$this->firstWishlist]);
+        $this->wishlistExtension->expects($this->once())->method('findAllByShopUser')->with($this->user)->willReturn([$this->firstWishlist]);
         $this->firstWishlist->expects($this->once())->method('hasProductVariant')->with($this->productVariant)->willReturn(true);
         $this->wishlistProductFactory->expects($this->once())->method('createForWishlistAndVariant')->with($this->firstWishlist, $this->productVariant)->willReturn($this->wishlistProduct);
         $this->requestStack->expects($this->once())->method('getSession')->willReturn($this->session);
