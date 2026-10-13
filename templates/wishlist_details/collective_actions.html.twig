@@ -1,7 +1,7 @@
 {% set wishlist = hookable_metadata.context.wishlist %}
 
 {% if app.user %}
-    {% set wishlists = findAllByShopUserAndToken(app.user) %}
+    {% set wishlists = findAllByShopUser(app.user) %}
 {% else %}
     {% set wishlists = findAllByAnonymous() %}
 {% endif %}

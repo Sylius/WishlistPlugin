@@ -31,12 +31,21 @@ final readonly class LoggedUserWishlistSubscriber implements EventSubscriberInte
 {
     public function __construct(
         private SectionProviderInterface $uriBasedSectionContext,
-        private WishlistsResolverInterface $wishlistsResolver,
+        ?WishlistsResolverInterface $wishlistsResolver,
         private EntityManagerInterface $entityManager,
         private WishlistRepositoryInterface $wishlistRepository,
         private RequestStack $requestStack,
         private string $wishlistCookieToken,
     ) {
+        if (null !== $wishlistsResolver) {
+            trigger_deprecation(
+                'sylius/wishlist-plugin',
+                '1.3',
+                'Passing an instance of %s to %s is deprecated and the argument will be removed in 2.0.',
+                WishlistsResolverInterface::class,
+                self::class,
+            );
+        }
     }
 
     public static function getSubscribedEvents(): array
@@ -78,7 +87,13 @@ final readonly class LoggedUserWishlistSubscriber implements EventSubscriberInte
 
     private function saveWishlistsForLoggedUser(ShopUserInterface $user): void
     {
-        $wishlists = $this->wishlistsResolver->resolve();
+        $wishlistCookieToken = $this->requestStack->getMainRequest()?->cookies->get($this->wishlistCookieToken);
+
+        if (null === $wishlistCookieToken) {
+            return;
+        }
+
+        $wishlists = $this->wishlistRepository->findAllByAnonymous((string) $wishlistCookieToken);
 
         if (0 === count($wishlists)) {
             return;

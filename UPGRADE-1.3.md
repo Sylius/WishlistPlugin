@@ -76,3 +76,28 @@
      )
      ```
 
+5. Passing the `Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface` argument to
+   `Sylius\WishlistPlugin\EventSubscriber\LoggedUserWishlistSubscriber` is deprecated
+   and the argument will be removed in 2.0:
+
+     ```diff
+     public function __construct(
+         private SectionProviderInterface $uriBasedSectionContext,
+     -   ?WishlistsResolverInterface $wishlistsResolver,
+         private EntityManagerInterface $entityManager,
+         private WishlistRepositoryInterface $wishlistRepository,
+         private RequestStack $requestStack,
+         private string $wishlistCookieToken,
+     )
+     ```
+
+   The subscriber now looks up the guest wishlists to assign on login directly by
+   the wishlist cookie token, so the argument is no longer used. If you instantiate
+   or decorate this service manually, pass `null` instead.
+
+6. Logged in shop users no longer see guest wishlists matching their wishlist cookie
+   token. `WishlistsResolver::resolve()`, `AddProductVariantToWishlistProcessor` and
+   the `add_to_wishlist.html.twig` and `collective_actions.html.twig` templates now
+   only use the wishlists assigned to the shop user. Previously, such guest wishlists
+   were listed, but could not be opened, e.g. after impersonating a customer from the
+   admin panel in a browser that still held a guest wishlist cookie.
