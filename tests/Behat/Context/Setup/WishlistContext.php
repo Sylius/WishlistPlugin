@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Tests\Sylius\WishlistPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
+use Behat\Step\When;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Behat\Service\Setter\CookieSetterInterface;
@@ -49,9 +51,7 @@ final class WishlistContext implements Context
     ) {
     }
 
-    /**
-     * @Given I have this product in my wishlist
-     */
+    #[Given('I have this product in my wishlist')]
     public function iHaveThisProductInMyWishlist(): void
     {
         /** @var ProductInterface $product */
@@ -60,9 +60,7 @@ final class WishlistContext implements Context
         $this->addProductToWishlist($product);
     }
 
-    /**
-     * @Given I have these products in my wishlist
-     */
+    #[Given('I have these products in my wishlist')]
     public function iHaveTheseProductsInMyWishlist(): void
     {
         $products = $this->productRepository->findAll();
@@ -73,9 +71,7 @@ final class WishlistContext implements Context
         }
     }
 
-    /**
-     * @Given all store products appear under a main taxonomy
-     */
+    #[Given('all store products appear under a main taxonomy')]
     public function allStoreProductsAppearUnderAMainTaxonomy(): void
     {
         /** @var TaxonInterface $taxon */
@@ -120,9 +116,7 @@ final class WishlistContext implements Context
         $this->cookieSetter->setCookie($this->wishlistCookieToken, $wishlist->getToken());
     }
 
-    /**
-     * @Given user :email has a wishlist named :name with token :token
-     */
+    #[Given('user :email has a wishlist named :name with token :token')]
     public function userHasAWishlistNamedWithToken(string $email, string $name, string $token): void
     {
         /** @var ?ShopUserInterface $user */
@@ -141,9 +135,7 @@ final class WishlistContext implements Context
         $this->wishlistManager->flush();
     }
 
-    /**
-     * @When user :email has a wishlist
-     */
+    #[When('user :email has a wishlist')]
     public function userHasAWishlist(string $email): void
     {
         /** @var ?ShopUserInterface $user */
@@ -160,9 +152,7 @@ final class WishlistContext implements Context
         $this->wishlistManager->flush();
     }
 
-    /**
-     * @When there is a guest wishlist which has been inactive for :days days
-     */
+    #[When('there is a guest wishlist which has been inactive for :days days')]
     public function thereIsAGuestWishlistInactiveForDays(int $days): void
     {
         $wishlist = new Wishlist();

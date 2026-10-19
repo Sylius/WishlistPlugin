@@ -20,10 +20,7 @@ final class CsvWishlistProductFactory implements CsvWishlistProductFactoryInterf
 {
     public function createNew(): CsvWishlistProductInterface
     {
-        /** @var CsvWishlistProductInterface $csvWishlistProduct */
-        $csvWishlistProduct = new CsvWishlistProduct();
-
-        return $csvWishlistProduct;
+        return new CsvWishlistProduct();
     }
 
     public function createWithProperties(

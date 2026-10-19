@@ -51,7 +51,7 @@ final readonly class ExportWishlistToCsvHandler
 
     private function putDataToCsv(Collection $wishlistProducts, \SplFileObject $file): \SplFileObject
     {
-        $file->fputcsv(self::CSV_HEADERS);
+        $file->fputcsv(self::CSV_HEADERS, escape: '\\');
 
         /** @var WishlistItemInterface $wishlistProduct */
         foreach ($wishlistProducts as $wishlistProduct) {
@@ -59,7 +59,7 @@ final readonly class ExportWishlistToCsvHandler
             $csvData = $this->csvSerializerFactory->createNew()->normalize($csvWishlistProduct, 'csv');
             Assert::isArray($csvData);
 
-            $file->fputcsv($csvData);
+            $file->fputcsv($csvData, escape: '\\');
         }
 
         return $file;

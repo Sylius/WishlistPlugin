@@ -40,7 +40,7 @@ final readonly class UpdateWishlistNameAction
 
     public function __invoke(Request $request): Response
     {
-        $wishlistName = $request->get('edit_wishlist_name')['name'];
+        $wishlistName = $request->request->all('edit_wishlist_name')['name'];
         Assert::string($wishlistName);
         $wishlistId = $request->attributes->getInt('id');
 
