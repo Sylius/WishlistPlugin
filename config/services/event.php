@@ -13,7 +13,6 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Sylius\WishlistPlugin\EventSubscriber\CreateNewWishlistSubscriber;
 use Sylius\WishlistPlugin\EventSubscriber\LoggedUserWishlistSubscriber;
-use Sylius\WishlistPlugin\Factory\DomPdfOptionsFactory;
 
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
@@ -36,6 +35,4 @@ return static function (ContainerConfigurator $container) {
             '%sylius_wishlist_plugin.parameters.wishlist_cookie_token%',
         ])
         ->tag('kernel.event_subscriber');
-
-    $services->set('sylius_wishlist_plugin.custom_factory.dom_pdf_options', DomPdfOptionsFactory::class);
 };
