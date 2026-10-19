@@ -39,7 +39,7 @@ final readonly class WishlistTokenValueAwareDenormalizer implements Denormalizer
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return $this->decoratedDenormalizer->supportsDenormalization($data, $type, $format, $context);
+        return $this->decoratedDenormalizer->supportsDenormalization($data, $type, $format, $context); // @phpstan-ignore arguments.count ($context is a commented-out parameter on Symfony 6.4)
     }
 
     public function getSupportedTypes(?string $format): array
