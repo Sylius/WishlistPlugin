@@ -51,7 +51,7 @@ final readonly class AddProductVariantToWishlistProcessor implements AddProductV
         $user = $this->security->getUser();
 
         $wishlists = null !== $user
-            ? $this->wishlistExtension->findAllByShopUserAndToken($user)
+            ? $this->wishlistExtension->findAllByShopUser($user)
             : $this->wishlistExtension->findAllByAnonymousAndChannel($this->channelContext->getChannel());
 
         if (0 === count($wishlists)) {

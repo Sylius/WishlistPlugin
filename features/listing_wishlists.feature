@@ -36,3 +36,13 @@ Feature: Listing wishlists
     And I am logged in as "jdeer@sylius.pl"
     When I go to "/wishlists"
     Then I should have 2 wishlists
+
+  @ui
+  Scenario: Not listing guest wishlist from the same browser when logged in without merging guest wishlists
+    Given there is a customer account "jdeer@sylius.pl"
+    And user "jdeer@sylius.pl" has a wishlist named "Wishlist1" with token "123456token"
+    And I am on "/"
+    And the store has a wishlist named "GuestWishlist"
+    And I am logged in as "jdeer@sylius.pl"
+    When I go to "/wishlists"
+    Then I should have 1 wishlists
