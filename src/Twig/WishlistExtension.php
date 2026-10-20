@@ -92,6 +92,7 @@ class WishlistExtension extends AbstractExtension
         return $this->wishlists[$cacheKey];
     }
 
+    /** @deprecated since 1.3, will be removed in 2.0. Use findAllByShopUser() instead. */
     public function findAllByShopUserAndToken(?UserInterface $user = null): ?array
     {
         $wishlistCookieToken = $this->wishlistCookieTokenResolver->resolve();

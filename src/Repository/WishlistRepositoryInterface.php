@@ -32,6 +32,7 @@ interface WishlistRepositoryInterface extends RepositoryInterface
 
     public function findAllAnonymousUpdatedAtEarlierThan(\DateTimeInterface $updatedAt): array;
 
+    /** @deprecated since 1.3, will be removed in 2.0. Use findAllByShopUser() instead. */
     public function findAllByShopUserAndToken(int $shopUser, string $token): array;
 
     public function findOneByShopUserAndChannel(

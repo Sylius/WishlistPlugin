@@ -21,6 +21,7 @@ use Sylius\Bundle\UserBundle\UserEvents;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
+use Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolverInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -36,6 +37,7 @@ final readonly class LoggedUserWishlistSubscriber implements EventSubscriberInte
         private WishlistRepositoryInterface $wishlistRepository,
         private RequestStack $requestStack,
         private string $wishlistCookieToken,
+        private ?WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver = null,
     ) {
         if (null !== $wishlistsResolver) {
             trigger_deprecation(
@@ -43,6 +45,16 @@ final readonly class LoggedUserWishlistSubscriber implements EventSubscriberInte
                 '1.3',
                 'Passing an instance of %s to %s is deprecated and the argument will be removed in 2.0.',
                 WishlistsResolverInterface::class,
+                self::class,
+            );
+        }
+
+        if (null === $wishlistCookieTokenResolver) {
+            trigger_deprecation(
+                'sylius/wishlist-plugin',
+                '1.3',
+                'Not passing an instance of %s to %s is deprecated and it will be required in 2.0.',
+                WishlistCookieTokenResolverInterface::class,
                 self::class,
             );
         }
@@ -87,13 +99,7 @@ final readonly class LoggedUserWishlistSubscriber implements EventSubscriberInte
 
     private function saveWishlistsForLoggedUser(ShopUserInterface $user): void
     {
-        $wishlistCookieToken = $this->requestStack->getMainRequest()?->cookies->get($this->wishlistCookieToken);
-
-        if (null === $wishlistCookieToken) {
-            return;
-        }
-
-        $wishlists = $this->wishlistRepository->findAllByAnonymous((string) $wishlistCookieToken);
+        $wishlists = $this->resolveGuestWishlists();
 
         if (0 === count($wishlists)) {
             return;
@@ -168,5 +174,20 @@ final readonly class LoggedUserWishlistSubscriber implements EventSubscriberInte
 
         $mainRequest->cookies->remove($this->wishlistCookieToken);
         setcookie($this->wishlistCookieToken, '', -1, '/');
+    }
+
+    private function resolveGuestWishlists(): array
+    {
+        if (null !== $this->wishlistCookieTokenResolver) {
+            return $this->wishlistRepository->findAllByAnonymous($this->wishlistCookieTokenResolver->resolve());
+        }
+
+        $wishlistCookieToken = $this->requestStack->getMainRequest()?->cookies->get($this->wishlistCookieToken);
+
+        if (null === $wishlistCookieToken) {
+            return [];
+        }
+
+        return $this->wishlistRepository->findAllByAnonymous((string) $wishlistCookieToken);
     }
 }

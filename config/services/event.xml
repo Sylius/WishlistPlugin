@@ -19,6 +19,7 @@
             <argument type="service" id="sylius_wishlist_plugin.repository.wishlist"/>
             <argument type="service" id="request_stack"/>
             <argument>%sylius_wishlist_plugin.parameters.wishlist_cookie_token%</argument>
+            <argument type="service" id="sylius_wishlist_plugin.resolver.wishlist_cookie_token_resolver"/>
             <tag name="kernel.event_subscriber"/>
         </service>
 
