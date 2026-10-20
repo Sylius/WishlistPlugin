@@ -53,7 +53,7 @@ final class WishlistsResolver implements WishlistsResolverInterface
         }
 
         if ($user instanceof ShopUserInterface) {
-            return $this->wishlistRepository->findAllByShopUserAndToken($user->getId(), $wishlistCookieToken);
+            return $this->wishlistRepository->findAllByShopUser($user->getId());
         }
 
         if ($channel instanceof ChannelInterface) {

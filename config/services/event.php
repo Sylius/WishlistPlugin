@@ -28,11 +28,12 @@ return static function (ContainerConfigurator $container) {
     $services->set('sylius_wishlist_plugin.event_subscriber.logged_user_wishlist_subscriber', LoggedUserWishlistSubscriber::class)
         ->args([
             service('sylius.section_resolver.uri_based'),
-            service('sylius_wishlist_plugin.resolver.wishlists_resolver'),
+            null,
             service('sylius_wishlist_plugin.manager.wishlist_product'),
             service('sylius_wishlist_plugin.repository.wishlist'),
             service('request_stack'),
             '%sylius_wishlist_plugin.parameters.wishlist_cookie_token%',
+            service('sylius_wishlist_plugin.resolver.wishlist_cookie_token_resolver'),
         ])
         ->tag('kernel.event_subscriber');
 };

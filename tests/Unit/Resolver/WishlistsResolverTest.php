@@ -81,7 +81,7 @@ final class WishlistsResolverTest extends TestCase
         $this->assertInstanceOf(WishlistsResolverInterface::class, $this->resolver);
     }
 
-    public function testShouldResolveWishlistsByShopUserAndToken(): void
+    public function testShouldResolveWishlistsByShopUserOnly(): void
     {
         $wishlistToken = 'wishlist_token';
         $user = $this->createMock(ShopUserInterface::class);
@@ -91,7 +91,8 @@ final class WishlistsResolverTest extends TestCase
         $this->wishlistCookieTokenResolver->expects($this->once())->method('resolve')->willReturn($wishlistToken);
         $this->channelContext->expects($this->once())->method('getChannel')->willReturn($this->channel);
         $user->expects($this->once())->method('getId')->willReturn(1);
-        $this->wishlistRepository->expects($this->once())->method('findAllByShopUserAndToken')->with(1, $wishlistToken)->willReturn([$this->wishlist]);
+        $this->wishlistRepository->expects($this->never())->method('findAllByShopUserAndToken');
+        $this->wishlistRepository->expects($this->once())->method('findAllByShopUser')->with(1)->willReturn([$this->wishlist]);
 
         $this->assertSame(
             [$this->wishlist],
