@@ -24,6 +24,7 @@ use Sylius\WishlistPlugin\Controller\Action\AddProductToWishlistAction;
 use Sylius\WishlistPlugin\Entity\WishlistInterface;
 use Sylius\WishlistPlugin\Entity\WishlistProductInterface;
 use Sylius\WishlistPlugin\Factory\WishlistProductFactoryInterface;
+use Sylius\WishlistPlugin\Resolver\RefererPathResolverInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistCookieTokenResolverInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Symfony\Component\HttpFoundation\HeaderBag;
@@ -53,6 +54,8 @@ final class AddProductToWishlistActionTest extends TestCase
 
     private MockObject&WishlistCookieTokenResolverInterface $wishlistCookieTokenResolver;
 
+    private MockObject&RefererPathResolverInterface $refererPathResolver;
+
     private MockObject&Request $request;
 
     private AddProductToWishlistAction $action;
@@ -67,6 +70,7 @@ final class AddProductToWishlistActionTest extends TestCase
         $this->wishlistManager = $this->createMock(ObjectManager::class);
         $this->channelContext = $this->createMock(ChannelContextInterface::class);
         $this->wishlistCookieTokenResolver = $this->createMock(WishlistCookieTokenResolverInterface::class);
+        $this->refererPathResolver = $this->createMock(RefererPathResolverInterface::class);
         $this->request = $this->createMock(Request::class);
         $this->action = new AddProductToWishlistAction(
             $this->productRepository,
@@ -76,12 +80,45 @@ final class AddProductToWishlistActionTest extends TestCase
             $this->wishlistsResolver,
             $this->wishlistManager,
             $this->channelContext,
+            $this->refererPathResolver,
         );
     }
 
     public function testShouldBeInitializable(): void
     {
         $this->assertInstanceOf(AddProductToWishlistAction::class, $this->action);
+    }
+
+    public function testShouldKeepTheLegacyBehaviourWithoutTheNewServices(): void
+    {
+        $action = new AddProductToWishlistAction(
+            $this->productRepository,
+            $this->wishlistProductFactory,
+            $this->requestStack,
+            $this->translator,
+            $this->wishlistsResolver,
+            $this->wishlistManager,
+            $this->channelContext,
+        );
+        $product = $this->createMock(ProductInterface::class);
+        $wishlist = $this->createMock(WishlistInterface::class);
+        $channel = $this->createMock(ChannelInterface::class);
+        $session = $this->createMock(Session::class);
+        $this->request->headers = new HeaderBag(['referer' => 'https://shop.example/en_US/products?page=2']);
+
+        $this->request->expects($this->once())->method('get')->with('productId')->willReturn(1);
+        $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn($product);
+        $this->wishlistsResolver->expects($this->once())->method('resolveAndCreate')->willReturn([$wishlist]);
+        $this->wishlistProductFactory->method('createForWishlistAndProduct')->willReturn($this->createMock(WishlistProductInterface::class));
+        $this->channelContext->method('getChannel')->willReturn($channel);
+        $wishlist->method('getChannel')->willReturn($channel);
+        $this->requestStack->method('getSession')->willReturn($session);
+        $session->method('getFlashBag')->willReturn($this->createMock(FlashBagInterface::class));
+
+        $response = $action($this->request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame('/en_US/products', $response->getTargetUrl());
     }
 
     public function testShouldThrow404WhenProductIsNotFound(): void
@@ -102,8 +139,6 @@ final class AddProductToWishlistActionTest extends TestCase
         $channel = $this->createMock(ChannelInterface::class);
         $session = $this->createMock(Session::class);
         $flashBag = $this->createMock(FlashBagInterface::class);
-        $headers = $this->createMock(HeaderBag::class);
-        $this->request->headers = $headers;
 
         $this->request->expects($this->once())->method('get')->with('productId')->willReturn(1);
         $this->productRepository->expects($this->once())->method('find')->with(1)->willReturn($product);
@@ -118,11 +153,11 @@ final class AddProductToWishlistActionTest extends TestCase
         $this->requestStack->expects($this->once())->method('getSession')->willReturn($session);
         $session->expects($this->once())->method('getFlashBag')->willReturn($flashBag);
         $flashBag->expects($this->once())->method('add')->with('success', 'Product has been added to your wishlist.');
-        $headers->expects($this->once())->method('get')->with('referer')->willReturn('value');
+        $this->refererPathResolver->expects($this->once())->method('resolve')->with($this->request)->willReturn('/en_US/products');
 
-        $this->assertInstanceOf(
-            RedirectResponse::class,
-            ($this->action)($this->request),
-        );
+        $response = ($this->action)($this->request);
+
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertSame('/en_US/products', $response->getTargetUrl());
     }
 }

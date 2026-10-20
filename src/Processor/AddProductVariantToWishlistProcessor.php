@@ -21,6 +21,7 @@ use Sylius\WishlistPlugin\Factory\WishlistProductFactoryInterface;
 use Sylius\WishlistPlugin\Repository\WishlistRepositoryInterface;
 use Sylius\WishlistPlugin\Resolver\WishlistsResolverInterface;
 use Sylius\WishlistPlugin\Twig\WishlistExtension;
+use Sylius\WishlistPlugin\Voter\WishlistVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -64,6 +65,10 @@ final readonly class AddProductVariantToWishlistProcessor implements AddProductV
         $wishlist = $isSingleWishlist ? ($wishlists[0] ?? null) : $this->wishlistRepository->find($wishlistId);
 
         if (null === $wishlist) {
+            throw new ResourceNotFoundException();
+        }
+
+        if (!$isSingleWishlist && !$this->security->isGranted(WishlistVoter::UPDATE, $wishlist)) {
             throw new ResourceNotFoundException();
         }
 
