@@ -31,9 +31,8 @@ final class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('sylius_wishlist_plugin');
         $rootNode = $treeBuilder->getRootNode();
-        /** @phpstan-ignore-next-line  */
         $rootNode
-            ->children()
+            ->children() // @phpstan-ignore method.notFound (getRootNode() is typed as NodeDefinition on Symfony 6.4)
                 ->scalarNode('wishlist_cookie_token')
                     ->defaultValue('wishlist_cookie_token')
                     ->cannotBeEmpty()

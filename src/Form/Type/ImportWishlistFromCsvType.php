@@ -32,11 +32,11 @@ final class ImportWishlistFromCsvType extends AbstractType
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [
-                    new File([
-                        'maxSize' => $options['maxFileSize'],
-                        'mimeTypes' => $options['allowedMimeTypes'],
-                        'mimeTypesMessage' => 'Please upload a valid CSV file',
-                    ]),
+                    new File(
+                        maxSize: $options['maxFileSize'],
+                        mimeTypes: $options['allowedMimeTypes'],
+                        mimeTypesMessage: 'Please upload a valid CSV file',
+                    ),
                 ],
             ])
             ->add('wishlists', EntityType::class, [
